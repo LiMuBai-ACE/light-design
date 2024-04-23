@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "baseUrl": "./",
+    "paths": {
+      "@@/*": [".dumi/tmp/*"],
+      "light-design": ["src"],
+      "light-design/*": ["src/*", "*"],
+      "antd/*": ["node_modules/antd/*"]
+    }
+  },
+  "include": [".dumirc.ts", "src/**/*"]
+}
