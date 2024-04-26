@@ -1,11 +1,11 @@
 import { DatePicker as AntDatePicker } from 'antd';
 
-import { isEmpty, TimeExtend } from 'light-design/utils';
+import { isEmpty, TimeExtend } from '@/utils';
 
+import { TimeFormat } from '@/utils/time';
 import React, { useMemo } from 'react';
 import MonthDatePicker from './month';
 import DateRange from './range';
-import { TimeFormat } from 'light-design/utils/time';
 
 export { DateRange, MonthDatePicker };
 
@@ -13,7 +13,16 @@ export { DateRange, MonthDatePicker };
  * 选择器-日期控件 待调试
  * */
 export default function DatePicker(props: any) {
-  const { style, width = '100%', format, showTime, value, rules, onChange, ...others } = props;
+  const {
+    style,
+    width = '100%',
+    format,
+    showTime,
+    value,
+    rules,
+    onChange,
+    ...others
+  } = props;
 
   const formatter = format || TimeFormat.common;
   const isDefaultFormatter = formatter === TimeFormat.common;
@@ -24,7 +33,10 @@ export default function DatePicker(props: any) {
 
   const initials = isEmpty(value) ? value : TimeExtend.instance(value);
 
-  const invalidate = useMemo(() => TimeExtend.instance().subtract(1, 'days').endOf('day'), []);
+  const invalidate = useMemo(
+    () => TimeExtend.instance().subtract(1, 'days').endOf('day'),
+    [],
+  );
 
   if (rules?.includes?.('later')) {
     Object.assign(others, {

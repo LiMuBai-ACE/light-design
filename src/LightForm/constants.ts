@@ -1,10 +1,8 @@
+import type { FormInstance, SelectProps } from 'antd';
 import type { PropsWithChildren } from 'react';
 import { createContext, useContext } from 'react';
-import type { FormInstance, SelectProps } from 'antd';
 
-import { isEmpty, JsonExtend } from 'light-design/utils';
-
-import { KeyMapProps } from './type';
+import { KeyMapProps } from './widgets/interface';
 
 export interface SubmitProps {
   onSubmit?: (data: any) => Promise<any> | void;
@@ -30,11 +28,12 @@ export const DefOptions = {
   ],
 };
 
-interface Option<T> {
+interface Option {
   label: string | undefined;
-  value: T;
+  value: any;
   extra?: any;
   disabled?: boolean;
+  [key: string]: any;
 }
 
 type OptionsMethod<T> = {
@@ -42,36 +41,29 @@ type OptionsMethod<T> = {
     disabled?: boolean;
     options?: T[];
     keymap: KeyMapProps;
-    mappings: Record<string, T>;
-  }) => Option<T>[];
+  }) => Option[];
   filter: SelectProps['filterOption'];
 };
 
-export const OptionMethod: OptionsMethod<any> = {
-  options: ({ disabled = false, keymap, options = [], mappings }) => {
+export const OptionMethod: OptionsMethod<Option> = {
+  options: ({ disabled = false, keymap, options = [] }) => {
     let list = options;
-
-    if (!isEmpty(mappings)) {
-      list = JsonExtend.json2arr(mappings);
-    }
 
     return list.map((ele) => ({
       label: ele?.[keymap?.label] ?? String(ele),
       value: ele?.[keymap?.value] ?? ele,
-      extra: ele?.[keymap?.extra as keyof typeof ele],
+      extra: ele?.[keymap?.extra as string],
       disabled: ele?.disabled ?? disabled,
     }));
   },
   filter: ((input, option) =>
-    (option?.label as string)?.toLowerCase().includes(input.toLowerCase())) as SelectProps['filterOption'],
+    (option?.label as string)
+      ?.toLowerCase()
+      .includes(input.toLowerCase())) as SelectProps['filterOption'],
 };
-
-
-
 
 export interface FormCtxProps extends PropsWithChildren {
   form: FormInstance;
-  apihook: Record<string, any>;
 }
 
 export const FormCtx = createContext<{

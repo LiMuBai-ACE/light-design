@@ -1,13 +1,13 @@
 import { NamePath } from 'antd/es/form/interface';
 import { get } from 'lodash';
 
-import { isEmpty } from 'light-design/utils';
+import { isEmpty } from '@/utils';
 
 import {
   CompareProps,
-  ConditionModel,
   ConditionCheckProps,
   ConditionFieldProps,
+  ConditionModel,
   WartchConfig,
 } from './type';
 

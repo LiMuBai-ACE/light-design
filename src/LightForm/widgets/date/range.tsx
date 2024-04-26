@@ -1,8 +1,9 @@
+import { DatePicker as AntDatePicker } from 'antd';
 import React, { useMemo } from 'react';
-import { DatePicker as AntDatePicker, type RangePickerProps } from 'antd';
 
-import { isEmpty, isFunction, TimeExtend, TimeFormat } from 'light-design/utils';
+import { isEmpty, isFunction, TimeExtend, TimeFormat } from '@/utils';
 
+import { RangePickerProps } from 'antd/es/date-picker';
 import { DateType } from '../interface';
 
 interface MyProps extends Omit<RangePickerProps, 'value' | 'onChange'> {
@@ -13,7 +14,9 @@ interface MyProps extends Omit<RangePickerProps, 'value' | 'onChange'> {
 }
 
 export type EventValue<DateType> = DateType | null;
-export type RangeValue<DateType> = [EventValue<DateType>, EventValue<DateType>] | null;
+export type RangeValue<DateType> =
+  | [EventValue<DateType>, EventValue<DateType>]
+  | null;
 
 /* 选择器-日期区间 */
 export default function DateRange(props: MyProps) {

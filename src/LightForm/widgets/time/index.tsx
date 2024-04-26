@@ -1,10 +1,10 @@
-import { TimePicker, Row, Tooltip } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Row, TimePicker, Tooltip } from 'antd';
 import React from 'react';
 
-import { TimeFormat } from 'light-design/utils';
+import { TextList } from '@/components/paragraph/text';
+import { TimeFormat } from '@/utils';
 import { DateInstance } from '../interface';
-import { TextList } from 'light-design/components/paragraph/text';
 
 export const LightTimePicker = (props: any) => {
   const {

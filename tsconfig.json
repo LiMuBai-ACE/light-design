@@ -13,8 +13,10 @@
       "@@/*": [".dumi/tmp/*"],
       "light-design": ["src"],
       "light-design/*": ["src/*", "*"],
-      "antd/*": ["node_modules/antd/*"]
+      "@": ["src"],
+      "@/*": ["src/*"]
     }
   },
-  "include": [".dumirc.ts", "src/**/*"]
+  "include": [".dumirc.ts", "src/**/*", "docs/light-form/demo"],
+  "exclude": ["doc/**", "docs/**/*"]
 }

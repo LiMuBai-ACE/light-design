@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
 
+import type { FormInstance, FormItemProps, FormListFieldData } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
-import type { FormItemProps, FormInstance, FormListFieldData } from 'antd';
 
-import { AnyJson } from 'light-design/utils';
+import { AnyJson } from '@/utils';
+import { WidgetType } from '../widgets/constants';
 
 export interface CompareProps {
   prev: any;
@@ -49,9 +50,11 @@ export interface ConditionFieldProps {
   conditions?: ConditionModel[];
 }
 
+export type FieldWidgetType = keyof typeof WidgetType;
+
 // 字段定义-Form控件的属性
 export interface FieldWidgetProps extends AnyJson {
-  widget?: string;
+  widget?: FieldWidgetType | ReactNode;
   placeholder?: string;
   options?: any[];
   hasAll?: boolean;
@@ -77,6 +80,9 @@ export interface FieldProps extends FormItemProps<any> {
   watch?: WartchConfig[];
   readonly?: boolean;
   copyable?: boolean;
+  prefix?: ReactNode;
+  suffix?: ReactNode;
+  tips?: ReactNode;
   [key: string]: any;
 }
 

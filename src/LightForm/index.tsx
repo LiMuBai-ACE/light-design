@@ -1,41 +1,39 @@
 import type { FC, Key } from 'react';
 import React, { memo } from 'react';
 
-import type { CardProps } from 'antd';
+import type { CardProps, FormInstance } from 'antd';
 import { Form } from 'antd';
 
-import { ClassName, isEmpty } from 'light-design/utils';
+import { ClassName, isEmpty } from '@/utils';
 
 import { ConditionModel, FieldProps } from './field/type';
 
 import type { FormCtxProps } from './constants';
 import { DefConfig, FormCtx, useFormCtx } from './constants';
-import { WidgetType, WidgetName } from './widgets/constants';
-import { DisabledRules, DateCheck } from './rules';
 import LightField from './field';
+import { DateCheck, DisabledRules } from './rules';
+import { WidgetName, WidgetType } from './widgets/constants';
 
 import FieldConditions from './field/components/conditions';
 
+import Card from '@/components/card';
+import { Warnings } from '@/components/warnings';
+import LightFormFooter from './footer';
 import LightSearch from './search';
 import ActionSearch from './search/action';
-import LightFormFooter from './footer';
 import ReadonlyField from './widgets/readonly';
-import Card from 'light-design/components/card';
-import { Warnings } from 'light-design/components/warnings';
+
+export { useFormCtx };
 
 export {
-  useFormCtx,
-};
-
-export {
-  ActionSearch, // 搜索表单-位于Tabel上方的 actions 位置
-  LightSearch, // 搜索表单
+  ActionSearch, // 搜索表单
   DateCheck,
-  DisabledRules, // 禁用规则
-  WidgetType, // 类型-内置控件
-  WidgetName, // 文案-内置控件
-  LightField, // 字段套件-通用
-  ReadonlyField,
+  DisabledRules, // 文案-内置控件
+  LightField, // 搜索表单-位于Tabel上方的 actions 位置
+  LightSearch, // 字段套件-通用
+  ReadonlyField, // 类型-内置控件
+  WidgetName, // 禁用规则
+  WidgetType,
 };
 
 interface FormSectionProps extends CardProps {
@@ -62,16 +60,12 @@ export const FormWrapper = (props: FormCtxProps) => {
   return <FormCtx.Provider value={{ form }}>{children}</FormCtx.Provider>;
 };
 
-
-interface LightFormProps {
+export interface LightFormProps {
   /** 表单实例 */
-  form: any;
-
-  /** API 钩子 */
-  apihook: any;
+  form?: FormInstance<any>;
 
   /** 是否只读 */
-  readonly: boolean;
+  readonly?: boolean;
 
   /** 布局方向，默认为水平 */
   layout?: 'horizontal' | 'vertical' | 'inline';
@@ -86,7 +80,7 @@ interface LightFormProps {
   footer?: [React.ReactNode];
 
   /** 视图区块 */
-  sections?: any[];
+  sections?: FormSectionProps[];
 
   /** 初始化 form values */
   initials?: any;
@@ -110,7 +104,6 @@ interface LightFormProps {
 const LightForm: FC<LightFormProps> = (props) => {
   const {
     form,
-    apihook,
     readonly,
 
     layout = 'horizontal',
@@ -132,8 +125,8 @@ const LightForm: FC<LightFormProps> = (props) => {
 
   const empty = isEmpty(sections) && isEmpty(children);
 
-  const [customForm] = Form.useForm();
-  const inst = form || customForm;
+  const [lightForm] = Form.useForm();
+  const inst = form || lightForm;
 
   const attrs = {
     form: inst,
@@ -151,7 +144,7 @@ const LightForm: FC<LightFormProps> = (props) => {
   }
 
   return (
-    <FormWrapper form={inst} apihook={apihook}>
+    <FormWrapper form={inst}>
       <Form {...attrs}>
         {sections.map((section: FormSectionProps) => {
           const { key, conditions, ...others } = section;
@@ -161,7 +154,10 @@ const LightForm: FC<LightFormProps> = (props) => {
           // 无前置条件的直接渲染
           if (!isEmpty(conditions)) {
             return (
-              <FieldConditions key={mykey} conditions={conditions as ConditionModel[]}>
+              <FieldConditions
+                key={mykey}
+                conditions={conditions as ConditionModel[]}
+              >
                 <FormSection {...others} />
               </FieldConditions>
             );

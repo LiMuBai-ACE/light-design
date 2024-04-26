@@ -1,9 +1,8 @@
 import { Input, InputProps, InputRef, Space } from 'antd';
 
-
-import { WxEmotions } from './widgets';
+import { AnyJson, StrExtend, sleep } from '@/utils';
 import React, { useRef } from 'react';
-import { AnyJson, StrExtend, sleep } from 'light-design/utils';
+import { WxEmotions } from './widgets';
 
 export * from './widgets';
 
@@ -20,7 +19,7 @@ export const EmotionsInput = (
   const { value, onChange } = others;
 
   return (
-    <Space >
+    <Space>
       <Input
         allowClear
         ref={inputRef}

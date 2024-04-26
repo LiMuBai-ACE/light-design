@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
 import { Input, InputProps } from 'antd';
+import React, { useRef } from 'react';
 
-import { StrExtend } from 'light-design/utils';
+import { StrExtend } from '@/utils';
 
 interface MyProps extends Omit<InputProps, 'onChange'> {
   onChange?: (val?: string) => void;

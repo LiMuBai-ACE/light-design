@@ -1,6 +1,6 @@
-import { isValidElement, cloneElement } from 'react';
+import { cloneElement, isValidElement } from 'react';
 
-import { AnyJson } from 'light-design/utils';
+import { AnyJson } from '@/utils';
 
 /** @name JsonField JSON格式的数据 */
 export default function JsonField(props: any) {

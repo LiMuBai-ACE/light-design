@@ -1,7 +1,7 @@
-import React from 'react';
 import { InputNumber } from 'antd';
+import React from 'react';
 
-import { NumExtend } from 'light-design/utils';
+import { NumExtend } from '@/utils';
 
 const NumberWidget = (props: any) => {
   const {

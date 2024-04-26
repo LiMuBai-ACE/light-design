@@ -1,9 +1,8 @@
-import React, { ReactNode } from 'react';
 import { TooltipProps, Typography } from 'antd';
-import { EllipsisConfig } from 'antd/lib/typography/Base';
+import { EllipsisConfig } from 'antd/es/typography/Base';
+import React, { ReactNode } from 'react';
 
 import { ClassName, isEmpty } from 'light-design/utils';
-
 
 import { useExpand } from './hooks';
 
@@ -37,9 +36,7 @@ export default function Paragraph(props: ParagraphProps) {
     style,
     children,
     onClick,
-    ...others
   } = props;
-
 
   const expand = useExpand({ initail: !!expander }); // 控制器-展开/收起
 
@@ -94,11 +91,11 @@ export default function Paragraph(props: ParagraphProps) {
   return (
     <Typography.Paragraph key={expand.key} {...attrs} onClick={onAction}>
       {children || (text as ReactNode)}
-      {expander?.[1] && (ellipsis && !expand.collapsed && (
+      {expander?.[1] && ellipsis && !expand.collapsed && (
         <Typography.Link style={{ marginLeft: 8 }} onClick={onExpand}>
           {expander?.[1]}
         </Typography.Link>
-      ))}
+      )}
     </Typography.Paragraph>
   );
 }

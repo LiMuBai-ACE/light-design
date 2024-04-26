@@ -1,11 +1,17 @@
-import React from 'react';
 import { FormListFieldData } from 'antd';
+import React from 'react';
 
-import { isEmpty } from 'light-design/utils';
+import { isEmpty } from '@/utils';
 
 import FieldConditions from './components/conditions';
 import FieldWatch from './components/watch';
-import { ConditionModel, FieldProps, FieldParentProps, SectionFieldProps, SectionFieldsProps } from './type';
+import {
+  ConditionModel,
+  FieldParentProps,
+  FieldProps,
+  SectionFieldProps,
+  SectionFieldsProps,
+} from './type';
 
 import FieldItem from './components/field';
 

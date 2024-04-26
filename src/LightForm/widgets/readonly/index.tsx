@@ -1,10 +1,10 @@
-import { OptionType } from 'light-design/utils/types';
-import { ClassName, isEmpty, AnyJson } from 'light-design/utils';
+import { AnyJson, ClassName, isEmpty } from '@/utils';
+import { OptionType } from '@/utils/types';
 import React from 'react';
 
+import Paragraph, { ParagraphProps } from '@/components/paragraph';
+import { Text } from '@/components/paragraph/text';
 import './index.less';
-import Paragraph, { ParagraphProps } from 'light-design/components/paragraph';
-import { Text } from 'light-design/components/paragraph/text';
 
 export interface ReadonlyFieldProps {
   copyable?: ParagraphProps['copyable'];
@@ -17,7 +17,12 @@ export interface ReadonlyFieldProps {
   options?: OptionType[];
 }
 
-const formatValue = (params: Pick<ReadonlyFieldProps, 'value' | 'placeholder' | 'mapping' | 'options'>) => {
+const formatValue = (
+  params: Pick<
+    ReadonlyFieldProps,
+    'value' | 'placeholder' | 'mapping' | 'options'
+  >,
+) => {
   const { mapping, options, value, placeholder } = params;
 
   if (!isEmpty(options)) {

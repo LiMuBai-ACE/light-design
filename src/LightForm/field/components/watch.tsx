@@ -1,11 +1,16 @@
-import React, { cloneElement, isValidElement, useEffect, Fragment } from 'react';
 import { Form, FormInstance } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
+import React, {
+  Fragment,
+  cloneElement,
+  isValidElement,
+  useEffect,
+} from 'react';
 
-import { isEmpty } from 'light-design/utils';
+import { isEmpty } from '@/utils';
 
-import { WartchConfig, WatchFragmentProps } from '../type';
 import { ConditionExtend } from '../constants';
+import { WartchConfig, WatchFragmentProps } from '../type';
 
 /** @name WatchFragment 观察者片段 */
 const WatchFragment = (props: WatchFragmentProps) => {

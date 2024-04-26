@@ -1,12 +1,11 @@
-import React, { Key } from 'react';
-import { Select, SelectProps } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import { Select, SelectProps } from 'antd';
+import React, { Key } from 'react';
 
-import { ClassName } from 'light-design/utils';
+import { ClassName } from '@/utils';
 
-
+import { Text } from '@/components/paragraph/text';
 import './index.less';
-import { Text } from 'light-design/components/paragraph/text';
 
 export * from './menus';
 
@@ -17,7 +16,7 @@ const MultipleCounter = (props: any) => {
 
   if (showCount) {
     return (
-      <Text type="secondary" className='counter'>
+      <Text type="secondary" className="counter">
         {value}
       </Text>
     );
@@ -33,7 +32,15 @@ export const InputWords = (
     onChange?: (words: string[]) => void;
   },
 ) => {
-  const { className, maxLength, suffixIcon, size, showCount, onChange, ...others } = props;
+  const {
+    className,
+    maxLength,
+    suffixIcon,
+    size,
+    showCount,
+    onChange,
+    ...others
+  } = props;
 
   const total = others?.value?.length || 0;
   const counter: Key[] = [total];
@@ -43,8 +50,8 @@ export const InputWords = (
   }
 
   const css = ClassName.setup({
-    'input': true,
-    'large': size === 'large',
+    input: true,
+    large: size === 'large',
     [className as string]: !!className,
   });
 

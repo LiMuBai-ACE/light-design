@@ -1,9 +1,15 @@
 import { Button, Card, Col, Form, FormInstance, Row } from 'antd';
-import React, { ReactNode, createContext, useContext, useMemo, useState } from 'react';
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 
-import { AnyJson } from 'light-design/utils';
+import { AnyJson } from '@/utils';
 
-import { ClassName, JsonExtend, isEmpty, isFunction } from 'light-design/utils';
+import { ClassName, JsonExtend, isEmpty, isFunction } from '@/utils';
 import { ExpanderBtn, ExportBtn } from '../widgets/button';
 
 import { WidgetType } from '../widgets/constants';
@@ -22,7 +28,9 @@ interface WrapperProps {
   children: any;
 }
 
-const LightSearchCtx = createContext<LightSearchCtxProps>({} as LightSearchCtxProps);
+const LightSearchCtx = createContext<LightSearchCtxProps>(
+  {} as LightSearchCtxProps,
+);
 
 const LightSearchWrapper = ({ value, children }: WrapperProps) => (
   <LightSearchCtx.Provider value={value}>{children}</LightSearchCtx.Provider>
@@ -31,7 +39,7 @@ const LightSearchWrapper = ({ value, children }: WrapperProps) => (
 export const useLightSearch = () => useContext(LightSearchCtx);
 
 const SeachLayout = {
-  label: { prefixCls: "label" },
+  label: { prefixCls: 'label' },
 };
 
 const HiddenWidgets = [WidgetType.hidden];
@@ -90,7 +98,6 @@ export default (props: LightSearchProps) => {
   // 3项以下的，不渲染开关
   const noExpand = expander || total < 3;
   const [expand, setExpand] = useState(noExpand); // 收起展开
-
 
   // const initialValues = useMemo(() => initials, []);
 
@@ -170,8 +177,8 @@ export default (props: LightSearchProps) => {
     const itemkey = field?.key || field.name;
 
     const mycls = ClassName.setup({
-      "hide": hidden, // 是否显示
-      "column": field.type !== 'blank' && index % 3 !== 2,
+      hide: hidden, // 是否显示
+      column: field.type !== 'blank' && index % 3 !== 2,
     });
 
     if (field.type === 'blank') {
@@ -181,7 +188,12 @@ export default (props: LightSearchProps) => {
     if (field.type === 'btns') {
       return (
         <Col {...colSpan} key={itemkey}>
-          <Row justify="end" align="middle" className="operations" style={noSpan ? { marginBottom: 0 } : {}}>
+          <Row
+            justify="end"
+            align="middle"
+            className="operations"
+            style={noSpan ? { marginBottom: 0 } : {}}
+          >
             <Button type="primary" htmlType="submit" onClick={onFormSearch}>
               查询
             </Button>
@@ -220,7 +232,10 @@ export default (props: LightSearchProps) => {
       {noCard ? (
         RenderForm
       ) : (
-        <Card title={title} className={ClassName.poly(['container', className])}>
+        <Card
+          title={title}
+          className={ClassName.poly(['container', className])}
+        >
           {RenderForm}
         </Card>
       )}

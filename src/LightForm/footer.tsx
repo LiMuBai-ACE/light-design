@@ -1,7 +1,7 @@
-import React, { ReactNode, useState } from 'react';
 import { Button, ButtonProps, Col, Row } from 'antd';
+import React, { ReactNode, useState } from 'react';
 
-import { JsonExtend, isEmpty, isFunction } from 'light-design/utils';
+import { JsonExtend, isEmpty, isFunction } from '@/utils';
 
 import { SubmitProps, useFormCtx } from './constants';
 
@@ -14,11 +14,7 @@ interface MyProps extends SubmitProps {
 export const HistoryBack = (props: ButtonProps) => {
   const { children, ...others } = props;
 
-  return (
-    <Button {...others}>
-      {children}
-    </Button>
-  );
+  return <Button {...others}>{children}</Button>;
 };
 
 export const FormSubmit = (props: ButtonProps & SubmitProps) => {
@@ -67,7 +63,6 @@ export const FormSubmit = (props: ButtonProps & SubmitProps) => {
  * */
 export default (props: MyProps) => {
   const { disabled, btns, readonly, onSubmit, onValid } = props;
-
 
   if (btns === null) {
     return null;

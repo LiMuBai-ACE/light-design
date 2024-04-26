@@ -1,27 +1,40 @@
-import { Input, Cascader, Switch, Row } from 'antd';
+import { Input, Row, Switch } from 'antd';
 import React from 'react';
 
-import { WidgetType } from './constants';
 import { DefOptions } from '../constants';
+import { WidgetType } from './constants';
 
-import RadioGroup from './radio'; // 控件集合-单选项
-import CheckboxGroup from './checkbox'; // 控件集合-多选项
+import CheckboxGroup from '@/CheckboxGroup'; // 控件集合-多选项
 import DatePicker, { DateRange, MonthDatePicker } from './date'; // 控件集合-日期
+import RadioGroup from './radio'; // 控件集合-单选项
 import { LightTimePicker, LightTimeRange } from './time'; // 控件集合-时间
 
-import { LightKeymapSelect, LightSimpleSelect, CommonSelectProps } from './select'; // 控件集合-下拉列表
+import {
+  CommonSelectProps,
+  LightKeymapSelect,
+  LightSimpleSelect,
+} from './select'; // 控件集合-下拉列表
 
+import NumberWidget, {
+  InputCounter,
+  InputCurrency,
+  InputDiscount,
+} from './number'; // 上传图片
 
-import NumberWidget, { InputCurrency, InputDiscount, InputCounter } from './number'; // 上传图片
+import CascaderPicker from '@/CascaderPicker';
+import { Text } from '@/components/paragraph/text';
+import { FieldWidgetType } from '../field/type';
 
-import ColorPicker from './color';
-import { Text } from 'light-design/components/paragraph/text';
-
-const WidgetNode = ({ widget, ...others }: { widget: string;[key: string]: any }) => {
+const WidgetNode = ({
+  widget,
+  ...others
+}: {
+  widget: FieldWidgetType;
+  [key: string]: any;
+}) => {
   switch (widget) {
     // 隐藏字段
     case WidgetType.hidden:
-      // return <span style={{ display: 'none' }} />;
       return <Input type="hidden" {...others} />;
 
     // 下拉列表: KeyMap模式
@@ -51,7 +64,9 @@ const WidgetNode = ({ widget, ...others }: { widget: string;[key: string]: any }
 
     // 开关
     case WidgetType.switch: {
-      return <Switch checkedChildren="开启" unCheckedChildren="关闭" {...others} />;
+      return (
+        <Switch checkedChildren="开启" unCheckedChildren="关闭" {...others} />
+      );
     }
 
     // 日期控件
@@ -80,21 +95,9 @@ const WidgetNode = ({ widget, ...others }: { widget: string;[key: string]: any }
     }
 
     // 级联下拉
-    case WidgetType.cascader.radio: {
-      const { width = '100%', style, options, placeholder, ...rest } = others;
-      return (
-        <Cascader
-          options={options} //
-          placeholder={placeholder}
-          style={{ width, ...style }}
-          {...rest}
-        />
-      );
+    case WidgetType.cascader: {
+      return <CascaderPicker {...others} />;
     }
-
-    // 搜索框
-    case WidgetType.search:
-      return <Input allowClear {...others} autoComplete="off" />;
 
     // 文本域
     case WidgetType.textarea: {
@@ -122,17 +125,6 @@ const WidgetNode = ({ widget, ...others }: { widget: string;[key: string]: any }
       return <InputCounter {...others} />;
     }
 
-
-    // // 上传文件-上传文件
-    // case WidgetType.upload.file: {
-    //   return <UploadWidget {...(others as any)} />;
-    // }
-
-    // // 上传文件-上传图片|视频
-    // case WidgetType.album: {
-    //   return <UploadWidget mode="media" {...(others as any)} />;
-    // }
-
     default: {
       const { width = '100%', style, ...attrs } = others;
 
@@ -149,14 +141,7 @@ const WidgetNode = ({ widget, ...others }: { widget: string;[key: string]: any }
 export default (props: any) => {
   const { tips, suffix, prefix, widget, readonly, ...others } = props;
 
-  // if (widget === WidgetType.album) {
-  //   const attrs = { tips, suffix, prefix };
-  //   return <ImageUploader {...others} {...attrs} />;
-  // }
-
   const node = <WidgetNode widget={widget} {...others} />;
-
-  // const isNumber = widget === WidgetType.number;
 
   if (suffix || tips) {
     return (

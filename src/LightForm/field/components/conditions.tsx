@@ -1,8 +1,8 @@
-import React, { cloneElement, isValidElement } from 'react';
 import { Form, FormInstance } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
+import React, { cloneElement, isValidElement } from 'react';
 
-import { isEmpty } from 'light-design/utils';
+import { isEmpty } from '@/utils';
 
 import { ConditionExtend } from '../constants';
 import { ConditionModel } from '../type';

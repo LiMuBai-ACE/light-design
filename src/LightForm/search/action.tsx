@@ -1,7 +1,7 @@
 import { Button, Form, Row } from 'antd';
 import React from 'react';
 
-import { AnyJson, JsonExtend, isEmpty, isFunction } from 'light-design/utils';
+import { AnyJson, JsonExtend, isEmpty, isFunction } from '@/utils';
 
 import { ExportBtn } from '../widgets/button';
 
@@ -10,7 +10,7 @@ import LightField from '../field';
 import './index.less';
 
 const SeachLayout = {
-  label: { prefixCls: "label" },
+  label: { prefixCls: 'label' },
 };
 
 interface MyProps {
@@ -33,7 +33,6 @@ export default (props: MyProps) => {
   }
 
   const [form] = Form.useForm(); // form实例
-
 
   // 表单取值
   const onFormValues = async () => {

@@ -1,5 +1,4 @@
-import { TimeExtend, type DateInstance } from 'light-design/utils';
-
+import { TimeExtend, type DateInstance } from '@/utils';
 
 export const DateCheck = {
   early: (self: any, target?: DateInstance) =>

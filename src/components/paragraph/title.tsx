@@ -1,6 +1,6 @@
-import React, { CSSProperties } from 'react';
-import { TitleProps as AntTitleProps } from 'antd/lib/typography/Title';
 import { Typography } from 'antd';
+import { TitleProps as AntTitleProps } from 'antd/es/typography/Title';
+import React, { CSSProperties } from 'react';
 
 const { Title: AntTitle, Paragraph } = Typography;
 

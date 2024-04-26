@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import { ReactNode } from 'react';
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import { Space, Typography } from 'antd';
-import { TextProps } from 'antd/lib/typography/Text';
-import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { TextProps } from 'antd/es/typography/Text';
+import React, { ReactNode, useState } from 'react';
 
 import { ClassName, isEmpty, StrExtend } from 'light-design/utils';
-
 
 import './index.less';
 
@@ -20,7 +18,19 @@ interface SerialTextProps extends Omit<TextProps, 'type'> {
 
 // Color-物流: rgb(204, 102, 0)
 export const Text = (props: SerialTextProps) => {
-  const { block, inField, type, children, color, serial, size, className, style = {}, onClick, ...others } = props;
+  const {
+    block,
+    inField,
+    type,
+    children,
+    color,
+    serial,
+    size,
+    className,
+    style = {},
+    onClick,
+    ...others
+  } = props;
 
   const isInfoTheme = type === 'info';
   const isDefTheme = !type || ['info', 'default'].includes(type);
@@ -97,7 +107,11 @@ export const TextList = (props: {
   return <Text {...attrs}>{content}</Text>;
 };
 
-export const TextRemark = (props: { title: any; content: any; type?: SerialTextProps['type'] }) => {
+export const TextRemark = (props: {
+  title: any;
+  content: any;
+  type?: SerialTextProps['type'];
+}) => {
   const { title, content } = props;
 
   const empty = isEmpty(content);

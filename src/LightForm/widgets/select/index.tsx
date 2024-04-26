@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import React, { useMemo } from 'react';
 
-import { isEmpty } from 'light-design/utils';
+import { isEmpty } from '@/utils';
 
 import { DefConfig, DefOptions, OptionMethod } from '../../constants';
 import { KeymapSelect, MappingSelect, type CommonSelectProps } from './widgets';

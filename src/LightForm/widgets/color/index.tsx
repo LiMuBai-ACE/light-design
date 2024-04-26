@@ -1,10 +1,9 @@
 import type { ColorPickerProps } from 'antd';
-import type { Color } from 'antd/lib/color-picker';
+import type { Color } from 'antd/es/color-picker';
 import React from 'react';
 
+import { DefSettings } from '@/config/constants';
 import { ColorPicker as AntColorPicker } from 'antd';
-import { DefSettings } from 'light-design/config/constants';
-
 
 interface MyProps extends Omit<ColorPickerProps, 'value' | 'onChange'> {
   value?: string;
@@ -20,5 +19,12 @@ export default function ColorPicker(props: MyProps) {
     onChange?.(val);
   };
 
-  return <AntColorPicker showText {...config} value={value} onChange={onValueChange} />;
+  return (
+    <AntColorPicker
+      showText
+      {...config}
+      value={value}
+      onChange={onValueChange}
+    />
+  );
 }

@@ -1,18 +1,20 @@
-import React, { useMemo } from 'react';
-import { Radio, Space } from 'antd';
+import { DefConfig, OptionMethod } from '@/LightForm/constants';
+import { KeyMapProps } from '@/LightForm/type';
+import { Text } from '@/components/paragraph/text';
+import { isFunction } from '@/utils';
 import type { RadioGroupProps, SpaceProps } from 'antd';
-import { isFunction } from 'light-design/utils';
-import { Text } from 'light-design/components/paragraph/text';
-import { KeyMapProps } from 'light-design/LightForm/type';
-import { DefConfig, OptionMethod } from 'light-design/LightForm/constants';
-
+import { Radio, Space } from 'antd';
+import React, { useMemo } from 'react';
 
 interface MyProps extends RadioGroupProps {
   keymap?: KeyMapProps;
   mappings?: Record<string, string>;
   direction?: SpaceProps['direction'];
-  onValueChange?: (value: any, res: { prev: any; selected: KeyMapProps }) => void;
-  options: { value: number | string, label: string }[];
+  onValueChange?: (
+    value: any,
+    res: { prev: any; selected: KeyMapProps },
+  ) => void;
+  options: { value: number | string; label: string }[];
   disabled?: boolean;
   value?: any;
   onChange?: (value: any) => void;
@@ -52,10 +54,20 @@ export default function RadioGroup(props: MyProps) {
   };
 
   return (
-    <Radio.Group value={value} disabled={disabled} onChange={onOptionChange} {...others}>
+    <Radio.Group
+      value={value}
+      disabled={disabled}
+      onChange={onOptionChange}
+      {...others}
+    >
       <Space direction={direction}>
         {list.map((item, index) => (
-          <Radio key={item.value} value={item.value} disabled={item.disabled} data-index={index}>
+          <Radio
+            key={item.value}
+            value={item.value}
+            disabled={item.disabled}
+            data-index={index}
+          >
             {item.label}
             {item?.extra && <Text>{item?.extra}</Text>}
           </Radio>

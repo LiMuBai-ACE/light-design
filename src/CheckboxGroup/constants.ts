@@ -1,17 +1,11 @@
 import type { SelectProps } from 'antd';
-import { KeyMapProps } from 'light-design/form/type';
 
-
-
-import { isEmpty, JsonExtend } from 'light-design/utils';
-
-
+import { KeyMapProps } from '../LightForm/widgets/interface';
 
 export interface SubmitProps {
   onSubmit: (data: any) => Promise<any> | void;
   onValid?: (data: any) => void;
 }
-
 
 export const DefOptions = {
   all: { value: -1, label: '全部' },
@@ -21,15 +15,24 @@ export const DefOptions = {
   ],
 };
 
-export const OptionMethod = {
-  options: (params: { disabled?: boolean; options?: any[]; keymap: KeyMapProps; mappings: Record<string, any> }) => {
-    const { disabled, keymap, options, mappings } = params;
+interface OptionMethodType {
+  options: (params: {
+    disabled?: boolean;
+    options?: any[];
+    keymap: KeyMapProps;
+  }) => any[];
+  filter: SelectProps['filterOption'];
+}
+
+export const OptionMethod: OptionMethodType = {
+  options: (params: {
+    disabled?: boolean;
+    options?: any[];
+    keymap: KeyMapProps;
+  }) => {
+    const { disabled, keymap, options } = params;
 
     let list = options || [];
-
-    if (!isEmpty(mappings)) {
-      list = JsonExtend.json2arr(mappings);
-    }
 
     return list.map((ele) => {
       return {
@@ -41,6 +44,7 @@ export const OptionMethod = {
     });
   },
   filter: ((input, option) =>
-    ((option?.label as string) ?? '').toLowerCase().includes(input.toLowerCase())) as SelectProps['filterOption'],
+    ((option?.label as string) ?? '')
+      .toLowerCase()
+      .includes(input.toLowerCase())) as SelectProps['filterOption'],
 };
-

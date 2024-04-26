@@ -1,9 +1,13 @@
-import { CloseCircleFilled, LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  CloseCircleFilled,
+  LoadingOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
 import { Button, Form, Input, Select } from 'antd';
-import type { SearchProps } from 'antd/lib/input';
+import type { SearchProps } from 'antd/es/input';
 import React, { Key, forwardRef, useImperativeHandle, useMemo } from 'react';
 
-import { ClassName, isEmpty, sleep } from 'light-design/utils';
+import { ClassName, isEmpty, sleep } from '@/utils';
 
 import './index.less';
 
@@ -64,7 +68,7 @@ function SearchBar(props: InputSearchProps | OptionsSearchProps, ref?: any) {
 
     const selected = options.find((ele) => ele.value === _name) || options[0];
 
-    return "请输入" + (selected?.label as string);
+    return '请输入' + (selected?.label as string);
   }, [empty, _name]);
 
   const attrs = useMemo(() => {
@@ -75,8 +79,13 @@ function SearchBar(props: InputSearchProps | OptionsSearchProps, ref?: any) {
     } else if (!data || isEmpty(data)) {
       Object.assign(initials, { name: options?.[0]?.value, value: '' });
     } else {
-      const selected = options.find((ele) => data.hasOwnProperty(String(ele.value))) || options[0];
-      Object.assign(initials, { name: selected.value, value: data[selected.value as string] });
+      const selected =
+        options.find((ele) => data.hasOwnProperty(String(ele.value))) ||
+        options[0];
+      Object.assign(initials, {
+        name: selected.value,
+        value: data[selected.value as string],
+      });
     }
 
     return { form, initialValues: initials };
@@ -89,7 +98,11 @@ function SearchBar(props: InputSearchProps | OptionsSearchProps, ref?: any) {
     }
   };
 
-  const icon = <Button onClick={onSubmit}>{loading ? <LoadingOutlined /> : <SearchOutlined />}</Button>;
+  const icon = (
+    <Button onClick={onSubmit}>
+      {loading ? <LoadingOutlined /> : <SearchOutlined />}
+    </Button>
+  );
 
   const menus = (
     <Form.Item noStyle name="name">
@@ -104,7 +117,10 @@ function SearchBar(props: InputSearchProps | OptionsSearchProps, ref?: any) {
           style={{ width: width || 320 }}
           addonAfter={icon}
           addonBefore={menus}
-          className={ClassName.setup({ search: true, 'options-search': !empty })}
+          className={ClassName.setup({
+            search: true,
+            'options-search': !empty,
+          })}
           placeholder={_placeholder}
           suffix={<ClearAction form={form} onClick={onClear} />}
           onPressEnter={onSubmit}

@@ -1,17 +1,22 @@
-import React, { isValidElement, cloneElement, Attributes, ReactNode } from 'react';
+import React, {
+  Attributes,
+  ReactNode,
+  cloneElement,
+  isValidElement,
+} from 'react';
 
 import { Form } from 'antd';
 
-import { isEmpty, isObject, ClassName, AnyJson } from 'light-design/utils';
+import { AnyJson, ClassName, isEmpty, isObject } from '@/utils';
 
 import FieldWidget from '../../widgets';
-import ReadonlyField from '../../widgets/readonly';
 import { WidgetType } from '../../widgets/constants';
+import ReadonlyField from '../../widgets/readonly';
 
-import JsonField from './json';
 import GroupField from './group';
+import JsonField from './json';
 
-import { FieldWidgetProps, FieldProps } from '../type';
+import { FieldProps, FieldWidgetProps } from '../type';
 
 interface MyProps {
   field: FieldProps;
@@ -112,7 +117,11 @@ export default function FieldItem({ field, observed }: MyProps) {
 
   // 自定义属性的组件
   if (isObject(widget)) {
-    const { widget: widgetName, content, ...wprops } = widget as FieldWidgetProps;
+    const {
+      widget: widgetName,
+      content,
+      ...wprops
+    } = widget as FieldWidgetProps;
 
     const params = {
       disabled: !!(wprops?.disabled || attrs?.disabled),
@@ -123,7 +132,12 @@ export default function FieldItem({ field, observed }: MyProps) {
     if (widgetName === WidgetType.groups) {
       return (
         <Form.Item {...attrs}>
-          <GroupField name={attrs.name} widget={content} observed={observed} {...params} />
+          <GroupField
+            name={attrs.name}
+            widget={content}
+            observed={observed}
+            {...params}
+          />
         </Form.Item>
       );
     }
