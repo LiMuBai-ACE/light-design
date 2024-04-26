@@ -1,10 +1,10 @@
 import { DefConfig, OptionMethod } from '@/LightForm/constants';
-import { KeyMapProps } from '@/LightForm/type';
 import { Text } from '@/components/paragraph/text';
 import { isFunction } from '@/utils';
 import type { RadioGroupProps, SpaceProps } from 'antd';
 import { Radio, Space } from 'antd';
 import React, { useMemo } from 'react';
+import { KeyMapProps } from '../interface';
 
 interface MyProps extends RadioGroupProps {
   keymap?: KeyMapProps;
@@ -25,9 +25,7 @@ export default function RadioGroup(props: MyProps) {
     disabled = false,
     direction = 'horizontal',
     options, // 选项集合-List模式。 如: [{...option1}, {...option2}, ...]
-    mappings = {}, // 选项集合-Maps模式。 如: {[valu1]: label1, [valu2]: label2, ...}
     keymap = DefConfig.keymap, // 与 props.list 结对出现, 定义 option 的映射规则。 如: {value: 'id', label: 'label'}
-
     value,
     onChange, // <Ant.Event /> Ant的控件方法, 修改字段值
     onValueChange, // 自定义监听控件变化的回调
@@ -35,7 +33,7 @@ export default function RadioGroup(props: MyProps) {
   } = props;
 
   const list = useMemo(() => {
-    return OptionMethod.options({ keymap, options, mappings, disabled });
+    return OptionMethod.options({ keymap, options, disabled });
   }, []);
 
   const onOptionChange = (ev: any) => {
