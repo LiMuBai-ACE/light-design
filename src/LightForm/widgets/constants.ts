@@ -15,6 +15,8 @@ export const WidgetType = {
 
   cascader: 'Cascader',
 
+  color: 'Color',
+
   date: {
     MD: 'Date_MD',
     YMD: 'Date_YMD',
@@ -63,6 +65,7 @@ export const WidgetName = {
   [WidgetType.dialpad]: '拨号盘',
   [WidgetType.textarea]: '文本域',
 
+  [WidgetType.color]: '颜色选择',
   [WidgetType.number]: '数字',
   [WidgetType.currency]: '金额',
   [WidgetType.switch]: '开关',

@@ -14,7 +14,7 @@ title: LightForm-Form表单
 
 ## 代码演示
 
-<code src='./demo' title='使用'></code>
+<code src='./demo' title='代码'></code>
 
 ## API
 

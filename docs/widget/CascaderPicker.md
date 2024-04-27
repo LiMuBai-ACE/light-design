@@ -14,16 +14,16 @@ title: CascaderPicker-级联选择器
 
 ## 代码演示
 
-<code src='./demo/CascaderPicker' title='使用'></code>
+<code src='./demo/CascaderPicker' title='代码'></code>
 
 ## API
 
 ### CascaderPicker
 
-| 属性        | 描述                              | 是否必传 | 类型                 |
-| :---------- | :-------------------------------- | :------- | :------------------- |
-| width       | 组件宽度                          | 否       | `number` \| `string` |
-| ...其他属性 | 其他属性与 antd Cascader 组件一致 | -        | -                    |
+| 属性        | 描述                              | 是否必传 | 类型                 | 默认值 |
+| :---------- | :-------------------------------- | :------- | :------------------- | :----- |
+| width       | 组件宽度                          | 否       | `number` \| `string` | `100%` |
+| ...其他属性 | 其他属性与 antd Cascader 组件一致 | -        | -                    | -      |
 
 ## 其他说明
 

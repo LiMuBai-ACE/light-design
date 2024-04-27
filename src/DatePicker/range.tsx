@@ -1,12 +1,13 @@
 import { DatePicker as AntDatePicker } from 'antd';
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import { isEmpty, isFunction, TimeExtend, TimeFormat } from '@/utils';
 
 import { RangePickerProps } from 'antd/es/date-picker';
-import { DateType } from '../interface';
+import { DateType } from '../LightForm/widgets/interface';
 
-interface MyProps extends Omit<RangePickerProps, 'value' | 'onChange'> {
+export interface LDDateRangePickerProps
+  extends Omit<RangePickerProps, 'value' | 'onChange'> {
   value?: DateType[];
   showTime?: boolean;
   width?: number | string;
@@ -19,7 +20,7 @@ export type RangeValue<DateType> =
   | null;
 
 /* 选择器-日期区间 */
-export default function DateRange(props: MyProps) {
+const DateRangePicker: FC<LDDateRangePickerProps> = (props) => {
   const {
     width = '100%',
     style,
@@ -58,4 +59,6 @@ export default function DateRange(props: MyProps) {
       {...others}
     />
   );
-}
+};
+
+export default DateRangePicker;

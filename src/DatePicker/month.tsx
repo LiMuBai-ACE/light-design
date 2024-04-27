@@ -1,14 +1,14 @@
 import MonthDateOptions from '@/utils/calendar';
 import type { CascaderProps } from 'antd';
 import { Cascader } from 'antd';
-import React from 'react';
+import React, { FC } from 'react';
 
-interface MyProps extends Omit<CascaderProps, 'value'> {
+interface LDMonthDatePicker extends Omit<CascaderProps, 'value'> {
   value?: any[];
   width?: number | string;
 }
 
-export default function MonthDatePicker(props: MyProps) {
+const MonthDatePicker: FC<LDMonthDatePicker> = (props) => {
   const { width = '100%', ...others } = props;
   return (
     <Cascader
@@ -18,4 +18,5 @@ export default function MonthDatePicker(props: MyProps) {
       {...(others as CascaderProps)}
     />
   );
-}
+};
+export default MonthDatePicker;

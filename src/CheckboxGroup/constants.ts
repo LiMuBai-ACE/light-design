@@ -38,7 +38,7 @@ export const OptionMethod: OptionMethodType = {
       return {
         label: ele?.[keymap?.label] || ele,
         value: ele?.[keymap?.value] || ele,
-        extra: ele?.[keymap?.extra as string],
+        extra: ele?.[keymap?.extra as string] || ele?.extra,
         disabled: ele?.disabled || disabled,
       };
     });

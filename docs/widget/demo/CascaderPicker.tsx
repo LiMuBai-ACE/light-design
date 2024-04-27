@@ -45,7 +45,7 @@ export default () => {
   ];
 
   const onChange = (value: string[]) => {
-    console.log(value);
+    console.log('onChange', value);
   };
 
   const attr = {

@@ -4,8 +4,11 @@ import React from 'react';
 import { DefOptions } from '../constants';
 import { WidgetType } from './constants';
 
+import CascaderPicker from '@/CascaderPicker';
 import CheckboxGroup from '@/CheckboxGroup'; // 控件集合-多选项
-import DatePicker, { DateRange, MonthDatePicker } from './date'; // 控件集合-日期
+import ColorPicker from '@/ColorPicker';
+import DatePicker, { DateRangePicker, MonthDatePicker } from '@/DatePicker'; // 控件集合-日期
+
 import RadioGroup from './radio'; // 控件集合-单选项
 import { LightTimePicker, LightTimeRange } from './time'; // 控件集合-时间
 
@@ -21,7 +24,6 @@ import NumberWidget, {
   InputDiscount,
 } from './number'; // 上传图片
 
-import CascaderPicker from '@/CascaderPicker';
 import { Text } from '@/components/paragraph/text';
 import { FieldWidgetType } from '../field/type';
 
@@ -36,6 +38,9 @@ const WidgetNode = ({
     // 隐藏字段
     case WidgetType.hidden:
       return <Input type="hidden" {...others} />;
+    // 隐藏字段
+    case WidgetType.color:
+      return <ColorPicker {...others} />;
 
     // 下拉列表: KeyMap模式
     case WidgetType.select.keymap: {
@@ -76,7 +81,7 @@ const WidgetNode = ({
 
     // 日期区间
     case WidgetType.date.range: {
-      return <DateRange {...others} />;
+      return <DateRangePicker {...others} />;
     }
 
     // 时间区间

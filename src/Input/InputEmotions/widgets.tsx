@@ -1,11 +1,8 @@
-import React, { CSSProperties, useMemo } from 'react';
-import { Popover, Row, Button } from 'antd';
 import { MehOutlined } from '@ant-design/icons';
+import { Button, Popover, Row } from 'antd';
+import React, { CSSProperties, useMemo } from 'react';
 
-
-
-import './index.less';
-
+import './widgets.less';
 
 const source = {
   def: [
@@ -72,7 +69,24 @@ const source = {
     '💥',
     '💫',
   ],
-  body: ['✌', '🫰', '🤟', '👈', '👉', '👍', '🙌', '🙏', '💪', '💏', '💑', '👋', '✋', '✊', '👊', '👏'],
+  body: [
+    '✌',
+    '🫰',
+    '🤟',
+    '👈',
+    '👉',
+    '👍',
+    '🙌',
+    '🙏',
+    '💪',
+    '💏',
+    '💑',
+    '👋',
+    '✋',
+    '✊',
+    '👊',
+    '👏',
+  ],
   place: [
     '☀️',
     '⭐',
@@ -113,8 +127,6 @@ export const emotions = [...source.def, ...source.body, ...source.place];
 interface EmotionActionProps {
   onCheck?: (data: { label?: string; index: number }) => void;
 }
-
-
 
 const EmojFontList = (props: EmotionActionProps) => {
   const { onCheck } = props;

@@ -65,7 +65,7 @@ const StrExtend = {
   /* 链接地址字符串的 http协议 替换成 https 协议 */
   https: (str?: string) => (!str ? str : str.replace(/^http:/, 'https:')),
 
-  /* 在字符串{insert}的第{pos}处插入{insert}字符 */
+  /* 在字符串{origin}的第{pos}处插入{insert}字符 */
   insert: (params: { origin?: string; pos?: number; insert?: string }) => {
     const { insert, origin, pos = 0 } = params;
 
@@ -79,14 +79,17 @@ const StrExtend = {
 
     const prefix = origin.substring(0, pos);
     const suffix = origin.substring(pos);
+    console.log('prefix', prefix, 'insert', insert, 'suffix', suffix);
 
     return [prefix, insert, suffix].join('');
   },
 
   // 仅中文、数字、英文大小写
-  words: (str: string) => (str || '').trim().replaceAll(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, ''),
+  words: (str: string) =>
+    (str || '').trim().replaceAll(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, ''),
 
-  cleaner: (str: string) => (str || '').trim().replaceAll(/[!@#$%^&*-+=[\]{}\\:;'"<,>./?]+/g, ''),
+  cleaner: (str: string) =>
+    (str || '').trim().replaceAll(/[!@#$%^&*-+=[\]{}\\:;'"<,>./?]+/g, ''),
 
   bytes: (input: string) => {
     if (!input || typeof input !== 'string') {

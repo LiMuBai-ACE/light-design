@@ -9,7 +9,7 @@ import { isFunction } from 'light-design/utils';
 import { KeyMapProps } from '../LightForm/widgets/interface';
 import { OptionMethod } from './constants';
 
-interface MyProps extends CheckboxGroupProps {
+export interface LDCheckboxGroupProps extends CheckboxGroupProps {
   /**
    * 是否显示加载状态
    */
@@ -34,7 +34,7 @@ interface MyProps extends CheckboxGroupProps {
 }
 
 // 多选项-keymap模式
-const CheckboxGroup: FC<MyProps> = (props) => {
+const CheckboxGroup: FC<LDCheckboxGroupProps> = (props) => {
   const {
     options,
     keymap = DefConfig.keymap,
@@ -84,7 +84,7 @@ const CheckboxGroup: FC<MyProps> = (props) => {
             <Checkbox key={ivalue} value={ivalue}>
               {ele?.extra ? (
                 <Space>
-                  {ele?.label} <Text>{ele?.extra}</Text>
+                  {ele?.label} <Text type="secondary">{ele?.extra}</Text>
                 </Space>
               ) : (
                 ele?.label

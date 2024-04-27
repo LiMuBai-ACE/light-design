@@ -14,19 +14,20 @@ title: CheckboxGroup-多选框组
 
 ## 代码演示
 
-<code src='./demo/CheckboxGroup' title='使用'></code>
+<code src='./demo/CheckboxGroup' title='代码'></code>
 
 ## API
 
 ### CheckboxGroup
 
-| 属性          | 描述                                    | 是否必传 | 类型                                                                          | 默认值  |
-| :------------ | :-------------------------------------- | :------- | :---------------------------------------------------------------------------- | :------ |
+| 属性          | 描述                                    | 是否必传 | 类型                                                                          | 默认值       |
+| :------------ | :-------------------------------------- | :------- | :---------------------------------------------------------------------------- | :----------- |
 | options       | 多选框选项数组                          | 是       | `Array<{ value, label, extra? }>`                                             |
 | value         | 选中的值数组                            | 否       | `Array<any>`                                                                  |
-| loading       | 是否显示加载状态                        | 否       | `boolean`                                                                     | `false` |
+| loading       | 是否显示加载状态                        | 否       | `boolean`                                                                     | `false`      |
 | onChange      | 选中值变化的回调函数                    | 否       | `(val: Array<any>) => void`                                                   |
 | onValueChange | 自定义监听控件变化的回调函数            | 否       | `(val: Array<any>, res: { prev: any, selected: Array<KeyMapProps> }) => void` |
+| direction     | 排列方向                                | 否       | `vertical` \| `horizontal`                                                    | `horizontal` |
 | ...其他属性   | 其他属性与 antd Checkbox.Group 组件一致 | -        | -                                                                             |
 
 ## 其他说明

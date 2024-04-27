@@ -1,15 +1,12 @@
 import { DownOutlined } from '@ant-design/icons';
 import { Select, SelectProps } from 'antd';
-import React, { Key } from 'react';
+import React, { FC, Key } from 'react';
 
 import { ClassName } from '@/utils';
 
 import { Text } from '@/components/paragraph/text';
+
 import './index.less';
-
-export * from './menus';
-
-export * from './emotions';
 
 const MultipleCounter = (props: any) => {
   const { icon, showCount, value } = props;
@@ -25,13 +22,14 @@ const MultipleCounter = (props: any) => {
   return icon || <DownOutlined />;
 };
 
-export const InputWords = (
-  props: Omit<SelectProps, 'onChange'> & {
-    maxLength?: number;
-    showCount?: boolean;
-    onChange?: (words: string[]) => void;
-  },
-) => {
+export interface LDInputWordsProps extends Omit<SelectProps, 'onChange'> {
+  maxLength?: number;
+  showCount?: boolean;
+  onChange?: (words: string[]) => void;
+  width?: number | string;
+}
+
+const InputWords: FC<LDInputWordsProps> = (props) => {
   const {
     className,
     maxLength,
@@ -39,6 +37,7 @@ export const InputWords = (
     size,
     showCount,
     onChange,
+    width,
     ...others
   } = props;
 
@@ -69,6 +68,7 @@ export const InputWords = (
       mode="tags"
       open={false}
       {...others}
+      style={{ width: width || '100%', ...others.style }}
       className={css}
       maxTagTextLength={36}
       suffixIcon={icon}
@@ -80,3 +80,5 @@ export const InputWords = (
     />
   );
 };
+
+export default InputWords;
