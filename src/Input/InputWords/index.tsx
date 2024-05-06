@@ -22,14 +22,14 @@ const MultipleCounter = (props: any) => {
   return icon || <DownOutlined />;
 };
 
-export interface LDInputWordsProps extends Omit<SelectProps, 'onChange'> {
+export interface LInputWordsProps extends Omit<SelectProps, 'onChange'> {
   maxLength?: number;
   showCount?: boolean;
   onChange?: (words: string[]) => void;
   width?: number | string;
 }
 
-const InputWords: FC<LDInputWordsProps> = (props) => {
+const InputWords: FC<LInputWordsProps> = (props) => {
   const {
     className,
     maxLength,

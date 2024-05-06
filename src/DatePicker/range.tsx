@@ -6,7 +6,7 @@ import { isEmpty, isFunction, TimeExtend, TimeFormat } from '@/utils';
 import { RangePickerProps } from 'antd/es/date-picker';
 import { DateType } from '../LightForm/widgets/interface';
 
-export interface LDDateRangePickerProps
+export interface LDateRangePickerProps
   extends Omit<RangePickerProps, 'value' | 'onChange'> {
   value?: DateType[];
   showTime?: boolean;
@@ -14,13 +14,11 @@ export interface LDDateRangePickerProps
   onChange?: (range?: string[]) => void;
 }
 
-export type EventValue<DateType> = DateType | null;
-export type RangeValue<DateType> =
-  | [EventValue<DateType>, EventValue<DateType>]
-  | null;
+type EventValue<DateType> = DateType | null;
+type RangeValue<DateType> = [EventValue<DateType>, EventValue<DateType>] | null;
 
 /* 选择器-日期区间 */
-const DateRangePicker: FC<LDDateRangePickerProps> = (props) => {
+const DateRangePicker: FC<LDateRangePickerProps> = (props) => {
   const {
     width = '100%',
     style,

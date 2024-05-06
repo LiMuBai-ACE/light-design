@@ -3,12 +3,12 @@ import type { CascaderProps } from 'antd';
 import { Cascader } from 'antd';
 import React, { FC } from 'react';
 
-interface LDMonthDatePicker extends Omit<CascaderProps, 'value'> {
+interface LMonthDatePicker extends Omit<CascaderProps, 'value'> {
   value?: any[];
   width?: number | string;
 }
 
-const MonthDatePicker: FC<LDMonthDatePicker> = (props) => {
+const MonthDatePicker: FC<LMonthDatePicker> = (props) => {
   const { width = '100%', ...others } = props;
   return (
     <Cascader

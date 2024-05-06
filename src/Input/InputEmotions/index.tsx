@@ -12,11 +12,11 @@ import { WxEmotions } from './widgets';
 
 export * from './widgets';
 
-export interface LDInputEmotionProps extends Omit<InputProps, 'onChange'> {
+export interface LInputEmotionProps extends Omit<InputProps, 'onChange'> {
   emotions?: any[];
   onChange?: (value: string) => void;
 }
-const InputEmotions: FC<LDInputEmotionProps> = (props) => {
+const InputEmotions: FC<LInputEmotionProps> = (props) => {
   const { emotions, width: inputWidth, ...others } = props;
 
   const inputRef = useRef<InputRef>(null);

@@ -10,7 +10,7 @@ import DateRangePicker from './range';
 
 export { DateRangePicker, MonthDatePicker };
 
-export interface LDDatePickerProps
+export interface LDatePickerProps
   extends Omit<DatePickerProps, 'value' | 'onChange'> {
   value?: undefined | DateInstance;
   onChange?: (value: string | undefined) => void;
@@ -19,7 +19,7 @@ export interface LDDatePickerProps
 /**
  * 选择器-日期控件 待调试
  * */
-const DatePicker: FC<LDDatePickerProps> = (props) => {
+const DatePicker: FC<LDatePickerProps> = (props) => {
   const {
     style,
     width = '100%',

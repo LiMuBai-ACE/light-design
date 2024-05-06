@@ -23,7 +23,7 @@ export default defineConfig({
       {
         patterns: [
           {
-            from: path.resolve(__dirname, 'src/favicon'),
+            from: path.resolve(__dirname, 'src/assets'),
             to: path.resolve(__dirname, 'docs-dist'),
           },
         ],

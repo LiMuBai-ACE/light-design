@@ -5,9 +5,9 @@ interface CustomCascaderProps {
   width?: number | string;
 }
 
-export type LDCascaderProps = CustomCascaderProps & CascaderProps;
+export type LCascaderProps = CustomCascaderProps & CascaderProps;
 
-const CascaderPicker: FC<LDCascaderProps> = (props) => {
+const CascaderPicker: FC<LCascaderProps> = (props) => {
   const { width = '100%', style, options, placeholder, ...rest } = props;
   return (
     <Cascader
