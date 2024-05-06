@@ -2,12 +2,11 @@ import type { SpaceProps } from 'antd';
 import { Checkbox, Space, Spin } from 'antd';
 import React, { FC, useMemo } from 'react';
 
+import { DefConfig } from '@/LightForm/constants';
+import { KeyMapProps, OptionMethod } from '@/LightForm/widgets/interface';
+import { Text } from '@/components/paragraph/text';
+import { isEmpty, isFunction } from '@/utils';
 import type { CheckboxGroupProps } from 'antd/es/checkbox';
-import { DefConfig } from 'light-design/LightForm/constants';
-import { Text } from 'light-design/components/paragraph/text';
-import { isFunction } from 'light-design/utils';
-import { KeyMapProps } from '../LightForm/widgets/interface';
-import { OptionMethod } from './constants';
 
 export interface LCheckboxGroupProps extends CheckboxGroupProps {
   /**
@@ -52,10 +51,6 @@ const CheckboxGroup: FC<LCheckboxGroupProps> = (props) => {
   }, [options, disabled]);
 
   const onOptionChange = (val: any[]) => {
-    if (isFunction(onChange)) {
-      onChange(val);
-    }
-
     // 处理自定义的监听
     if (isFunction(onValueChange)) {
       const selected = list.filter((ele: KeyMapProps) =>
@@ -64,19 +59,28 @@ const CheckboxGroup: FC<LCheckboxGroupProps> = (props) => {
 
       onValueChange(val, { prev: value, selected });
     }
+
+    if (isFunction(onChange)) {
+      onChange(val);
+    }
   };
 
   if (loading) {
     return <Spin spinning size="small" style={{ marginLeft: 15 }} />;
   }
 
+  const attr = {
+    disabled,
+    onChange: onOptionChange,
+    ...others,
+  };
+
+  if (!isEmpty(value)) {
+    Object.assign(attr, { value });
+  }
+
   return (
-    <Checkbox.Group
-      disabled={disabled}
-      defaultValue={value}
-      onChange={onOptionChange}
-      {...others}
-    >
+    <Checkbox.Group {...attr}>
       <Space direction={direction}>
         {list.map((ele) => {
           const ivalue = (ele?.value || ele) as string | number;

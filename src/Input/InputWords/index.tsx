@@ -67,6 +67,7 @@ const InputWords: FC<LInputWordsProps> = (props) => {
       allowClear
       mode="tags"
       open={false}
+      placeholder="请输入"
       {...others}
       style={{ width: width || '100%', ...others.style }}
       className={css}

@@ -22,12 +22,13 @@ title: InputEmotions - 带表情输入框
 
 ### InputEmotions
 
-| 属性     | 描述       | 是否必传 | 类型                        | 默认值                           |
-| :------- | :--------- | :------- | :-------------------------- | :------------------------------- |
-| emotions | 表情数组   | -        | `any[]`                     | -                                |
-| value    | 值         | -        | `string`                    | -                                |
-| width    | input 宽度 | -        | `string\|number`            | `父元素宽度 - emoji图标 - 间距8` |
-| onChange | 操作       | -        | `(value:string\|undefined)` | -                                |
+| 属性        | 描述       | 是否必传 | 类型                          | 默认值                           |
+| :---------- | :--------- | :------- | :---------------------------- | :------------------------------- |
+| emotions    | 表情数组   | -        | `any[]`                       | -                                |
+| value       | 值         | -        | `string`                      | -                                |
+| width       | input 宽度 | -        | `string \| number`            | `父元素宽度 - emoji图标 - 间距8` |
+| onChange    | 操作       | -        | `(value:string \| undefined)` | -                                |
+| placeholder | 占位符     | -        | `string`                      | -                                |
 
 ## 其他说明
 

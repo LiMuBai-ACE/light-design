@@ -10,3 +10,10 @@ export {
 } from './DatePicker';
 export { default as InputEmotions } from './Input/InputEmotions';
 export { default as InputWords } from './Input/InputWords';
+export {
+  InputCounter,
+  InputCurrency,
+  InputDiscount,
+  default as NumberWidget,
+} from './InputNumber';
+export { default as RadioGroup } from './RadioGroup';

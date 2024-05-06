@@ -18,6 +18,7 @@ const NumberWidget = (props: any) => {
     min: min || 0, // InputNumber的下限
     max: max || Number.MAX_SAFE_INTEGER, // InputNumber的上限
     style: { width, ...style },
+    placeholder: '请输入',
     ...others,
   };
 

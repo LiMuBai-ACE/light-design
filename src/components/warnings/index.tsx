@@ -1,8 +1,8 @@
-import React, { ReactNode, isValidElement } from 'react';
-import { Alert as AntAlert, AlertProps, Row } from 'antd';
+import { AlertProps, Alert as AntAlert, Row } from 'antd';
 import { isBoolean } from 'lodash';
+import React, { ReactNode, isValidElement } from 'react';
 
-import { ClassName, isEmpty } from 'light-design/utils';
+import { ClassName, isEmpty } from '@/utils';
 import { TextList } from '../paragraph/text';
 
 import './index.less';
@@ -10,11 +10,14 @@ import './index.less';
 type AlertType = 'success' | 'info' | 'warning' | 'error' | 'secondary';
 type TextType = 'secondary' | 'success' | 'warning' | 'danger';
 
-const AlertTheme: Record<AlertType, { alert?: AlertProps['type']; text?: TextType; color?: string }> = {
+const AlertTheme: Record<
+  AlertType,
+  { alert?: AlertProps['type']; text?: TextType; color?: string }
+> = {
   warning: { alert: 'warning', text: 'warning' },
   success: { alert: 'success', text: 'success' },
   error: { alert: 'error', text: 'danger' },
-  info: { alert: 'info', },
+  info: { alert: 'info' },
   secondary: { text: 'secondary' },
 };
 
@@ -31,7 +34,8 @@ interface WarningProps {
 }
 
 export function Warnings(props: WarningProps) {
-  let { className, content, extra, icon, inline, type, serial, ...others } = props;
+  let { className, content, extra, icon, inline, type, serial, ...others } =
+    props;
 
   if (isEmpty(content)) {
     return null;
@@ -69,7 +73,11 @@ export function Warnings(props: WarningProps) {
     type: theme.text,
   };
 
-  content = isValidElement(content) ? content : <TextList {...text} content={content} />;
+  content = isValidElement(content) ? (
+    content
+  ) : (
+    <TextList {...text} content={content} />
+  );
 
   const node = (
     <Row align="middle" justify="space-between">
@@ -100,7 +108,7 @@ export const Explains = (props: ExplainProps) => {
   return (
     <AntAlert
       style={style}
-      className={ClassName.poly(["explains", className])}
+      className={ClassName.poly(['explains', className])}
       showIcon={!!icon}
       icon={myicon}
       type={theme.alert}

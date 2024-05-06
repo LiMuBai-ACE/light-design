@@ -1,4 +1,4 @@
-import { CheckboxGroup } from 'light-design';
+import { RadioGroup } from 'light-design';
 import React from 'react';
 
 const Demo = () => {
@@ -18,11 +18,11 @@ const Demo = () => {
   ];
 
   return (
-    <CheckboxGroup
+    <RadioGroup
       options={options}
       onChange={onChange}
       onValueChange={handleValueChange}
-      direction="vertical"
+      direction="horizontal"
     />
   );
 };

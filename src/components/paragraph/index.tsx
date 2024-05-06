@@ -2,7 +2,7 @@ import { TooltipProps, Typography } from 'antd';
 import { EllipsisConfig } from 'antd/es/typography/Base';
 import React, { ReactNode } from 'react';
 
-import { ClassName, isEmpty } from 'light-design/utils';
+import { ClassName, isEmpty } from '@/utils';
 
 import { useExpand } from './hooks';
 

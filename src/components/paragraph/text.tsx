@@ -3,7 +3,7 @@ import { Space, Typography } from 'antd';
 import { TextProps } from 'antd/es/typography/Text';
 import React, { ReactNode, useState } from 'react';
 
-import { ClassName, isEmpty, StrExtend } from 'light-design/utils';
+import { ClassName, isEmpty, StrExtend } from '@/utils';
 
 import './index.less';
 

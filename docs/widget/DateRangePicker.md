@@ -14,7 +14,7 @@ title: DateRangePicker - 日期区间选择器
 
 ## 代码演示
 
-<code src='./demo/DateRangePicker' title='使用'></code>
+<code src='./demo/DatePicker/DateRangePicker' title='使用'></code>
 
 ## API
 
@@ -24,7 +24,7 @@ title: DateRangePicker - 日期区间选择器
 | :---------- | :---------------------------------- | :------- | :--------------------------- | :----- |
 | value       | 当前选择的日期区间                  | -        | `DateType[]`                 | -      |
 | showTime    | 是否显示时间选择器                  | -        | `boolean`                    | -      |
-| width       | 宽度                                | -        | `number\| string`            | `100%` |
+| width       | 宽度                                | -        | `number \| string`           | `100%` |
 | onChange    | 日期区间变化回调函数                | -        | `(range?: string[]) => void` | -      |
 | ...其他属性 | 与 antd DatePicker.RangePicker 一致 | -        | -                            | -      |
 

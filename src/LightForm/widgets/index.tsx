@@ -4,12 +4,12 @@ import React from 'react';
 import { DefOptions } from '../constants';
 import { WidgetType } from './constants';
 
-import CascaderPicker from '@/CascaderPicker';
+import CascaderPicker from '@/CascaderPicker'; // 级联控件
 import CheckboxGroup from '@/CheckboxGroup'; // 控件集合-多选项
-import ColorPicker from '@/ColorPicker';
+import ColorPicker from '@/ColorPicker'; // 颜色控件
 import DatePicker, { DateRangePicker, MonthDatePicker } from '@/DatePicker'; // 控件集合-日期
 
-import RadioGroup from './radio'; // 控件集合-单选项
+import RadioGroup from '@/RadioGroup'; // 控件集合-单选项
 import { LightTimePicker, LightTimeRange } from './time'; // 控件集合-时间
 
 import {
@@ -22,7 +22,7 @@ import NumberWidget, {
   InputCounter,
   InputCurrency,
   InputDiscount,
-} from './number'; // 上传图片
+} from '@/InputNumber';
 
 import { Text } from '@/components/paragraph/text';
 import { FieldWidgetType } from '../field/type';

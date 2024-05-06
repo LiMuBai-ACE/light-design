@@ -1,5 +1,5 @@
+import { WidgetType } from '@/LightForm/widgets/constants';
 import { LightForm, LightFormProps } from 'light-design';
-import { WidgetType } from 'light-design/LightForm/widgets/constants';
 import React from 'react';
 
 const Page = () => {

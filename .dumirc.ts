@@ -14,7 +14,6 @@ export default defineConfig({
     hideHomeNav: true,
   },
   alias: {
-    'light-design': path.resolve(__dirname, 'src'),
     '@': path.resolve(__dirname, 'src'),
   },
   publicPath: '/',

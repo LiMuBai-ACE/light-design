@@ -25,7 +25,8 @@ title: InputWords - 标签输入框
 | maxLength   | 最大输入长度                    | -        | `number`                    | -      |
 | showCount   | 是否显示计数器                  | -        | `boolean`                   | -      |
 | onChange    | 输入值变化回调函数              | -        | `(words: string[]) => void` | -      |
-| width       | 宽度                            | -        | `string\|number`            | `100%` |
+| width       | 宽度                            | -        | `string \| number`          | `100%` |
+| placeholder | 占位符                          | -        | `string`                    | -      |
 | ...其他属性 | 其他属性与 antd Select 组件一致 | -        | -                           | -      |
 
 ## 其他说明

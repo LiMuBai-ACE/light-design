@@ -1,8 +1,14 @@
-import React, { ReactNode, cloneElement, isValidElement, useMemo, useState } from 'react';
 import type { CardProps } from 'antd';
 import { Card as AntCard, ConfigProvider } from 'antd';
+import React, {
+  ReactNode,
+  cloneElement,
+  isValidElement,
+  useMemo,
+  useState,
+} from 'react';
 
-import { ClassName, isFunction } from 'light-design/utils';
+import { ClassName, isFunction } from '@/utils';
 
 interface CubeCardProps extends Omit<CardProps, 'size'> {
   size?: CardProps['size'] | 'middle';
@@ -30,7 +36,11 @@ export default function Card(props: CubeCardProps) {
         },
       }}
     >
-      <AntCard className={css} {...others} size={size === 'small' ? 'small' : undefined} />
+      <AntCard
+        className={css}
+        {...others}
+        size={size === 'small' ? 'small' : undefined}
+      />
     </ConfigProvider>
   );
 }
@@ -81,7 +91,9 @@ export const TabsCard = (props: TabsCardProps) => {
 
   return (
     <Card {...attrs} {...others}>
-      {isValidElement(children) ? cloneElement(children as any, { actived }) : children}
+      {isValidElement(children)
+        ? cloneElement(children as any, { actived })
+        : children}
     </Card>
   );
 };

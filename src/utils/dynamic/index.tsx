@@ -1,11 +1,10 @@
-import { createRoot } from 'react-dom/client';
 import { App, ConfigProvider } from 'antd';
+import { createRoot } from 'react-dom/client';
 
-import React from "react";
+import { EnvLocal } from '@/config/constants';
+import React from 'react';
 import StrExtend from '../string';
 import { DynamicItemProps } from '../types';
-import { EnvLocal } from 'light-design/config/constants';
-
 
 export interface DynamicRecords {
   [key: string]: DynamicItemProps;

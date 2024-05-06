@@ -52,7 +52,7 @@ export const OptionMethod: OptionsMethod<Option> = {
     return list.map((ele) => ({
       label: ele?.[keymap?.label] ?? String(ele),
       value: ele?.[keymap?.value] ?? ele,
-      extra: ele?.[keymap?.extra as string],
+      extra: ele?.[keymap?.extra as string] ?? ele?.extra,
       disabled: ele?.disabled ?? disabled,
     }));
   },

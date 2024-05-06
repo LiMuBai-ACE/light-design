@@ -11,8 +11,6 @@
     "baseUrl": "./",
     "paths": {
       "@@/*": [".dumi/tmp/*"],
-      "light-design": ["src"],
-      "light-design/*": ["src/*", "*"],
       "@": ["src"],
       "@/*": ["src/*"]
     }

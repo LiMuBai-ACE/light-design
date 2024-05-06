@@ -1,14 +1,12 @@
-import { DefConfig, OptionMethod } from '@/LightForm/constants';
+import { KeyMapProps, OptionMethod } from '@/LightForm/widgets/interface';
 import { Text } from '@/components/paragraph/text';
 import { isFunction } from '@/utils';
 import type { RadioGroupProps, SpaceProps } from 'antd';
 import { Radio, Space } from 'antd';
 import React, { useMemo } from 'react';
-import { KeyMapProps } from '../interface';
 
-interface MyProps extends RadioGroupProps {
+interface LRadioGroupProps extends RadioGroupProps {
   keymap?: KeyMapProps;
-  mappings?: Record<string, string>;
   direction?: SpaceProps['direction'];
   onValueChange?: (
     value: any,
@@ -20,12 +18,12 @@ interface MyProps extends RadioGroupProps {
   onChange?: (value: any) => void;
 }
 
-export default function RadioGroup(props: MyProps) {
+export default function RadioGroup(props: LRadioGroupProps) {
   const {
     disabled = false,
     direction = 'horizontal',
     options, // 选项集合-List模式。 如: [{...option1}, {...option2}, ...]
-    keymap = DefConfig.keymap, // 与 props.list 结对出现, 定义 option 的映射规则。 如: {value: 'id', label: 'label'}
+    keymap = { value: 'value', label: 'label' } as KeyMapProps, // 与 props.list 结对出现, 定义 option 的映射规则。 如: {value: 'id', label: 'label'}
     value,
     onChange, // <Ant.Event /> Ant的控件方法, 修改字段值
     onValueChange, // 自定义监听控件变化的回调
@@ -37,23 +35,24 @@ export default function RadioGroup(props: MyProps) {
   }, []);
 
   const onOptionChange = (ev: any) => {
-    const { value: newvalue, index } = ev.target;
-
-    onChange?.(newvalue);
-
+    const { value: newvalue } = ev.target;
     // 处理自定义的监听
     if (isFunction(onValueChange)) {
-      const res = {
-        prev: value,
-        selected: list[index] as KeyMapProps,
-      };
-      onValueChange(newvalue, res);
+      const selected = list.find((ele: KeyMapProps) =>
+        (newvalue || []).includes(ele?.value),
+      );
+
+      onValueChange(newvalue, { prev: value, selected });
+    }
+
+    if (isFunction(onChange)) {
+      onChange(newvalue);
     }
   };
 
   return (
     <Radio.Group
-      value={value}
+      // value={value}
       disabled={disabled}
       onChange={onOptionChange}
       {...others}
@@ -66,8 +65,10 @@ export default function RadioGroup(props: MyProps) {
             disabled={item.disabled}
             data-index={index}
           >
-            {item.label}
-            {item?.extra && <Text>{item?.extra}</Text>}
+            <Space>
+              {item.label}
+              {item?.extra && <Text type="secondary">{item?.extra}</Text>}
+            </Space>
           </Radio>
         ))}
       </Space>

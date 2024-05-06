@@ -1,5 +1,5 @@
+import { StrExtend } from '@/utils';
 import { useState } from 'react';
-import { StrExtend } from 'light-design/utils';
 
 interface ExpandControl {
   key: string;

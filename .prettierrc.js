@@ -5,6 +5,7 @@ module.exports = {
     require.resolve('prettier-plugin-packagejson'),
   ],
   printWidth: 80,
+  tabWidth: 2,
   proseWrap: 'never',
   singleQuote: true,
   trailingComma: 'all',

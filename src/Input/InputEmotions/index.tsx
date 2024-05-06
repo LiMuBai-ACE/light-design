@@ -17,7 +17,7 @@ export interface LInputEmotionProps extends Omit<InputProps, 'onChange'> {
   onChange?: (value: string) => void;
 }
 const InputEmotions: FC<LInputEmotionProps> = (props) => {
-  const { emotions, width: inputWidth, ...others } = props;
+  const { emotions, width: inputWidth, placeholder, ...others } = props;
 
   const inputRef = useRef<InputRef>(null);
 
@@ -60,6 +60,7 @@ const InputEmotions: FC<LInputEmotionProps> = (props) => {
         ref={inputRef}
         style={{ width: inputWidth || spaceW - 40 }}
         value={inputV}
+        placeholder={placeholder || '请输入'}
         onChange={handleInputChange}
       />
       <WxEmotions

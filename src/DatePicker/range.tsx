@@ -47,16 +47,21 @@ const DateRangePicker: FC<LDateRangePickerProps> = (props) => {
     });
   }, [value]);
 
-  return (
-    <AntDatePicker.RangePicker
-      value={initials as RangeValue<any>}
-      onChange={onPickerChange}
-      format={formatter}
-      style={{ width, ...style }}
-      showTime={showTime || isDefaultFormatter}
-      {...others}
-    />
-  );
+  const attr = {
+    onChange: onPickerChange,
+    format: formatter,
+    style: { width, ...style },
+    showTime: showTime || isDefaultFormatter,
+    ...others,
+  };
+
+  if (!isEmpty(initials)) {
+    Object.assign(attr, {
+      value: initials as RangeValue<any>,
+    });
+  }
+
+  return <AntDatePicker.RangePicker {...attr} />;
 };
 
 export default DateRangePicker;

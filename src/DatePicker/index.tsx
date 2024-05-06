@@ -39,16 +39,21 @@ const DatePicker: FC<LDatePickerProps> = (props) => {
 
   const initials = isEmpty(value) ? value : TimeExtend.instance(value);
 
-  return (
-    <AntDatePicker
-      format={formatter}
-      value={initials}
-      onChange={onPickerChange as any}
-      style={{ width, ...style }}
-      showTime={showTime || isDefaultFormatter}
-      {...others}
-    />
-  );
+  const attr = {
+    onChange: onPickerChange as any,
+    format: formatter,
+    style: { width, ...style },
+    showTime: showTime || isDefaultFormatter,
+    ...others,
+  };
+
+  if (!isEmpty(initials)) {
+    Object.assign(attr, {
+      value: initials as DateInstance,
+    });
+  }
+
+  return <AntDatePicker {...attr} />;
 };
 
 export default DatePicker;
