@@ -16,7 +16,7 @@ import RadioGroup from '@/Widgets/RadioGroup'; // 控件集合-单选项
 import { LightTimePicker, LightTimeRange } from './time'; // 控件集合-时间
 
 import {
-  CommonSelectProps,
+  LCommonSelectProps,
   LightKeymapSelect,
   LightSimpleSelect,
 } from '@/Widgets/SelectPicker'; // 控件集合-下拉列表
@@ -47,12 +47,12 @@ const WidgetNode = ({
 
     // 下拉列表: KeyMap模式
     case WidgetType.select.keymap: {
-      return <LightKeymapSelect {...(others as CommonSelectProps)} />;
+      return <LightKeymapSelect {...(others as LCommonSelectProps)} />;
     }
 
     // 下拉列表: Simple模式
     case WidgetType.select.simple: {
-      return <LightSimpleSelect {...(others as CommonSelectProps)} />;
+      return <LightSimpleSelect {...(others as LCommonSelectProps)} />;
     }
 
     // 单选项: KeyMap模式

@@ -1,26 +1,30 @@
 import { Select } from 'antd';
-import React, { useMemo } from 'react';
-
-import { isEmpty } from '@/utils';
+import React, { CSSProperties, FC, useMemo } from 'react';
 
 import { DefConfig, DefOptions, OptionMethod } from '@/LightForm/constants';
-import { KeymapSelect, MappingSelect, type CommonSelectProps } from './widgets';
 
-export { CommonSelectProps };
+import type { SelectProps as AntSelectProps } from 'antd';
+export interface LCommonSelectProps
+  extends Omit<AntSelectProps, 'options' | 'onChange'> {
+  hasAll?: boolean;
+  options?: any[];
+  onChange: (res: number | string, options: any) => void;
+  style: CSSProperties;
+  width: number | string;
+}
 
 /**
  * @name LightKeymapSelect 下拉列表-Options使用映射模式
  * */
-export const LightKeymapSelect = (props: CommonSelectProps) => {
+export const LightKeymapSelect: FC<LCommonSelectProps> = (props) => {
   const {
     mode,
     hasAll,
-    options, // 选项集合-List模式。 如: [{...option1}, {...option2}, ...]
-    mappings = {}, // 选项集合-Maps模式。 如: {[valu1]: label1, [valu2]: label2, ...}
+    options = [], // 选项集合-List模式。 如: [{...option1}, {...option2}, ...]
     showSearch = true,
 
     style,
-    placeholder,
+    placeholder = '请选择',
     width = '100%',
     fieldNames = DefConfig.keymap,
 
@@ -46,33 +50,31 @@ export const LightKeymapSelect = (props: CommonSelectProps) => {
     Object.assign(attrs, { filterOption: OptionMethod.filter });
   }
 
-  // if (mode === 'multiple') {
-  //   Object.assign(attrs, { showArrow: true });
-  // }
-
-  // 选项集合-Maps模式
-  if (!isEmpty(mappings)) {
-    const extend = { mappings, hasAll };
-    return <MappingSelect {...attrs} {...extend} />;
-  }
-
   // 选项集合-List模式
   Object.assign(attrs, { fieldNames, options });
-  return <KeymapSelect {...attrs} />;
+
+  // 置顶选项-全部
+  const list = useMemo(() => {
+    return hasAll ? [DefOptions.all, ...options] : options;
+  }, [hasAll, options]);
+
+  return <Select {...attrs} options={list} />;
 };
 
-export const LightSimpleSelect = (props: CommonSelectProps) => {
+/**
+ * @name LightSimpleSelect 下拉列表-Options简单选择
+ * @description ["苹果","草莓"]
+ * */
+export const LightSimpleSelect: FC<LCommonSelectProps> = (props) => {
   const {
     mode,
     style,
     hasAll,
-    placeholder,
+    placeholder = '请选择',
     width = '100%',
     options = [], // 选项集合-仅支持List模式
-
     value,
     onChange, // <Ant.Event /> Ant的控件方法
-
     ...others
   } = props;
 
@@ -97,11 +99,9 @@ export const LightSimpleSelect = (props: CommonSelectProps) => {
     mode,
     placeholder,
     allowClear: true,
-
     options: list,
     defaultValue: value,
     style: { width, ...style },
-
     onChange: onOptionChange,
     ...others,
   };

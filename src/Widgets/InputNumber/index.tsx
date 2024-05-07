@@ -1,9 +1,10 @@
 import { InputNumber } from 'antd';
-import React from 'react';
+import React, { FC } from 'react';
 
 import { NumExtend } from '@/utils';
+import { InputNumberProps } from 'antd/es';
 
-const NumberWidget = (props: any) => {
+const NumberWidget: FC<InputNumberProps> = (props) => {
   const {
     max,
     min,
@@ -26,7 +27,7 @@ const NumberWidget = (props: any) => {
 };
 
 // 输入框-货币
-export const InputCurrency = (props: any) => {
+export const InputCurrency: FC<InputNumberProps> = (props) => {
   const { placeholder } = props;
   const attrs = {
     placeholder: placeholder || '请输入金额',
@@ -36,7 +37,7 @@ export const InputCurrency = (props: any) => {
 };
 
 // 输入框-折扣
-export const InputDiscount = (props: any) => {
+export const InputDiscount: FC<InputNumberProps> = (props) => {
   const { placeholder } = props;
 
   const attrs = {
@@ -49,7 +50,7 @@ export const InputDiscount = (props: any) => {
 };
 
 // 输入框-自然数
-export const InputCounter = (props: any) => {
+export const InputCounter: FC<InputNumberProps> = (props) => {
   const { placeholder } = props;
 
   const attrs = {

@@ -16,12 +16,12 @@ export const DefConfig = {
   filter: {
     filterMultiple: false,
     filterResetToDefaultFilteredValue: true,
-    defaultFilteredValue: ['-1'],
+    defaultFilteredValue: [''],
   },
 };
 
 export const DefOptions = {
-  all: { value: -1, label: '全部' },
+  all: { value: '', label: '全部' },
   gender: [
     { value: 'male', label: '男' },
     { value: 'female', label: '女' },

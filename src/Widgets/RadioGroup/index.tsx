@@ -4,7 +4,7 @@ import { Text } from '@/components/paragraph/text';
 import { isFunction } from '@/utils';
 import type { RadioGroupProps, SpaceProps } from 'antd';
 import { Radio, Space } from 'antd';
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 
 interface LRadioGroupProps extends RadioGroupProps {
   keymap?: KeyMapProps;
@@ -19,7 +19,7 @@ interface LRadioGroupProps extends RadioGroupProps {
   onChange?: (value: any) => void;
 }
 
-export default function RadioGroup(props: LRadioGroupProps) {
+const RadioGroup: FC<LRadioGroupProps> = (props) => {
   const {
     disabled = false,
     direction = 'horizontal',
@@ -75,4 +75,6 @@ export default function RadioGroup(props: LRadioGroupProps) {
       </Space>
     </Radio.Group>
   );
-}
+};
+
+export default RadioGroup;
