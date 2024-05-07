@@ -1,4 +1,5 @@
-import { KeyMapProps, OptionMethod } from '@/LightForm/widgets/interface';
+import { OptionMethod } from '@/LightForm/constants';
+import { KeyMapProps } from '@/LightForm/widgets/interface';
 import { Text } from '@/components/paragraph/text';
 import { isFunction } from '@/utils';
 import type { RadioGroupProps, SpaceProps } from 'antd';
