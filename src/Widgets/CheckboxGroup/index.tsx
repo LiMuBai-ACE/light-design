@@ -2,8 +2,8 @@ import type { SpaceProps } from 'antd';
 import { Checkbox, Space, Spin } from 'antd';
 import React, { FC, useMemo } from 'react';
 
-import { DefConfig } from '@/LightForm/constants';
-import { KeyMapProps, OptionMethod } from '@/LightForm/widgets/interface';
+import { DefConfig, OptionMethod } from '@/LightForm/constants';
+import { KeyMapProps } from '@/LightForm/widgets/interface';
 import { Text } from '@/components/paragraph/text';
 import { isEmpty, isFunction } from '@/utils';
 import type { CheckboxGroupProps } from 'antd/es/checkbox';

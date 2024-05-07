@@ -1,7 +1,7 @@
+import { DefOptions } from '@/LightForm/constants';
 import type { SelectProps as AntSelectProps } from 'antd';
 import { Select } from 'antd';
 import React, { useMemo } from 'react';
-import { DefOptions } from '../../constants';
 
 export interface CommonSelectProps
   extends Omit<AntSelectProps, 'options' | 'onChange'> {

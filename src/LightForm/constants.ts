@@ -28,37 +28,37 @@ export const DefOptions = {
   ],
 };
 
-interface Option {
-  label: string | undefined;
-  value: any;
-  extra?: any;
-  disabled?: boolean;
-  [key: string]: any;
-}
-
-type OptionsMethod<T> = {
+interface OptionMethodType {
   options: (params: {
     disabled?: boolean;
-    options?: T[];
+    options?: any[];
     keymap: KeyMapProps;
-  }) => Option[];
+  }) => any[];
   filter: SelectProps['filterOption'];
-};
+}
 
-export const OptionMethod: OptionsMethod<Option> = {
-  options: ({ disabled = false, keymap, options = [] }) => {
-    let list = options;
+export const OptionMethod: OptionMethodType = {
+  options: (params: {
+    disabled?: boolean;
+    options?: any[];
+    keymap: KeyMapProps;
+  }) => {
+    const { disabled, keymap, options } = params;
 
-    return list.map((ele) => ({
-      label: ele?.[keymap?.label] ?? String(ele),
-      value: ele?.[keymap?.value] ?? ele,
-      extra: ele?.[keymap?.extra as string] ?? ele?.extra,
-      disabled: ele?.disabled ?? disabled,
-    }));
+    let list = options || [];
+
+    return list.map((ele) => {
+      return {
+        label: ele?.[keymap?.label] || ele,
+        value: ele?.[keymap?.value] || ele,
+        extra: ele?.[keymap?.extra as string] || ele?.extra,
+        disabled: ele?.disabled || disabled,
+      };
+    });
   },
   filter: ((input, option) =>
-    (option?.label as string)
-      ?.toLowerCase()
+    ((option?.label as string) ?? '')
+      .toLowerCase()
       .includes(input.toLowerCase())) as SelectProps['filterOption'],
 };
 
