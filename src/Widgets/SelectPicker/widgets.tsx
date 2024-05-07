@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
-import { Select } from 'antd';
 import type { SelectProps as AntSelectProps } from 'antd';
+import { Select } from 'antd';
+import React, { useMemo } from 'react';
 import { DefOptions } from '../../constants';
 
-export interface CommonSelectProps extends Omit<AntSelectProps, 'options' | 'onChange'> {
+export interface CommonSelectProps
+  extends Omit<AntSelectProps, 'options' | 'onChange'> {
   hasAll?: boolean;
   options?: any[];
   mappings?: { [key: string]: string };
@@ -20,7 +21,9 @@ interface DefOption {
 /**
  * @name MappingSelect 下拉列表-选项使用Mapping参数
  * */
-export const MappingSelect = (props: Omit<CommonSelectProps, 'options' | 'fieldNames' | 'width'>) => {
+export const MappingSelect = (
+  props: Omit<CommonSelectProps, 'options' | 'fieldNames' | 'width'>,
+) => {
   const {
     hasAll,
     mappings = {}, // 选项集合-Maps模式。 如: {[valu1]: label1, [valu2]: label2, ...}
@@ -44,7 +47,9 @@ export const MappingSelect = (props: Omit<CommonSelectProps, 'options' | 'fieldN
   return <Select {...others} options={options} />;
 };
 
-export const KeymapSelect = (props: Omit<CommonSelectProps, 'mappings' | 'width'>) => {
+export const KeymapSelect = (
+  props: Omit<CommonSelectProps, 'mappings' | 'width'>,
+) => {
   const {
     hasAll,
     options = [], // 选项集合-List模式。 如: [{...option1}, {...option2}, ...]

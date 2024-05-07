@@ -1,19 +1,19 @@
 export { default as LightForm, type LightFormProps } from './LightForm';
 
-export { default as CascaderPicker } from './CascaderPicker';
-export { default as CheckboxGroup } from './CheckboxGroup';
-export { default as ColorPicker } from './ColorPicker';
+export { default as CascaderPicker } from '@/Widgets/CascaderPicker';
+export { default as CheckboxGroup } from '@/Widgets/CheckboxGroup';
+export { default as ColorPicker } from '@/Widgets/ColorPicker';
 export {
   default as DatePicker,
   DateRangePicker,
   MonthDatePicker,
-} from './DatePicker';
-export { default as InputEmotions } from './Input/InputEmotions';
-export { default as InputWords } from './Input/InputWords';
+} from '@/Widgets/DatePicker';
+export { default as InputEmotions } from '@/Widgets/Input/InputEmotions';
+export { default as InputWords } from '@/Widgets/Input/InputWords';
 export {
   InputCounter,
   InputCurrency,
   InputDiscount,
   default as NumberWidget,
-} from './InputNumber';
-export { default as RadioGroup } from './RadioGroup';
+} from '@/Widgets/InputNumber';
+export { default as RadioGroup } from '@/Widgets/RadioGroup';

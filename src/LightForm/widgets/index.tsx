@@ -4,25 +4,28 @@ import React from 'react';
 import { DefOptions } from '../constants';
 import { WidgetType } from './constants';
 
-import CascaderPicker from '@/CascaderPicker'; // 级联控件
-import CheckboxGroup from '@/CheckboxGroup'; // 控件集合-多选项
-import ColorPicker from '@/ColorPicker'; // 颜色控件
-import DatePicker, { DateRangePicker, MonthDatePicker } from '@/DatePicker'; // 控件集合-日期
+import CascaderPicker from '@/Widgets/CascaderPicker'; // 级联控件
+import CheckboxGroup from '@/Widgets/CheckboxGroup'; // 控件集合-多选项
+import ColorPicker from '@/Widgets/ColorPicker'; // 颜色控件
+import DatePicker, {
+  DateRangePicker,
+  MonthDatePicker,
+} from '@/Widgets/DatePicker'; // 控件集合-日期
 
-import RadioGroup from '@/RadioGroup'; // 控件集合-单选项
+import RadioGroup from '@/Widgets/RadioGroup'; // 控件集合-单选项
 import { LightTimePicker, LightTimeRange } from './time'; // 控件集合-时间
 
 import {
   CommonSelectProps,
   LightKeymapSelect,
   LightSimpleSelect,
-} from './select'; // 控件集合-下拉列表
+} from '@/Widgets/SelectPicker'; // 控件集合-下拉列表
 
 import NumberWidget, {
   InputCounter,
   InputCurrency,
   InputDiscount,
-} from '@/InputNumber';
+} from '@/Widgets/InputNumber';
 
 import { Text } from '@/components/paragraph/text';
 import { FieldWidgetType } from '../field/type';

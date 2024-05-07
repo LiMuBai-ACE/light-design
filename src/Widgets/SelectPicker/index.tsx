@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 
 import { isEmpty } from '@/utils';
 
-import { DefConfig, DefOptions, OptionMethod } from '../../constants';
+import { DefConfig, DefOptions, OptionMethod } from '@/LightForm/constants';
 import { KeymapSelect, MappingSelect, type CommonSelectProps } from './widgets';
 
 export { CommonSelectProps };
