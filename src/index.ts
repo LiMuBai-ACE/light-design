@@ -3,21 +3,25 @@ export { default as LightForm, type LightFormProps } from './LightForm';
 /**
  * widget组件相关
  */
-export { default as CascaderPicker } from '@/Widgets/CascaderPicker';
-export { default as CheckboxGroup } from '@/Widgets/CheckboxGroup';
-export { default as ColorPicker } from '@/Widgets/ColorPicker';
+export { default as LightCascaderPicker } from '@/Widgets/LightCascaderPicker';
+export { default as LightCheckboxGroup } from '@/Widgets/LightCheckboxGroup';
+export { default as LightColorPicker } from '@/Widgets/LightColorPicker';
 export {
-  default as DatePicker,
-  DateRangePicker,
-  MonthDatePicker,
-} from '@/Widgets/DatePicker';
-export { default as InputEmotions } from '@/Widgets/Input/InputEmotions';
-export { default as InputWords } from '@/Widgets/Input/InputWords';
+  default as LightDatePicker,
+  LightDateRangePicker,
+  LightMonthDatePicker,
+} from '@/Widgets/LightDatePicker';
+export { default as LightInputEmotions } from '@/Widgets/LightInput/InputEmotions';
+export { default as LightInputWords } from '@/Widgets/LightInput/InputWords';
 export {
-  InputCounter,
-  InputCurrency,
-  InputDiscount,
-  default as NumberWidget,
-} from '@/Widgets/InputNumber';
-export { default as RadioGroup } from '@/Widgets/RadioGroup';
-export { LightKeymapSelect, LightSimpleSelect } from '@/Widgets/SelectPicker';
+  LightInputCounter,
+  LightInputCurrency,
+  LightInputDiscount,
+  default as LightNumberWidget,
+} from '@/Widgets/LightInputNumber';
+export { default as LightRadioGroup } from '@/Widgets/LightRadioGroup';
+export { default as LightSelectPicker } from '@/Widgets/LightSelectPicker';
+export {
+  LightTimePicker,
+  LightTimeRangePicker,
+} from '@/Widgets/LightTimePicker';
