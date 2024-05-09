@@ -3,7 +3,7 @@ import React from 'react';
 
 import { AnyJson, JsonExtend, isEmpty, isFunction } from '@/utils';
 
-import { ExportBtn } from '../widgets/button';
+import { ExportBtn } from './button';
 
 import LightField from '../field';
 

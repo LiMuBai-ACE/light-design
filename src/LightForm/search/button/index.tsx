@@ -1,7 +1,6 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button, type ButtonProps } from 'antd';
-import React from "react";
-
+import React from 'react';
 
 import './index.less';
 
@@ -18,16 +17,15 @@ interface ExpandBtnProps {
 
 // 折叠板开关
 export const ExpanderBtn = ({ expand, onToggle }: ExpandBtnProps) => {
-
   const ExpanderMaps = [
     // 点击展开
     {
-      label: "展开",
+      label: '展开',
       icon: <DownOutlined className="expander" />,
     },
     // 点击收起
     {
-      label: "收起",
+      label: '收起',
       icon: <UpOutlined className="expander" />,
     },
   ];

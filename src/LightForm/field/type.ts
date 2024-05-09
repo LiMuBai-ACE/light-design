@@ -62,6 +62,7 @@ export interface FieldWidgetProps extends AnyJson {
   props?: any;
   width?: number | string;
   content?: ReactNode;
+  fields?: FieldProps[];
 }
 
 /**
@@ -88,7 +89,7 @@ export interface FieldProps extends FormItemProps<any> {
 
 // 字段定义-父级节点的NamePath集合
 export interface FieldParentProps {
-  name: string[];
+  name: (string | number)[];
   [key: string]: any;
 }
 

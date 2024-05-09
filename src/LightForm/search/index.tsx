@@ -10,7 +10,7 @@ import React, {
 import { AnyJson } from '@/utils';
 
 import { ClassName, JsonExtend, isEmpty, isFunction } from '@/utils';
-import { ExpanderBtn, ExportBtn } from '../widgets/button';
+import { ExpanderBtn, ExportBtn } from './button';
 
 import { WidgetType } from '../widgets/constants';
 

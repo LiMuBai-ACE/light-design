@@ -18,10 +18,10 @@ import FieldConditions from './field/components/conditions';
 
 import Card from '@/components/card';
 import { Warnings } from '@/components/warnings';
+import ReadonlyField from './field/components/readonly';
 import LightFormFooter from './footer';
 import LightSearch from './search';
 import ActionSearch from './search/action';
-import ReadonlyField from './widgets/readonly';
 
 export { useFormCtx };
 

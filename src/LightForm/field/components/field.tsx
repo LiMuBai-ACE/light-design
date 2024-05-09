@@ -11,9 +11,9 @@ import { AnyJson, ClassName, isEmpty, isObject } from '@/utils';
 
 import FieldWidget from '../../widgets';
 import { WidgetType } from '../../widgets/constants';
-import ReadonlyField from '../../widgets/readonly';
+import ReadonlyField from './readonly';
 
-import GroupField from './group';
+import { LightGroupContent } from './group';
 import JsonField from './json';
 
 import { FieldProps, FieldWidgetProps } from '../type';
@@ -120,6 +120,7 @@ export default function FieldItem({ field, observed }: MyProps) {
     const {
       widget: widgetName,
       content,
+      fields,
       ...wprops
     } = widget as FieldWidgetProps;
 
@@ -130,9 +131,13 @@ export default function FieldItem({ field, observed }: MyProps) {
 
     // Array 格式的数据
     if (widgetName === WidgetType.groups) {
+      // fields 模式 未完成----------
+      // if (isEmpty(fields)) {
+      // }
+
       return (
         <Form.Item {...attrs}>
-          <GroupField
+          <LightGroupContent
             name={attrs.name}
             widget={content}
             observed={observed}
