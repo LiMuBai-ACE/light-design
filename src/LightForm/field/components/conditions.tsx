@@ -1,19 +1,19 @@
 import { Form, FormInstance } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
-import React, { cloneElement, isValidElement } from 'react';
+import React, { FC, cloneElement, isValidElement } from 'react';
 
 import { isEmpty } from '@/utils';
 
 import { ConditionExtend } from '../constants';
 import { ConditionModel } from '../type';
 
-interface MyProps {
+export interface FieldConditionsProps {
   conditions: ConditionModel[];
   children?: any;
 }
 
 /** @name FieldConditions 条件渲染 */
-const FieldConditions = (props: MyProps) => {
+const FieldConditions: FC<FieldConditionsProps> = (props) => {
   const { conditions, children } = props;
 
   const namelist = ConditionExtend.fields({ conditions }) as NamePath[];

@@ -58,11 +58,24 @@ export interface FieldWidgetProps extends AnyJson {
   placeholder?: string;
   options?: any[];
   hasAll?: boolean;
+  /**
+   * @name 是否禁用
+   * @tips 如果设置 disabled 属性,且 widget 为 groups和json 时,会优先使用field自带的 disabled 属性
+   * @tips 如果子级field未设置 disabled,则父级field的 disabled 属性会替代子级的field的 disabled 属性
+   */
   disabled?: boolean;
   props?: any;
   width?: number | string;
   content?: ReactNode;
+  /** 目前仅支持 widget 为 groups和json的情况 */
   fields?: FieldProps[];
+  /** 仅支持 widget 为 groups的情况 */
+  addRender?: ReactNode;
+  /**
+   * @tips 仅支持 widget 为 groups的情况
+   * @tips 一行显示几个
+   */
+  columns?: number;
 }
 
 /**

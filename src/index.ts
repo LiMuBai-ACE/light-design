@@ -1,4 +1,8 @@
-export { default as LightForm, type LightFormProps } from './LightForm';
+export {
+  default as LightForm,
+  WidgetType,
+  type LightFormProps,
+} from './LightForm';
 
 /**
  * widget组件相关

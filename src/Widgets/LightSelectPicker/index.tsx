@@ -37,13 +37,13 @@ const LightSelectPicker: FC<LightSelectPickerProps> = (props) => {
 
   const attrs = {
     mode,
-    hasAll,
     placeholder,
     allowClear: true,
     showSearch,
     value,
     style: { width, ...style },
     onChange,
+    disabled,
     ...others,
   };
 
@@ -51,21 +51,16 @@ const LightSelectPicker: FC<LightSelectPickerProps> = (props) => {
     Object.assign(attrs, { filterOption: OptionMethod.filter });
   }
 
-  let list: any[] = useMemo(() => {
+  const list: any[] = useMemo(() => {
     return OptionMethod.options({
       keymap: fieldNames as KeyMapProps,
-      options,
+      options: hasAll ? [DefOptions.all, ...options] : options,
       disabled,
     });
-  }, []);
+  }, [options]);
 
   // 选项集合-List模式
   Object.assign(attrs, { fieldNames, options: list });
-
-  // 置顶选项-全部
-  list = useMemo(() => {
-    return hasAll ? [DefOptions.all, ...list] : list;
-  }, [hasAll, list]);
 
   return <Select {...attrs} options={list} />;
 };

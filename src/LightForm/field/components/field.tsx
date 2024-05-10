@@ -13,8 +13,8 @@ import FieldWidget from '../../widgets';
 import { WidgetType } from '../../widgets/constants';
 import ReadonlyField from './readonly';
 
-import { LightGroupContent } from './group';
-import JsonField from './json';
+import { LightGroupContent, LightGroupFields } from './group';
+import { LightJsonFields, LightJsonWidget } from './json';
 
 import { FieldProps, FieldWidgetProps } from '../type';
 
@@ -125,21 +125,25 @@ export default function FieldItem({ field, observed }: MyProps) {
     } = widget as FieldWidgetProps;
 
     const params = {
-      disabled: !!(wprops?.disabled || attrs?.disabled),
+      disabled: wprops?.disabled || attrs?.disabled,
       placeholder: wprops.placeholder || placeholder,
     };
 
     // Array 格式的数据
     if (widgetName === WidgetType.groups) {
-      // fields 模式 未完成----------
-      // if (isEmpty(fields)) {
-      // }
+      let LightGroup = LightGroupContent;
+
+      // fields 模式
+      if (!isEmpty(fields)) {
+        LightGroup = LightGroupFields;
+      }
 
       return (
         <Form.Item {...attrs}>
-          <LightGroupContent
+          <LightGroup
             name={attrs.name}
             widget={content}
+            fields={fields}
             observed={observed}
             {...params}
           />
@@ -149,9 +153,22 @@ export default function FieldItem({ field, observed }: MyProps) {
 
     // JSON 格式数据
     if (widgetName === WidgetType.json) {
+      let LightJson = LightJsonWidget;
+
+      // fields 模式
+      if (!isEmpty(fields)) {
+        LightJson = LightJsonFields;
+      }
+
       return (
         <Form.Item {...attrs}>
-          <JsonField widget={content} observed={observed} {...params} />
+          <LightJson
+            name={attrs.name}
+            widget={content}
+            fields={fields}
+            observed={observed}
+            {...params}
+          />
         </Form.Item>
       );
     }
