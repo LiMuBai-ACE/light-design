@@ -29,3 +29,6 @@ export {
   LightTimePicker,
   LightTimeRangePicker,
 } from '@/Widgets/LightTimePicker';
+
+
+export { default as SvgIcon } from '@/components/SvgIcon';

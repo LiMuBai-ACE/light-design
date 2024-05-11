@@ -3,11 +3,11 @@ import { defineConfig } from 'dumi';
 import path from 'path';
 export default defineConfig({
   outputPath: 'docs-dist',
-  favicons: ['/logo.png'],
-  logo: '/logo.png',
+  favicons: ['./favicon/logo.png'],
+  logo: './favicon/logo.png',
   themeConfig: {
     name: 'light-design',
-    logo: '/logo.png',
+    logo: './favicon/logo.png',
     socialLinks: {
       github: 'https://github.com/LiMuBai-ACE/light-design',
     },
