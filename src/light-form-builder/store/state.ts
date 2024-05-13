@@ -2,7 +2,6 @@ import zhCN from 'antd/lib/locale/zh_CN'
 
 import type { ConfigProviderProps } from 'antd/lib/config-provider'
 import type { FormProps } from 'antd/lib/form'
-import type { Component } from '@/config'
 
 export const initState: State = {
   selectWidgetItem: undefined,
@@ -24,8 +23,8 @@ export const initState: State = {
 }
 
 export interface State {
-  selectWidgetItem?: Component
-  widgetFormList: Component[]
+  selectWidgetItem?: any
+  widgetFormList: any[]
   iconSrc?: string
   globalConfig: ConfigProviderProps
   formConfig: FormProps

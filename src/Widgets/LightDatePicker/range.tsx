@@ -3,8 +3,8 @@ import React, { FC, useMemo } from 'react';
 
 import { isEmpty, isFunction, TimeExtend, TimeFormat } from '@/utils';
 
-import { RangePickerProps } from 'antd/es/date-picker';
-import { DateType } from '../LightForm/widgets/interface';
+import { DateType } from '@/LightForm/widgets/interface';
+import { DatePickerType, RangePickerProps } from 'antd/es/date-picker';
 
 export interface LDateRangePickerProps
   extends Omit<RangePickerProps, 'value' | 'onChange'> {
@@ -33,7 +33,7 @@ const DateRangePicker: FC<LDateRangePickerProps> = (props) => {
   const isDefaultFormatter = formatter === TimeFormat.common;
 
   const onPickerChange = (
-    res: RangeValue<DateType>,
+    res: RangeValue<DatePickerType>,
     range: [string, string],
   ) => {
     if (isFunction(onChange)) {
@@ -61,7 +61,7 @@ const DateRangePicker: FC<LDateRangePickerProps> = (props) => {
     });
   }
 
-  return <AntDatePicker.RangePicker {...attr} />;
+  return <AntDatePicker.RangePicker {...(attr as RangePickerProps)} />;
 };
 
 export default DateRangePicker;

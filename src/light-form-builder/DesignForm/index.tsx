@@ -1,4 +1,5 @@
 import { Form, Layout, message } from 'antd';
+import 'normalize.css';
 import React, {
   forwardRef,
   useContext,
@@ -6,15 +7,13 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-
-import GlobalConfig from './components/GlobalConfig';
-import Header from './components/Header';
-import WidgetConfig from './components/WidgetConfig';
-import WidgetForm from './components/WidgetForm';
-
+import { componentsGroup } from '../config';
 import { DesignContext, DesignProvider } from '../store';
 import { ActionType } from '../store/action';
-
+import ComponentsGroup from './components/ComponentsGroup';
+import Header from './components/Header';
+import WidgetForm from './components/WidgetForm';
+import './index.less';
 const { Content, Sider } = Layout;
 
 export interface DesignFormProps {
@@ -66,17 +65,19 @@ const DesignForm = forwardRef<DesignFormRef, DesignFormProps>((props, ref) => {
   }));
 
   return (
-    <div className="fc-style">
-      <Layout className="fc-container">
+    <div className="light-design-from">
+      <Layout className="light-design-container">
         <Sider theme="light" width={250} style={{ overflow: 'auto' }}>
-          {useMemo(
-            () => (
-              <div className="components">111</div>
-            ),
-            [],
-          )}
+          <div className="widget-list">
+            {componentsGroup.map((componentGroup) => (
+              <ComponentsGroup
+                key={componentGroup.title}
+                componentGroup={componentGroup}
+              />
+            ))}
+          </div>
         </Sider>
-        <Layout className="center-container">
+        <Layout className="widget-container">
           <Header {...props} />
           <Content className="widget-empty">
             <Layout>
@@ -108,11 +109,11 @@ const DesignForm = forwardRef<DesignFormRef, DesignFormProps>((props, ref) => {
                     </div>
                   </Layout.Header>
                   <Content className="config-content">
-                    {currentTab === 'Local' ? (
+                    {/* {currentTab === 'Local' ? (
                       <WidgetConfig />
                     ) : (
                       <GlobalConfig />
-                    )}
+                    )} */}
                   </Content>
                 </>
               ),

@@ -1,0 +1,55 @@
+@primary-color: #409eff;
+
+@primary-background-color: #ecf5ff;
+
+.widget-title {
+  padding: 12px;
+  font-size: 13px;
+}
+.widget-group {
+  position: relative;
+  padding: 0 10px 10px;
+  margin: 0;
+  overflow: hidden;
+  list-style: none;
+
+  .widget-label {
+    position: relative;
+    left: 0;
+    display: block;
+    float: left;
+    width: 48%;
+    margin: 1%;
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 26px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border: 1px solid #f4f6fc;
+
+    & > .widget-group-item {
+      display: block;
+      color: #333;
+      cursor: move;
+      background-color: #f4f6fc;
+      border: 1px solid #f4f6fc;
+
+      span {
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+
+    &:hover {
+      border: 1px dashed @primary-color;
+
+      & > .widget-group-item {
+        color: @primary-color;
+
+        & > .icon-font {
+          color: @primary-color;
+        }
+      }
+    }
+  }
+}

@@ -32,3 +32,6 @@ export {
 
 
 export { default as SvgIcon } from '@/components/SvgIcon';
+
+
+export { default as LightFormBuilder } from '@/light-form-builder';

@@ -1,0 +1,71 @@
+@primary-color: #409eff;
+
+@primary-background-color: #ecf5ff;
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+}
+.dumi-default-previewer-demo {
+  background-color: #e0e0e0;
+}
+.light-design-from {
+  width: 100%;
+  height: 100%;
+  color: #2c3e50;
+  *,
+  ::after,
+  ::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .light-design-container {
+    height: 100%;
+    background-color: #fff;
+    .ant-layout {
+      height: 100%;
+      background-color: #fff;
+    }
+    // 组件部分
+    .widget-list {
+      width: 100%;
+      height: 100%;
+      padding: 8px 0;
+    }
+
+    // 内容区域
+    .widget-container {
+      border-right: 1px solid #e0e0e0;
+      border-left: 1px solid #e0e0e0;
+      height: auto;
+
+      .ant-layout-content {
+        position: relative;
+        height: calc(100% - 45px);
+        padding: 0;
+        background-color: #fafafa;
+      }
+
+      .widget-empty {
+        position: relative;
+        background-position: 50%;
+      }
+    }
+  }
+}
+
+* {
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb,
+  ::-webkit-scrollbar-track {
+    background-color: rgba(50, 50, 50, 30%);
+    border-radius: 1em;
+  }
+}

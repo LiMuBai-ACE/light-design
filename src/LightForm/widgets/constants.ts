@@ -53,8 +53,7 @@ export const WidgetName = {
   [WidgetType.date.range]: '日期范围',
   [WidgetType.time.range]: '时间范围',
 
-  [WidgetType.select.keymap]: '下拉列表',
-  [WidgetType.select.simple]: '下拉列表',
+  [WidgetType.select]: '下拉列表',
 
   [WidgetType.radio]: '单选项',
 
