@@ -14,7 +14,7 @@ title: SelectPicker - 下拉列表
 
 ## 代码演示
 
-<code src='./demo/LightSelectPicker' title='代码'></code>
+<code src='./demo/LightSelectPicker' ></code>
 
 ## API
 

@@ -14,7 +14,7 @@ title: TimeRangePicker - 轻量级时间选择器
 
 ## 代码演示
 
-<code src='./demo/LightTimePicker/LightTimeRangePicker' title='使用示例'></code>
+<code src='./demo/LightTimePicker/LightTimeRangePicker' ></code>
 
 ## API
 

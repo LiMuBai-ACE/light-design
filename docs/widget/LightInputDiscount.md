@@ -14,7 +14,7 @@ title: InputDiscount - 折扣输入框
 
 ## 代码演示
 
-<code src='./demo/LightInputNumber/LightInputDiscount' title='使用'></code>
+<code src='./demo/LightInputNumber/LightInputDiscount' ></code>
 
 ## API
 

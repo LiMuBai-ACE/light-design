@@ -14,7 +14,7 @@ title: MonthDatePicker - 月份日期选择器
 
 ## 代码演示
 
-<code src='./demo/LightDatePicker/LightMonthDatePicker' title='代码'></code>
+<code src='./demo/LightDatePicker/LightMonthDatePicker' ></code>
 
 ## API
 

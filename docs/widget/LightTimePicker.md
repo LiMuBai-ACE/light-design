@@ -14,7 +14,7 @@ title: TimePicker - 轻量级时间选择器
 
 ## 代码演示
 
-<code src='./demo/LightTimePicker/LightTimePicker' title='使用示例'></code>
+<code src='./demo/LightTimePicker/LightTimePicker' ></code>
 
 ## API
 

@@ -16,7 +16,7 @@ title: InputEmotions - 带表情输入框
 
 ## 代码演示
 
-<code src='./demo/LightInput/LightInputEmotions' title='代码'></code>
+<code src='./demo/LightInput/LightInputEmotions' ></code>
 
 ## API
 

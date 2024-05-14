@@ -16,7 +16,7 @@ title: ColorPicker - 颜色选择器
 
 ## 代码演示
 
-<code src='./demo/LightColorPicker' title='代码'></code>
+<code src='./demo/LightColorPicker' ></code>
 
 ## API
 

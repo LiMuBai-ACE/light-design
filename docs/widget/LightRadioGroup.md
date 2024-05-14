@@ -14,7 +14,7 @@ title: RadioGroup-单选框组
 
 ## 代码演示
 
-<code src='./demo/LightRadioGroup' title='代码'></code>
+<code src='./demo/LightRadioGroup' ></code>
 
 ## API
 

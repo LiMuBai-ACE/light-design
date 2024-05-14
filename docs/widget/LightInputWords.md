@@ -14,7 +14,7 @@ title: InputWords - 标签输入框
 
 ## 代码演示
 
-<code src='./demo/LightInput/LightInputWords' title='代码'></code>
+<code src='./demo/LightInput/LightInputWords' ></code>
 
 ## API
 

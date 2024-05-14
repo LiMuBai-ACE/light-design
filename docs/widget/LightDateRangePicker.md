@@ -14,7 +14,7 @@ title: DateRangePicker - 日期区间选择器
 
 ## 代码演示
 
-<code src='./demo/LightDatePicker/LightDateRangePicker' title='使用'></code>
+<code src='./demo/LightDatePicker/LightDateRangePicker' ></code>
 
 ## API
 

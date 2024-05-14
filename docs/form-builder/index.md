@@ -1,7 +1,7 @@
 ---
 nav:
   title: light-form-builder
-  order: 11
+  order: 30
 group: 表单构建
 title: LightFormBuilder-表单生成器
 ---
@@ -14,4 +14,4 @@ title: LightFormBuilder-表单生成器
 
 ## 代码演示
 
-<code src='./form' ></code>
+<code src='./demo' ></code>

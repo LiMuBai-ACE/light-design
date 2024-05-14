@@ -14,7 +14,7 @@ title: NumberWidget - 数字输入框
 
 ## 代码演示
 
-<code src='./demo/LightInputNumber/LightNumberWidget' title='使用'></code>
+<code src='./demo/LightInputNumber/LightNumberWidget' ></code>
 
 ## API
 

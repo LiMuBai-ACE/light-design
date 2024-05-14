@@ -14,7 +14,7 @@ title: CheckboxGroup-多选框组
 
 ## 代码演示
 
-<code src='./demo/LightCheckboxGroup' title='代码'></code>
+<code src='./demo/LightCheckboxGroup' ></code>
 
 ## API
 

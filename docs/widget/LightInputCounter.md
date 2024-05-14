@@ -14,7 +14,7 @@ title: InputCounter - 自然数输入框
 
 ## 代码演示
 
-<code src='./demo/LightInputNumber/LightInputCounter' title='使用'></code>
+<code src='./demo/LightInputNumber/LightInputCounter' ></code>
 
 ## API
 

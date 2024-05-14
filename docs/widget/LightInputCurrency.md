@@ -14,7 +14,7 @@ title: InputCurrency - 货币输入框
 
 ## 代码演示
 
-<code src='./demo/LightInputNumber/LightInputCurrency' title='使用'></code>
+<code src='./demo/LightInputNumber/LightInputCurrency' ></code>
 
 ## API
 
