@@ -52,6 +52,41 @@ body,
         background-position: 50%;
       }
     }
+
+    // widget配置
+
+    .widget-config-container {
+      position: relative;
+
+      .ant-layout-header {
+        height: 45px;
+        padding: 0 5px;
+        line-height: 45px;
+        background-color: #fff;
+        border-bottom: 1px solid #e4e7ed;
+
+        .config-tab {
+          display: inline-block;
+          width: 145px;
+          height: 41px;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 41px;
+          text-align: center;
+          cursor: pointer;
+
+          &.active {
+            border-bottom: 2px solid @primary-color;
+          }
+        }
+      }
+
+      .config-content {
+        padding: 10px 10px 20px;
+        overflow: auto;
+        background-color: #fff;
+      }
+    }
   }
 }
 

@@ -11,7 +11,9 @@ import { componentsGroup } from '../config';
 import { DesignContext, DesignProvider } from '../store';
 import { ActionType } from '../store/action';
 import ComponentsGroup from './components/ComponentsGroup';
+import GlobalConfig from './components/GlobalConfig';
 import Header from './components/Header';
+import WidgetConfig from './components/WidgetConfig';
 import WidgetForm from './components/WidgetForm';
 import './index.less';
 const { Content, Sider } = Layout;
@@ -109,11 +111,11 @@ const DesignForm = forwardRef<DesignFormRef, DesignFormProps>((props, ref) => {
                     </div>
                   </Layout.Header>
                   <Content className="config-content">
-                    {/* {currentTab === 'Local' ? (
+                    {currentTab === 'Local' ? (
                       <WidgetConfig />
                     ) : (
                       <GlobalConfig />
-                    )} */}
+                    )}
                   </Content>
                 </>
               ),
