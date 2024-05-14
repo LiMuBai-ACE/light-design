@@ -1,10 +1,10 @@
-import type { FC, Key } from 'react';
+import type { CSSProperties, FC, HTMLAttributes, Key, ReactNode } from 'react';
 import React, { memo } from 'react';
 
 import type { CardProps, FormInstance } from 'antd';
 import { Form } from 'antd';
 
-import { ClassName, isEmpty } from '@/utils';
+import { isEmpty } from '@/utils';
 
 import { ConditionModel, FieldProps } from './field/type';
 
@@ -18,6 +18,7 @@ import FieldConditions from './field/components/conditions';
 
 import Card from '@/components/card';
 import { Warnings } from '@/components/warnings';
+import { ColProps } from 'antd/es';
 import ReadonlyField from './field/components/readonly';
 import LightFormFooter from './footer';
 import LightSearch from './search';
@@ -36,20 +37,44 @@ export {
   WidgetType,
 };
 
-interface FormSectionProps extends CardProps {
+interface LightFormSectionProps {
+  /** key需尽量传 */
   key?: Key;
+  /** card模式需传title */
+  title?: ReactNode;
   warning?: string | string[];
+  widget?: ReactNode;
   fields?: FieldProps[];
   conditions?: ConditionModel[];
+  /** 是否使用card */
+  noCard?: boolean;
+  style?: CSSProperties;
 }
 
-export const FormSection = (props: FormSectionProps) => {
-  const { title, extra, warning, fields = [], ...others } = props;
-
+export const LightFormSection: FC<
+  LightFormSectionProps & (CardProps | HTMLDivElement)
+> = (props) => {
+  const { title, warning, fields = [], widget, noCard, ...others } = props;
+  if (noCard) {
+    return (
+      <div
+        style={{ marginBottom: 20, ...props.style }}
+        {...(others as HTMLAttributes<HTMLDivElement>)}
+      >
+        <Warnings content={warning} />
+        {widget || LightField.each({ fields })}
+      </div>
+    );
+  }
   return (
-    <Card title={title} extra={extra} {...others}>
+    <Card
+      title={title}
+      extra={(props as CardProps).extra}
+      style={{ marginBottom: 20, ...props.style }}
+      {...(others as CardProps)}
+    >
       <Warnings content={warning} />
-      {LightField.each({ fields })}
+      {widget || LightField.each({ fields })}
     </Card>
   );
 };
@@ -71,22 +96,28 @@ export interface LightFormProps {
   layout?: 'horizontal' | 'vertical' | 'inline';
 
   /** 布局尺寸 - 标签 */
-  labelCol?: object;
+  labelCol?: ColProps;
 
   /** 布局尺寸 - 内容 */
-  wrapperCol?: object;
+  wrapperCol?: ColProps;
+
+  /** Form 页脚按钮 */
+  footer?: ReactNode[];
 
   /** Form 页脚 */
-  footer?: [React.ReactNode];
+  footerRender?: ReactNode;
+
+  /** footer是否固定页面底部 默认不固定 */
+  isFixed?: boolean;
 
   /** 视图区块 */
-  sections?: FormSectionProps[];
+  sections?: LightFormSectionProps[];
 
   /** 初始化 form values */
   initials?: any;
 
   /** 子元素 */
-  children?: React.ReactNode;
+  children?: ReactNode;
 
   /** 类名 */
   className?: string;
@@ -111,6 +142,8 @@ const LightForm: FC<LightFormProps> = (props) => {
     wrapperCol, // 布局尺寸-content
 
     footer, // Form 页底
+    footerRender, // Form 页底渲染
+    isFixed, // footer是否固定页面底部
     sections = [], // 视图区块
 
     initials, // 初始化formvalues
@@ -132,7 +165,7 @@ const LightForm: FC<LightFormProps> = (props) => {
     form: inst,
     layout,
     initialValues: initials,
-    className: ClassName.poly(['cube-form', className]),
+    className,
     ...otherProps,
   };
 
@@ -146,7 +179,7 @@ const LightForm: FC<LightFormProps> = (props) => {
   return (
     <FormWrapper form={inst}>
       <Form {...attrs}>
-        {sections.map((section: FormSectionProps) => {
+        {sections.map((section: LightFormSectionProps) => {
           const { key, conditions, ...others } = section;
 
           const mykey = (key || others?.title) as number | string;
@@ -158,17 +191,19 @@ const LightForm: FC<LightFormProps> = (props) => {
                 key={mykey}
                 conditions={conditions as ConditionModel[]}
               >
-                <FormSection {...others} />
+                <LightFormSection {...others} />
               </FieldConditions>
             );
           }
 
-          return <FormSection key={mykey} {...others} />;
+          return <LightFormSection key={mykey} {...others} />;
         })}
         {children}
         {!empty && footer !== null && (
           <LightFormFooter
-            btns={footer} //
+            btns={footer}
+            footerRender={footerRender}
+            isFixed={isFixed}
             readonly={readonly}
             onValid={onValid}
             onSubmit={onSubmit}

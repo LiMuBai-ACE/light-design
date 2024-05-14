@@ -1,0 +1,36 @@
+@layout-footer-height: 50px;
+@layout-aside-trans-duration: 0.2s;
+
+.light-form-footer {
+  height: @layout-footer-height;
+  padding: 0;
+  background: #fff;
+}
+
+.footer-affix {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 66;
+  margin: 0 !important;
+
+  width: 100%;
+  height: @layout-footer-height;
+  padding: 0 20px;
+  background: #fff;
+
+  box-shadow: 20px 2px 20px rgba(0, 0, 0, 0.15);
+
+  text-align: center;
+
+  transition: padding @layout-aside-trans-duration;
+
+  // 有折叠的时候需要设置它
+  // &.normal {
+  //   padding-left: @layout-aside-width;
+  // }
+
+  // &.collapsed {
+  //   padding-left: @layout-aside-width-collapsed;
+  // }
+}

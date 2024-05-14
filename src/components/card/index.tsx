@@ -1,6 +1,7 @@
 import type { CardProps } from 'antd';
 import { Card as AntCard, ConfigProvider } from 'antd';
 import React, {
+  FC,
   ReactNode,
   cloneElement,
   isValidElement,
@@ -10,11 +11,12 @@ import React, {
 
 import { ClassName, isFunction } from '@/utils';
 
-interface CubeCardProps extends Omit<CardProps, 'size'> {
+interface CubeCardProps extends Omit<CardProps, 'size' | 'children'> {
   size?: CardProps['size'] | 'middle';
+  children?: ReactNode;
 }
 
-export default function Card(props: CubeCardProps) {
+const Card: FC<CubeCardProps> = (props) => {
   const { className, size, ...others } = props;
 
   const css = ClassName.setup({
@@ -43,13 +45,15 @@ export default function Card(props: CubeCardProps) {
       />
     </ConfigProvider>
   );
-}
+};
+
+export default Card;
 
 export interface TabsCardProps {
   initial?: string;
   bordered?: boolean;
   options: { label: ReactNode; value: string }[];
-  children?: any;
+  children?: ReactNode;
   onChange?: (value: string) => void;
 }
 

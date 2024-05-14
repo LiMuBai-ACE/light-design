@@ -1,11 +1,5 @@
 import { Col, Form, FormListOperation, Row } from 'antd';
-import React, {
-  FC,
-  ReactNode,
-  cloneElement,
-  isValidElement,
-  useEffect,
-} from 'react';
+import React, { FC, ReactNode, cloneElement, isValidElement } from 'react';
 
 import Card from '@/components/card';
 import { AnyJson, isEmpty } from '@/utils';
@@ -94,11 +88,11 @@ export const LightGroupFields: FC<LightGroupProps> = (props) => {
     name: (id || '').split('_'),
   };
 
-  useEffect(() => {
-    if (isEmpty(value)) {
-      onChange?.([{}]);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (isEmpty(value)) {
+  //     onChange?.([{}]);
+  //   }
+  // }, []);
 
   return (
     <Form.List name={name}>

@@ -45,7 +45,7 @@ export default function FieldItem({ field, observed }: MyProps) {
   } = field;
 
   if (node && isValidElement(node)) {
-    return node as ReactNode;
+    return cloneElement(node, { observed } as Attributes);
   }
 
   const myclass = {
@@ -131,6 +131,7 @@ export default function FieldItem({ field, observed }: MyProps) {
 
     // Array 格式的数据
     if (widgetName === WidgetType.groups) {
+      // 自定义组件
       let LightGroup = LightGroupContent;
 
       // fields 模式
@@ -153,6 +154,7 @@ export default function FieldItem({ field, observed }: MyProps) {
 
     // JSON 格式数据
     if (widgetName === WidgetType.json) {
+      // 自定义组件
       let LightJson = LightJsonWidget;
 
       // fields 模式

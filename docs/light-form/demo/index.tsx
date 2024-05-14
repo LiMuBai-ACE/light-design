@@ -1,4 +1,4 @@
-import { LightForm, LightFormProps, WidgetType } from 'light-design';
+import LightForm, { LightFormProps, WidgetType } from 'light-design/LightForm';
 import React from 'react';
 
 const Page = () => {
@@ -8,7 +8,9 @@ const Page = () => {
     },
     initials: {
       name: '111',
+      list: [{}],
     },
+    isFixed: true,
     sections: [
       {
         title: '111',
@@ -20,7 +22,7 @@ const Page = () => {
           {
             name: 'list',
             // label: '列表',
-            disabled: true,
+            // disabled: true,
             widget: {
               widget: WidgetType.groups,
               fields: [
@@ -47,7 +49,7 @@ const Page = () => {
           {
             name: 'obj',
             label: '对象',
-            disabled: true,
+            // disabled: true,
             widget: {
               widget: WidgetType.json,
               fields: [

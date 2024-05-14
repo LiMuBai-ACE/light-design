@@ -87,7 +87,7 @@ export interface FieldWidgetProps extends AnyJson {
  *       所嵌套的子组件内，从props中可以读取到observed信息，即观测数据
  * */
 export interface FieldProps extends FormItemProps<any> {
-  widget?: string | ReactNode | FieldWidgetProps;
+  widget?: ReactNode | FieldWidgetProps;
   disabled?: boolean;
   placeholder?: string;
   conditions?: ConditionModel[];
@@ -97,6 +97,8 @@ export interface FieldProps extends FormItemProps<any> {
   prefix?: ReactNode;
   suffix?: ReactNode;
   tips?: ReactNode;
+  /** 静态渲染节点 */
+  node?: ReactNode;
   [key: string]: any;
 }
 

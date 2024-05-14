@@ -1,6 +1,6 @@
 import { Form, FormInstance } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
-import React, { FC, cloneElement, isValidElement } from 'react';
+import React, { FC, ReactNode, cloneElement, isValidElement } from 'react';
 
 import { isEmpty } from '@/utils';
 
@@ -9,7 +9,7 @@ import { ConditionModel } from '../type';
 
 export interface FieldConditionsProps {
   conditions: ConditionModel[];
-  children?: any;
+  children?: ReactNode;
 }
 
 /** @name FieldConditions 条件渲染 */
