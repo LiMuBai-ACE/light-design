@@ -1,7 +1,7 @@
+import { set } from 'lodash-es';
 import QueryString from 'querystring';
-import { set } from 'lodash';
 
-import { isEmpty, isObject, isArray } from './common';
+import { isArray, isEmpty, isObject } from './common';
 
 const bools = ['false', 'true'];
 const EmptyValues = ['{}', '[]', 'null', 'undefined', 'false'];
@@ -57,7 +57,11 @@ const JsonExtend = {
   },
 
   // 递归扁平化处理JSON
-  recurse: (options: { result: Record<string, any>; source: Record<string, any>; key: string | number }) => {
+  recurse: (options: {
+    result: Record<string, any>;
+    source: Record<string, any>;
+    key: string | number;
+  }) => {
     const { result, source, key } = options;
     const { toString } = Object.prototype;
 
@@ -200,7 +204,8 @@ const JsonExtend = {
   },
 
   /** 序列化JSON参数: { a: 1, b: 2 } ————> 'a=1&b=2' */
-  serialize: (model: Record<string, any>) => (isEmpty(model) ? '' : QueryString.stringify(model)),
+  serialize: (model: Record<string, any>) =>
+    isEmpty(model) ? '' : QueryString.stringify(model),
 
   trim: (obj: any, type?: string) => {
     const output = isArray(obj) ? [] : {};

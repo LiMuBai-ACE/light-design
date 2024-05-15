@@ -1,5 +1,5 @@
 import { NamePath } from 'antd/es/form/interface';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 import { isEmpty } from '@/utils';
 

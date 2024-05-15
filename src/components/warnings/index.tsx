@@ -1,5 +1,5 @@
 import { AlertProps, Alert as AntAlert, Row } from 'antd';
-import { isBoolean } from 'lodash';
+import { isBoolean } from 'lodash-es';
 import React, { ReactNode, isValidElement } from 'react';
 
 import { ClassName, isEmpty } from '@/utils';

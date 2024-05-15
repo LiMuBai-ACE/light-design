@@ -25,11 +25,4 @@ const SvgIcon: FC<Props> = (props) => {
   );
 };
 
-SvgIcon.defaultProps = {
-  color: '',
-  className: '',
-  style: {},
-  onClick: () => {},
-};
-
 export default SvgIcon;

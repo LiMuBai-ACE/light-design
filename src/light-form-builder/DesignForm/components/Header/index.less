@@ -1,4 +1,5 @@
 @primary-color: #409eff;
+
 .header-bar {
   display: flex;
   align-items: center;
@@ -7,17 +8,16 @@
   padding: 0 10px;
   background-color: #fff;
   border-bottom: 1px solid #e4e7ed;
-  .ant-space {
+
+  .operation-list {
     height: 100%;
-    .ant-space-item {
+
+    .operation-item {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
       height: 100%;
-      .operation-item {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        height: 100%;
-        color: @primary-color;
-      }
+      color: @primary-color;
     }
   }
 }

@@ -7,15 +7,16 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { componentsGroup } from '../config';
-import { DesignContext, DesignProvider } from '../store';
-import { ActionType } from '../store/action';
-import ComponentsGroup from './components/ComponentsGroup';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import GlobalConfig from './components/GlobalConfig';
 import Header from './components/Header';
+import WidgetComponents from './components/WidgetComponents';
 import WidgetConfig from './components/WidgetConfig';
 import WidgetForm from './components/WidgetForm';
 import './index.less';
+import { DesignContext, DesignProvider } from './store';
+import { ActionType } from './store/action';
 const { Content, Sider } = Layout;
 
 export interface DesignFormProps {
@@ -52,13 +53,7 @@ const DesignForm = forwardRef<DesignFormRef, DesignFormProps>((props, ref) => {
       }
     },
     clear: () => {
-      dispatch({
-        type: ActionType.SET_GLOBAL,
-        payload: {
-          widgetFormList: [],
-          selectWidgetItem: undefined,
-        },
-      });
+      console.log('清空json', state);
     },
     getTemplate: (type) => {
       console.log('生成代码', state, type);
@@ -67,74 +62,64 @@ const DesignForm = forwardRef<DesignFormRef, DesignFormProps>((props, ref) => {
   }));
 
   return (
-    <div className="light-design-from">
-      <Layout className="light-design-container">
-        <Sider theme="light" width={250} style={{ overflow: 'auto' }}>
-          <div className="widget-list">
-            {componentsGroup.map((componentGroup) => (
-              <ComponentsGroup
-                key={componentGroup.title}
-                componentGroup={componentGroup}
-              />
-            ))}
-          </div>
-        </Sider>
-        <Layout className="widget-container">
-          <Header {...props} />
-          <Content className="widget-empty">
-            <Layout>
-              <WidgetForm formInstance={formInstance} />
-            </Layout>
-          </Content>
-        </Layout>
-        <Sider className="widget-config-container" theme="light" width={300}>
-          <Layout>
-            {useMemo(
-              () => (
-                <>
-                  <Layout.Header>
-                    <div
-                      className={`config-tab ${
-                        currentTab === 'Local' && 'active'
-                      }`}
-                      onClick={() => setCurrentTab('Local')}
-                    >
-                      字段设置
-                    </div>
-                    <div
-                      className={`config-tab ${
-                        currentTab === 'Global' && 'active'
-                      }`}
-                      onClick={() => setCurrentTab('Global')}
-                    >
-                      全局设置
-                    </div>
-                  </Layout.Header>
-                  <Content className="config-content">
-                    {currentTab === 'Local' ? (
-                      <WidgetConfig />
-                    ) : (
-                      <GlobalConfig />
-                    )}
-                  </Content>
-                </>
-              ),
-              [currentTab],
-            )}
+    <DndProvider backend={HTML5Backend}>
+      <div className="light-design-from">
+        <Layout className="light-design-container">
+          <Sider theme="light" width={250} style={{ overflow: 'auto' }}>
+            <div className="widget-list">
+              {/* widget组件 */}
+              <WidgetComponents />
+            </div>
+          </Sider>
+          <Layout className="widget-container">
+            <Header {...props} />
+            <Content className="widget-empty">
+              <Layout>
+                <WidgetForm formInstance={formInstance} />
+              </Layout>
+            </Content>
           </Layout>
-        </Sider>
-      </Layout>
-    </div>
+          <Sider className="widget-config-container" theme="light" width={300}>
+            <Layout>
+              {useMemo(
+                () => (
+                  <>
+                    <Layout.Header>
+                      <div
+                        className={`config-tab ${
+                          currentTab === 'Local' && 'active'
+                        }`}
+                        onClick={() => setCurrentTab('Local')}
+                      >
+                        字段设置
+                      </div>
+                      <div
+                        className={`config-tab ${
+                          currentTab === 'Global' && 'active'
+                        }`}
+                        onClick={() => setCurrentTab('Global')}
+                      >
+                        全局设置
+                      </div>
+                    </Layout.Header>
+                    <Content className="config-content">
+                      {currentTab === 'Local' ? (
+                        <WidgetConfig />
+                      ) : (
+                        <GlobalConfig />
+                      )}
+                    </Content>
+                  </>
+                ),
+                [currentTab],
+              )}
+            </Layout>
+          </Sider>
+        </Layout>
+      </div>
+    </DndProvider>
   );
 });
-
-DesignForm.defaultProps = {
-  uploadJson: true,
-  clearable: true,
-  preview: true,
-  generateJson: true,
-  generateCode: true,
-};
 
 export default forwardRef<DesignFormRef, DesignFormProps>((props, ref) => (
   <DesignProvider>

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import { isFunction, isArray, isNumber, isString } from 'lodash';
+import { isArray, isFunction, isNumber, isString } from 'lodash-es';
 
-export { isFunction, isArray, isNumber, isString };
+export { isArray, isFunction, isNumber, isString };
 
 export const sleep = (ms = 50, arg?: any): Promise<any> =>
   new Promise((resolve) => {
@@ -12,7 +12,8 @@ export const sleep = (ms = 50, arg?: any): Promise<any> =>
   });
 
 export const isEmpty = (obj: any) =>
-  [Object, Array].includes((obj || {}).constructor) && !Object.entries(obj || {}).length;
+  [Object, Array].includes((obj || {}).constructor) &&
+  !Object.entries(obj || {}).length;
 
 // 判断是否为对象
 export const isObject = (obj: any): boolean => {
