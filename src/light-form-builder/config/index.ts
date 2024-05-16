@@ -2,16 +2,34 @@ import Icons from '@/assets/icons';
 
 // 通用组件
 const commonComponents: Component[] = [
+  // {
+  //   label: '按钮',
+  //   type: 'Button',
+  //   icon: Icons.Button,
+  //   formConfig: {},
+  //   layoutConfig: {},
+  // },
+];
+
+const layoutComponents: Component[] = [
   {
-    label: '按钮',
-    type: 'Button',
-    icon: Icons.Button,
-    formConfig: {},
+    label: '分区表单',
+    type: 'SectionForm',
+    icon: Icons.SectionForm,
+    formConfig: {
+    },
+    layoutConfig: {},
+  },
+  {
+    label: '简洁表单',
+    type: 'SingleForm',
+    icon: Icons.SingleForm,
+    formConfig: {
+
+    },
     layoutConfig: {},
   },
 ];
-
-const layoutComponents: Component[] = [];
 
 // 数据录入
 const dataEntryComponents: Component[] = [

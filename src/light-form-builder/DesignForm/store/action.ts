@@ -14,4 +14,6 @@ export enum ActionType {
   SET_WIDGET_FORM_FIELDS = 'SET_WIDGET_FORM_FIELDS',
   /** 设置表单配置 */
   SET_FORM_CONFIG = 'SET_FORM_CONFIG',
+  /** 设置表单类型 */
+  SET_FORM_TYPE = 'SET_FORM_TYPE',
 }

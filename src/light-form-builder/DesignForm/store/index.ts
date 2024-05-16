@@ -6,35 +6,18 @@ import { State, initState } from './state';
 type Reducer = (prevState: State, action: Action) => any;
 
 const designReducer: Reducer = (prevState: State, action: Action) => {
-  const handleSetSelectWidgetItem = () => {
-    const createNewWidgetFormList = (list: any[]) => {
-      const newList = cloneDeep(list);
 
-      for (let index = 0; index < newList.length; index++) {
-        if (newList[index].key === action.payload?.key) {
-          newList[index] = action.payload;
-          break;
-        }
-        if (newList[index].childNodes) {
-          newList[index].childNodes = createNewWidgetFormList(
-            newList[index].childNodes!,
-          );
-        }
-      }
-
-      return newList;
-    };
-
-    return {
-      ...prevState,
-      widgetFormList: createNewWidgetFormList(prevState.widgetFormList),
-      selectWidgetItem: action.payload,
-    };
-  };
 
   switch (action.type) {
-    case ActionType.SET_SELECT_WIDGET_ITEM:
-      return handleSetSelectWidgetItem();
+    // case ActionType.SET_SELECT_WIDGET_ITEM:
+    //   return handleSetSelectWidgetItem();
+    // 设置表单类型
+    case ActionType.SET_FORM_TYPE:
+      return {
+        ...prevState,
+        ...action.payload,
+        formType: action.payload.type,
+      }
     case ActionType.SET_WIDGET_FORM_FIELDS:
       return {
         ...prevState,
@@ -67,7 +50,7 @@ export const DesignContext = createContext<{
   dispatch: Dispatch<Action>;
 }>({
   state: initState,
-  dispatch: () => {},
+  dispatch: () => { },
 });
 
 export const GenerateContext = createContext<{
@@ -75,7 +58,7 @@ export const GenerateContext = createContext<{
   dispatch: Dispatch<Action>;
 }>({
   state: {},
-  dispatch: () => {},
+  dispatch: () => { },
 });
 
 export interface CommonProviderProps {

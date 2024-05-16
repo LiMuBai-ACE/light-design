@@ -4,16 +4,15 @@ import React, {
   forwardRef,
   useContext,
   useImperativeHandle,
-  useMemo,
   useState,
 } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import GlobalConfig from './components/GlobalConfig';
 import Header from './components/Header';
+import Preview from './components/Preview';
 import WidgetComponents from './components/WidgetComponents';
 import WidgetConfig from './components/WidgetConfig';
-import WidgetForm from './components/WidgetForm';
 import './index.less';
 import { DesignContext, DesignProvider } from './store';
 import { ActionType } from './store/action';
@@ -75,44 +74,33 @@ const DesignForm = forwardRef<DesignFormRef, DesignFormProps>((props, ref) => {
             <Header {...props} />
             <Content className="widget-empty">
               <Layout>
-                <WidgetForm formInstance={formInstance} />
+                {/* 组件预览 */}
+                <Preview formInstance={formInstance} />
               </Layout>
             </Content>
           </Layout>
           <Sider className="widget-config-container" theme="light" width={300}>
             <Layout>
-              {useMemo(
-                () => (
-                  <>
-                    <Layout.Header>
-                      <div
-                        className={`config-tab ${
-                          currentTab === 'Local' && 'active'
-                        }`}
-                        onClick={() => setCurrentTab('Local')}
-                      >
-                        字段设置
-                      </div>
-                      <div
-                        className={`config-tab ${
-                          currentTab === 'Global' && 'active'
-                        }`}
-                        onClick={() => setCurrentTab('Global')}
-                      >
-                        全局设置
-                      </div>
-                    </Layout.Header>
-                    <Content className="config-content">
-                      {currentTab === 'Local' ? (
-                        <WidgetConfig />
-                      ) : (
-                        <GlobalConfig />
-                      )}
-                    </Content>
-                  </>
-                ),
-                [currentTab],
-              )}
+              {/* 字段配置部分 */}
+              <Layout.Header>
+                <div
+                  className={`config-tab ${currentTab === 'Local' && 'active'}`}
+                  onClick={() => setCurrentTab('Local')}
+                >
+                  字段设置
+                </div>
+                <div
+                  className={`config-tab ${
+                    currentTab === 'Global' && 'active'
+                  }`}
+                  onClick={() => setCurrentTab('Global')}
+                >
+                  全局设置
+                </div>
+              </Layout.Header>
+              <Content className="config-content">
+                {currentTab === 'Local' ? <WidgetConfig /> : <GlobalConfig />}
+              </Content>
             </Layout>
           </Sider>
         </Layout>

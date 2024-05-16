@@ -1,12 +1,10 @@
-import type { CSSProperties, FC, HTMLAttributes, Key, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import React, { memo } from 'react';
 
-import type { CardProps, FormInstance } from 'antd';
+import type { FormInstance } from 'antd';
 import { Form } from 'antd';
 
 import { isEmpty } from '@/utils';
-
-import { ConditionModel, FieldProps } from './field/type';
 
 import type { FormCtxProps } from './constants';
 import { DefConfig, FormCtx, useFormCtx } from './constants';
@@ -14,12 +12,11 @@ import LightField from './field';
 import { DateCheck, DisabledRules } from './rules';
 import { WidgetName, WidgetType } from './widgets/constants';
 
-import FieldConditions from './field/components/conditions';
-
-import Card from '@/components/card';
-import { Warnings } from '@/components/warnings';
 import { ColProps } from 'antd/es';
+import LightSectionForm, { LightSectionFormCardProps } from './SectionForm';
+import LightSingleForm from './SingleForm';
 import ReadonlyField from './field/components/readonly';
+import { FieldProps } from './field/type';
 import LightFormFooter from './footer';
 import LightSearch from './search';
 import ActionSearch from './search/action';
@@ -35,48 +32,6 @@ export {
   ReadonlyField, // 类型-内置控件
   WidgetName, // 禁用规则
   WidgetType,
-};
-
-interface LightFormSectionProps {
-  /** key需尽量传 */
-  key?: Key;
-  /** card模式需传title */
-  title?: ReactNode;
-  warning?: string | string[];
-  widget?: ReactNode;
-  fields?: FieldProps[];
-  conditions?: ConditionModel[];
-  /** 是否使用card */
-  noCard?: boolean;
-  style?: CSSProperties;
-}
-
-export const LightFormSection: FC<
-  LightFormSectionProps & (CardProps | HTMLDivElement)
-> = (props) => {
-  const { title, warning, fields = [], widget, noCard, ...others } = props;
-  if (noCard) {
-    return (
-      <div
-        style={{ marginBottom: 20, ...props.style }}
-        {...(others as HTMLAttributes<HTMLDivElement>)}
-      >
-        <Warnings content={warning} />
-        {widget || LightField.each({ fields })}
-      </div>
-    );
-  }
-  return (
-    <Card
-      title={title}
-      extra={(props as CardProps).extra}
-      style={{ marginBottom: 20, ...props.style }}
-      {...(others as CardProps)}
-    >
-      <Warnings content={warning} />
-      {widget || LightField.each({ fields })}
-    </Card>
-  );
 };
 
 /** @name FormWrapper */
@@ -110,8 +65,11 @@ export interface LightFormProps {
   /** footer是否固定页面底部 默认不固定 */
   isFixed?: boolean;
 
-  /** 视图区块 */
-  sections?: LightFormSectionProps[];
+  /** SectionForm 视图区块模式 */
+  sections?: LightSectionFormCardProps[];
+
+  /** SimpleForm 简洁视图模式 */
+  fields?: FieldProps[];
 
   /** 初始化 form values */
   initials?: any;
@@ -145,7 +103,7 @@ const LightForm: FC<LightFormProps> = (props) => {
     footerRender, // Form 页底渲染
     isFixed, // footer是否固定页面底部
     sections = [], // 视图区块
-
+    fields = [], // 简洁视图
     initials, // 初始化formvalues
     children,
 
@@ -156,7 +114,7 @@ const LightForm: FC<LightFormProps> = (props) => {
     ...otherProps
   } = props;
 
-  const empty = isEmpty(sections) && isEmpty(children);
+  const empty = isEmpty(sections) && isEmpty(fields) && isEmpty(children);
 
   const [lightForm] = Form.useForm();
   const inst = form || lightForm;
@@ -179,25 +137,8 @@ const LightForm: FC<LightFormProps> = (props) => {
   return (
     <FormWrapper form={inst}>
       <Form {...attrs}>
-        {sections.map((section: LightFormSectionProps) => {
-          const { key, conditions, ...others } = section;
-
-          const mykey = (key || others?.title) as number | string;
-
-          // 无前置条件的直接渲染
-          if (!isEmpty(conditions)) {
-            return (
-              <FieldConditions
-                key={mykey}
-                conditions={conditions as ConditionModel[]}
-              >
-                <LightFormSection {...others} />
-              </FieldConditions>
-            );
-          }
-
-          return <LightFormSection key={mykey} {...others} />;
-        })}
+        <LightSectionForm sections={sections} />
+        <LightSingleForm fields={fields} />
         {children}
         {!empty && footer !== null && (
           <LightFormFooter
