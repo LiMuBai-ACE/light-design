@@ -2,6 +2,10 @@
 
 @primary-background-color: #ecf5ff;
 
+@disabled-color: #0000003f;
+
+@border-color: #f4f6fc;
+
 .widget-title {
   padding: 12px;
   font-size: 13px;
@@ -29,8 +33,8 @@
     white-space: nowrap;
     color: #333;
     cursor: move;
-    background-color: #f4f6fc;
-    border: 1px solid #f4f6fc;
+    background-color: @border-color;
+    border: 1px solid @border-color;
 
     span {
       display: inline-block;
@@ -46,6 +50,19 @@
         & > .icon-font {
           color: @primary-color;
         }
+      }
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      color: @disabled-color;
+
+      .icon-font {
+        color: @disabled-color;
+      }
+
+      &:hover {
+        border: 1px dashed @border-color;
       }
     }
   }

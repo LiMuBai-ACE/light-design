@@ -5,7 +5,7 @@ import zhCN from 'antd/lib/locale/zh_CN';
 import { cloneDeep } from 'lodash-es';
 import React, { FC, useContext } from 'react';
 import { useDrop } from 'react-dnd';
-import { ItemTypes } from '../../constants';
+import { ItemTypes, WidgetFormEnum } from '../../constants';
 import { DesignContext } from '../../store';
 import { ActionType } from '../../store/action';
 import SectionForm from './components/SectionForm';
@@ -47,14 +47,17 @@ const Preview: FC<PreviewProps> = (props) => {
         console.log('item', item);
         const { type, ...other } = item || {};
 
-        if (type === 'SectionForm' || type === 'SingleForm') {
-          if (formType === 'SectionForm' && type === formType) {
-            return;
-          }
-
-          if (formType === 'SectionForm' && type === 'SingleForm') {
-            Tips.warning('你已经设置了表单类型，不能重复设置');
-            return;
+        if (
+          type === WidgetFormEnum.SectionForm ||
+          type === WidgetFormEnum.SingleForm
+        ) {
+          if (formType === WidgetFormEnum.SectionForm) {
+            if (type === formType) {
+              return;
+            } else {
+              Tips.warning('你已经设置了表单类型，不能重复设置');
+              return;
+            }
           }
           setFormType(type, other);
         }

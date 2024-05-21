@@ -1,6 +1,7 @@
 import { LightSectionFormCardProps } from '@/LightForm/SectionForm';
 import { FieldProps } from '@/LightForm/field/type';
 import type { FormProps } from 'antd/es/form';
+import { WidgetFormEnum } from '../constants';
 
 export const initState: State = {
   selectWidgetItem: undefined,
@@ -19,6 +20,6 @@ export interface State {
   sections: LightSectionFormCardProps[];
   fields: FieldProps[];
   formConfig: FormProps;
-  formType?: 'SingleForm' | 'SectionForm';
+  formType?: WidgetFormEnum;
   [key: string]: any;
 }
