@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash-es';
 import { Dispatch, FC, createContext, createElement, useReducer } from 'react';
 import { Action, ActionType } from './action';
 import { State, initState } from './state';
@@ -6,7 +5,9 @@ import { State, initState } from './state';
 type Reducer = (prevState: State, action: Action) => any;
 
 const designReducer: Reducer = (prevState: State, action: Action) => {
+  const { payload = {} } = action;
 
+  const { type: formType, ...other } = payload;
 
   switch (action.type) {
     // case ActionType.SET_SELECT_WIDGET_ITEM:
@@ -15,9 +16,9 @@ const designReducer: Reducer = (prevState: State, action: Action) => {
     case ActionType.SET_FORM_TYPE:
       return {
         ...prevState,
-        ...action.payload,
-        formType: action.payload.type,
-      }
+        ...other,
+        formType,
+      };
     case ActionType.SET_WIDGET_FORM_FIELDS:
       return {
         ...prevState,
@@ -50,7 +51,7 @@ export const DesignContext = createContext<{
   dispatch: Dispatch<Action>;
 }>({
   state: initState,
-  dispatch: () => { },
+  dispatch: () => {},
 });
 
 export const GenerateContext = createContext<{
@@ -58,7 +59,7 @@ export const GenerateContext = createContext<{
   dispatch: Dispatch<Action>;
 }>({
   state: {},
-  dispatch: () => { },
+  dispatch: () => {},
 });
 
 export interface CommonProviderProps {
@@ -67,7 +68,7 @@ export interface CommonProviderProps {
 
 export const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(designReducer, initState);
-
+  console.log('DesignProvider state', state);
   return createElement(
     DesignContext.Provider,
     {

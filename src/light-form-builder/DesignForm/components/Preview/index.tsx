@@ -1,15 +1,15 @@
 import { Component } from '@/light-form-builder/config';
-import { Tips, isEmpty } from '@/utils';
+import { isEmpty } from '@/utils';
 import { ConfigProvider, Form, FormInstance } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import { cloneDeep } from 'lodash-es';
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes, WidgetFormEnum } from '../../constants';
 import { DesignContext } from '../../store';
 import { ActionType } from '../../store/action';
-import SectionForm from './components/SectionForm';
-import SingleForm from './components/SingleForm';
+import SectionForm from './components/Form/SectionForm';
+import SingleForm from './components/Form/SingleForm';
 import './index.less';
 
 interface PreviewProps {
@@ -21,23 +21,25 @@ const Preview: FC<PreviewProps> = (props) => {
 
   const { state, dispatch } = useContext(DesignContext);
 
+  const [position, setPosition] = useState();
+
   const { sections, fields, formType } = state;
 
-  const setFormType = (type: 'SectionForm' | 'SingleForm', attr: Component) => {
+  const setFormType = (type: WidgetFormEnum, attr: Component) => {
     const cloneSections = cloneDeep(sections);
     const newSections = [...cloneSections, attr];
-    if (type === 'SectionForm') {
+    if (type === WidgetFormEnum.SectionForm) {
       dispatch({
         type: ActionType.SET_FORM_TYPE,
         payload: { type, sections: newSections },
       });
     }
-    if (type === 'SingleForm') {
-      dispatch({
-        type: ActionType.SET_FORM_TYPE,
-        payload: { type },
-      });
-    }
+    // if (type === WidgetFormEnum.SingleForm) {
+    //   dispatch({
+    //     type: ActionType.SET_FORM_TYPE,
+    //     payload: { type },
+    //   });
+    // }
   };
 
   const [{ isOver, canDrop }, drop] = useDrop(
@@ -46,29 +48,31 @@ const Preview: FC<PreviewProps> = (props) => {
       drop(item: any, monitor: any) {
         console.log('item', item);
         const { type, ...other } = item || {};
-
         if (
           type === WidgetFormEnum.SectionForm ||
           type === WidgetFormEnum.SingleForm
         ) {
-          if (formType === WidgetFormEnum.SectionForm) {
-            if (type === formType) {
-              return;
-            } else {
-              Tips.warning('你已经设置了表单类型，不能重复设置');
-              return;
-            }
+          console.log('formType', state.formType);
+          if (
+            formType === WidgetFormEnum.SectionForm &&
+            type === WidgetFormEnum.SectionForm
+          ) {
+            console.log('WidgetFormEnum', type);
+            // const delta = monitor.getDifferenceFromInitialOffset();
+            // const left = Math.round(delta.x);
+            // const top = Math.round(delta.y);
+            // console.log('方向', { top, left });
+          } else {
+            setFormType(type, other);
           }
-          setFormType(type, other);
         }
-        // const delta = monitor.getDifferenceFromInitialOffset();
-        // const left = Math.round(delta.x);
-        // const top = Math.round(delta.y);
-        // return { top, left };
       },
-      canDrop: (_item, monitor) => {
-        const type = monitor.getItemType();
-        return type === ItemTypes.WIDGET;
+      hover: (_, monitor) => {
+        // 只检查被hover的最小元素
+        const didHover = monitor.isOver({ shallow: true });
+
+        if (didHover) {
+        }
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver({ shallow: true }),
