@@ -1,4 +1,10 @@
-import { Dispatch, FC, createContext, createElement, useReducer } from 'react';
+import React, {
+  Dispatch,
+  FC,
+  createContext,
+  createElement,
+  useReducer,
+} from 'react';
 import { Action, ActionType } from './action';
 import { State, initState } from './state';
 
@@ -42,7 +48,7 @@ const designReducer: Reducer = (prevState: State, action: Action) => {
 const generateReducer = (_prevState: State, action: Action) => {
   switch (action.type) {
     default:
-      return initState.globalState;
+      return initState;
   }
 };
 
@@ -51,15 +57,15 @@ export const DesignContext = createContext<{
   dispatch: Dispatch<Action>;
 }>({
   state: initState,
-  dispatch: () => {},
+  dispatch: () => { },
 });
 
 export const GenerateContext = createContext<{
-  state: State['globalState'];
+  state: State;
   dispatch: Dispatch<Action>;
 }>({
-  state: {},
-  dispatch: () => {},
+  state: {} as State,
+  dispatch: () => { },
 });
 
 export interface CommonProviderProps {
