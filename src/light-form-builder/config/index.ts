@@ -6,8 +6,8 @@ const commonComponents: Component[] = [
   //   label: '按钮',
   //   type: 'Button',
   //   icon: Icons.Button,
-  //   formConfig: {},
-  //   layoutConfig: {},
+  //   form_config: {},
+  //   layout_config: {},
   // },
 ];
 
@@ -16,18 +16,18 @@ const layoutComponents: Component[] = [
     label: '分区表单',
     type: 'SectionForm',
     icon: Icons.SectionForm,
-    formConfig: {
+    form_config: {
     },
-    layoutConfig: {},
+    layout_config: {},
   },
   {
     label: '简洁表单',
     type: 'SingleForm',
     icon: Icons.SingleForm,
-    formConfig: {
+    form_config: {
 
     },
-    layoutConfig: {},
+    layout_config: {},
   },
 ];
 
@@ -37,10 +37,10 @@ const dataEntryComponents: Component[] = [
     label: '输入框',
     type: 'Input',
     icon: Icons.Input,
-    formConfig: {
+    form_config: {
       defaultValue: '66666666',
     },
-    layoutConfig: {},
+    layout_config: {},
   },
 ];
 
@@ -78,8 +78,8 @@ export type Component = {
   label: string;
   icon: string;
   type: string;
-  formConfig?: Record<string, any>;
-  layoutConfig?: Record<string, any>;
+  form_config?: Record<string, any>;
+  layout_config?: Record<string, any>;
   [key: string]: unknown;
 };
 

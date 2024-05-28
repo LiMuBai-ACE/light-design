@@ -74,7 +74,7 @@ export interface CommonProviderProps {
 
 export const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(designReducer, initState);
-  console.log('DesignProvider state', state);
+
   return createElement(
     DesignContext.Provider,
     {

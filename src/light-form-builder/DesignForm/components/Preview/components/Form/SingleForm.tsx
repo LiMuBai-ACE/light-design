@@ -13,9 +13,30 @@ const SingleForm: FC<LightSingleFormProps> = (props) => {
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: ItemTypes.WIDGET,
-      drop(item: any, monitor: any) {
-        console.log('item', item);
-        const { type, ...other } = item || {};
+      drop(draggedItem: any, monitor: any) {
+        const didDrop = monitor.didDrop();
+
+        if (didDrop) {
+          return undefined;
+        }
+        const { name: draggedName, parentName: dragParentName } =
+          monitor.getItem();
+        const { parentName: overParentName } = draggedItem;
+        const { name: overName } = draggedItem;
+        if (draggedName) {
+          if (
+            draggedName === overName ||
+            draggedName === overParentName ||
+            dragParentName === overName ||
+            overParentName === null
+          )
+            return undefined;
+          return {
+            dragItem: { draggedName, dragParentName },
+            overItem: { overName, overParentName },
+          };
+        }
+        return { name: overName };
       },
       hover: (_, monitor) => {
         // 只检查被hover的最小元素

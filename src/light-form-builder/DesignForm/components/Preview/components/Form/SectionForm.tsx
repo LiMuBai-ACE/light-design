@@ -36,6 +36,7 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
           opacity: isDragging ? 0.5 : 1,
         }}
         {...others}
+        id={props.id}
       >
         <Warnings content={warning} />
         <SingleForm fields={fields} />
