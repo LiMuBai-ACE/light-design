@@ -9,12 +9,8 @@ interface DragTipsProps {
 }
 
 const DragTips: FC<DragTipsProps> = (props) => {
-  const { position = '', direction = '', hidden = true } = props;
-
-  if (hidden || position !== direction) {
-    return null;
-  }
-
+  const { hidden = true } = props;
+  if (hidden) return null;
   return (
     <Row align="middle" justify="center" className="dragtips">
       添加到这里

@@ -4,14 +4,19 @@ import {
 } from '@/LightForm/SectionForm';
 import Card from '@/components/card';
 import { Warnings } from '@/components/warnings';
-import { ItemTypes } from '@/light-form-builder/DesignForm/constants';
-import React, { FC } from 'react';
-import { useDrag } from 'react-dnd';
+import {
+  ItemTypes,
+  WidgetFormEnum,
+} from '@/light-form-builder/DesignForm/constants';
+import React, { FC, useRef } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
 import DragTips from '../DragTips';
 import SingleForm from './SingleForm';
 
 const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
   const { title, warning, fields = [], extra, ...others } = props;
+
+  const sectionCardRef = useRef<HTMLDivElement>(null);
 
   const [{ isDragging }, drag] = useDrag({
     // 设置填充数据
@@ -24,8 +29,30 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
     }),
   });
 
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: ItemTypes.WIDGET,
+    // drop: () => ({
+    //               boxType: "Picture"
+    //   }),
+    canDrop(draggedItem: any) {
+      const { type } = draggedItem;
+      return (
+        type !== WidgetFormEnum.SectionForm &&
+        type !== WidgetFormEnum.SingleForm
+      );
+    },
+    hover: (item, monitor) => {},
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver({ shallow: true }),
+      canDrop: !!monitor.canDrop(),
+    }),
+  });
+
+  drag(drop(sectionCardRef));
+  console.log('canDrop', canDrop);
+
   return (
-    <div className="sectionCard" ref={drag}>
+    <div className="sectionCard" ref={sectionCardRef}>
       <DragTips />
       <Card
         title={title}

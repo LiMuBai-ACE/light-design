@@ -1,13 +1,11 @@
-import { Component } from '@/light-form-builder/config';
 import { isEmpty } from '@/utils';
 import { ConfigProvider, Form, FormInstance } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
-import { cloneDeep } from 'lodash-es';
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useContext, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes, WidgetFormEnum } from '../../constants';
 import { DesignContext } from '../../store';
-import { ActionType } from '../../store/action';
+import DragTips from './components/DragTips';
 import SectionForm from './components/Form/SectionForm';
 import SingleForm from './components/Form/SingleForm';
 import './index.less';
@@ -23,58 +21,20 @@ const Preview: FC<PreviewProps> = (props) => {
 
   const [position, setPosition] = useState();
 
+  const widgetFormListRef = useRef<HTMLDivElement>(null);
+
   const { sections, fields, formType, formConfig } = state;
-  const setFormType = (type: WidgetFormEnum, attr: Component) => {
-    const cloneSections = cloneDeep(sections);
-    const newSections = [...cloneSections, attr];
-    if (type === WidgetFormEnum.SectionForm) {
-      dispatch({
-        type: ActionType.SET_FORM_TYPE,
-        payload: { type, sections: newSections },
-      });
-    }
-    if (type === WidgetFormEnum.SingleForm) {
-      dispatch({
-        type: ActionType.SET_FORM_TYPE,
-        payload: { type },
-      });
-    }
-  };
 
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: ItemTypes.WIDGET,
-      drop(draggedItem: any, monitor: any) {
-        const didDrop = monitor.didDrop();
-
-        if (didDrop) {
-          return undefined;
-        }
-        const { name: draggedName, parentName: dragParentName } =
-          monitor.getItem();
-        const { parentName: overParentName } = draggedItem;
-        const { name: overName } = draggedItem;
-        if (draggedName) {
-          if (
-            draggedName === overName ||
-            draggedName === overParentName ||
-            dragParentName === overName ||
-            overParentName === null
-          )
-            return undefined;
-          return {
-            dragItem: { draggedName, dragParentName },
-            overItem: { overName, overParentName },
-          };
-        }
-        return { name: overName };
-      },
-      hover: (_, monitor) => {
-        // 只检查被hover的最小元素
-        const didHover = monitor.isOver({ shallow: true });
-
-        if (didHover) {
-        }
+      canDrop(draggedItem: any) {
+        const { type } = draggedItem;
+        return (
+          formType !== WidgetFormEnum.SingleForm &&
+          (type === WidgetFormEnum.SectionForm ||
+            type === WidgetFormEnum.SingleForm)
+        );
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver({ shallow: true }),
@@ -84,9 +44,11 @@ const Preview: FC<PreviewProps> = (props) => {
     [],
   );
 
+  drop(widgetFormListRef);
+
   return (
     <div className="widget-form-container">
-      {isEmpty(formType) ? (
+      {canDrop && !isOver && isEmpty(formType) ? (
         <div className="widget-form-empty">
           请先设置表单类型后
           <br />
@@ -95,11 +57,17 @@ const Preview: FC<PreviewProps> = (props) => {
       ) : null}
       <ConfigProvider locale={zhCN}>
         <Form {...formConfig} form={formInstance} className="widget-form">
-          <div className="widget-form-list" ref={drop}>
+          <div className="widget-form-list" ref={widgetFormListRef}>
+            {/* 分组表单 */}
             {formType === 'SectionForm' ? (
               <SectionForm sections={sections} />
             ) : null}
+
+            {/* 简洁表单 */}
             {formType === 'SingleForm' ? <SingleForm fields={fields} /> : null}
+
+            {/* 提示 */}
+            {canDrop ? <DragTips hidden={!isOver} /> : null}
           </div>
         </Form>
       </ConfigProvider>
