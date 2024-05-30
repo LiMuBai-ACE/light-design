@@ -1,7 +1,7 @@
 import { isEmpty } from '@/utils';
 import { ConfigProvider, Form, FormInstance } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
-import React, { FC, useContext, useRef, useState } from 'react';
+import React, { FC, useContext, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes, WidgetFormEnum } from '../../constants';
 import { DesignContext } from '../../store';
@@ -17,9 +17,7 @@ interface PreviewProps {
 const Preview: FC<PreviewProps> = (props) => {
   const { formInstance } = props;
 
-  const { state, dispatch } = useContext(DesignContext);
-
-  const [position, setPosition] = useState();
+  const { state } = useContext(DesignContext);
 
   const widgetFormListRef = useRef<HTMLDivElement>(null);
 
@@ -27,9 +25,13 @@ const Preview: FC<PreviewProps> = (props) => {
 
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
+      item: {
+        name: '',
+      },
       accept: ItemTypes.WIDGET,
       canDrop(draggedItem: any) {
         const { type } = draggedItem;
+
         return (
           formType !== WidgetFormEnum.SingleForm &&
           (type === WidgetFormEnum.SectionForm ||
@@ -48,7 +50,7 @@ const Preview: FC<PreviewProps> = (props) => {
 
   return (
     <div className="widget-form-container">
-      {canDrop && !isOver && isEmpty(formType) ? (
+      {!(isOver && canDrop) && !isOver && isEmpty(formType) ? (
         <div className="widget-form-empty">
           请先设置表单类型后
           <br />
@@ -67,7 +69,7 @@ const Preview: FC<PreviewProps> = (props) => {
             {formType === 'SingleForm' ? <SingleForm fields={fields} /> : null}
 
             {/* 提示 */}
-            {canDrop ? <DragTips hidden={!isOver} /> : null}
+            {canDrop ? <DragTips isShow={isOver} /> : null}
           </div>
         </Form>
       </ConfigProvider>

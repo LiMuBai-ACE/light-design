@@ -25,10 +25,17 @@ const designReducer: Reducer = (prevState: State, action: Action) => {
         ...other,
         formType,
       };
-    case ActionType.SET_WIDGET_FORM_FIELDS:
+    // 简单的组件设置
+    case ActionType.SET_FORM_FIELDS:
       return {
         ...prevState,
         widgetFormList: action.payload,
+      };
+    // 分区表单设置
+    case ActionType.SET_FORM_SECTIONS:
+      return {
+        ...prevState,
+        sections: action.payload,
       };
     case ActionType.SET_FORM_CONFIG:
       return {
@@ -57,7 +64,7 @@ export const DesignContext = createContext<{
   dispatch: Dispatch<Action>;
 }>({
   state: initState,
-  dispatch: () => { },
+  dispatch: () => {},
 });
 
 export const GenerateContext = createContext<{
@@ -65,7 +72,7 @@ export const GenerateContext = createContext<{
   dispatch: Dispatch<Action>;
 }>({
   state: {} as State,
-  dispatch: () => { },
+  dispatch: () => {},
 });
 
 export interface CommonProviderProps {

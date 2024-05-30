@@ -31,7 +31,7 @@ const SingleForm: FC<LightSingleFormProps> = (props) => {
       return true;
     },
     collect: (monitor) => ({
-      isOver: !!monitor.isOver({ shallow: true }),
+      isOver: !!monitor.isOver(),
       canDrop: !!monitor.canDrop(),
     }),
   });
@@ -46,7 +46,7 @@ const SingleForm: FC<LightSingleFormProps> = (props) => {
       {!(isOver && canDrop) && isEmpty(fields) ? (
         <div className="widget-fields-empty">从左侧拖拽来添加字段</div>
       ) : null}
-      {canDrop ? <DragTips hidden={!isOver} /> : null}
+      {canDrop ? <DragTips isShow={isOver} /> : null}
     </div>
   );
 };

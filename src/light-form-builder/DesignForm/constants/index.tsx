@@ -17,11 +17,11 @@ export function findItem(dataList: any, id: string) {
         return result;
       }
 
-      const child = data.children;
+      const fields = data.fields;
 
-      if (child) {
-        for (let i = 0; i < child.length; i += 1) {
-          loop(child[i]);
+      if (fields) {
+        for (let i = 0; i < fields.length; i += 1) {
+          loop(fields[i]);
         }
       }
     };
