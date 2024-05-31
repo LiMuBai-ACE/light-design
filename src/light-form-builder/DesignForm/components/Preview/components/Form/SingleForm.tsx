@@ -4,23 +4,28 @@ import {
   ItemTypes,
   WidgetFormEnum,
 } from '@/light-form-builder/DesignForm/constants';
+import { FieldComponent } from '@/light-form-builder/config';
 import { isEmpty } from '@/utils';
 import React, { FC, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import DragTips from '../DragTips';
 import './index.less';
+interface SingleFormProps extends LightSingleFormProps {
+  parentId?: string;
+}
 
-const SingleForm: FC<LightSingleFormProps> = (props) => {
-  const { fields: sectionFields = [] } = props;
+const SingleForm: FC<SingleFormProps> = (props) => {
+  const { fields: sectionFields = [], parentId } = props;
   const fields = sectionFields || [];
 
   const singleFormRef = useRef<HTMLDivElement>(null);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.WIDGET,
-    drop(draggedItem: any, monitor: any) {},
-
-    canDrop(draggedItem) {
+    drop: () => {
+      return { parentId, type: WidgetFormEnum.SingleForm };
+    },
+    canDrop(draggedItem: FieldComponent) {
       const { type } = draggedItem;
       if (
         type === WidgetFormEnum.SectionForm ||
@@ -29,6 +34,22 @@ const SingleForm: FC<LightSingleFormProps> = (props) => {
         return false;
       }
       return true;
+    },
+    hover: (draggedItem, monitor) => {
+      // 获取鼠标位置
+      // const hoverBoundingRect =
+      //   sectionCardRef.current?.getBoundingClientRect() as DOMRect;
+      // const pointerOffset = monitor.getClientOffset() as XYCoord;
+      // const { top, height } = hoverBoundingRect;
+      // const hoverOffsetTop = pointerOffset?.y - top;
+      // const dividerHeight = height / 2;
+      // const hoverDirection =
+      //   hoverOffsetTop > dividerHeight
+      //     ? DropDirection.BOTTOM
+      //     : DropDirection.TOP;
+      // // 避免重复触发state更新
+      // if (direction === hoverDirection) return;
+      // setDirection(hoverDirection);
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

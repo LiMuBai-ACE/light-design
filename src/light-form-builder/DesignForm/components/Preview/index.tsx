@@ -1,3 +1,4 @@
+import { FieldComponent } from '@/light-form-builder/config';
 import { isEmpty } from '@/utils';
 import { ConfigProvider, Form, FormInstance } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
@@ -9,7 +10,6 @@ import DragTips from './components/DragTips';
 import SectionForm from './components/Form/SectionForm';
 import SingleForm from './components/Form/SingleForm';
 import './index.less';
-
 interface PreviewProps {
   formInstance: FormInstance;
 }
@@ -25,11 +25,8 @@ const Preview: FC<PreviewProps> = (props) => {
 
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
-      item: {
-        name: '',
-      },
       accept: ItemTypes.WIDGET,
-      canDrop(draggedItem: any) {
+      canDrop(draggedItem: FieldComponent) {
         const { type } = draggedItem;
 
         return (
@@ -61,12 +58,14 @@ const Preview: FC<PreviewProps> = (props) => {
         <Form {...formConfig} form={formInstance} className="widget-form">
           <div className="widget-form-list" ref={widgetFormListRef}>
             {/* 分组表单 */}
-            {formType === 'SectionForm' ? (
+            {formType === WidgetFormEnum.SectionForm ? (
               <SectionForm sections={sections} />
             ) : null}
 
             {/* 简洁表单 */}
-            {formType === 'SingleForm' ? <SingleForm fields={fields} /> : null}
+            {formType === WidgetFormEnum.SingleForm ? (
+              <SingleForm fields={fields} />
+            ) : null}
 
             {/* 提示 */}
             {canDrop ? <DragTips isShow={isOver} /> : null}

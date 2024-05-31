@@ -8,6 +8,7 @@ import {
   ItemTypes,
   WidgetFormEnum,
 } from '@/light-form-builder/DesignForm/constants';
+import { FieldComponent } from '@/light-form-builder/config';
 import React, { FC, useRef, useState } from 'react';
 import { XYCoord, useDrag, useDrop } from 'react-dnd';
 import DragTips from '../DragTips';
@@ -38,17 +39,14 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
 
   const [{ isOver, canDrop }, drop] = useDrop(() => {
     return {
-      options: {
-        ...props,
-      },
       accept: ItemTypes.WIDGET,
-      drop: (draggedItem, monitor) => {
+      drop: () => {
         return {
           ...props,
           direction,
         };
       },
-      canDrop(draggedItem: any) {
+      canDrop(draggedItem: FieldComponent) {
         const { type } = draggedItem;
         return type === WidgetFormEnum.SectionForm;
       },
@@ -68,7 +66,8 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
           hoverOffsetTop > dividerHeight
             ? DropDirection.BOTTOM
             : DropDirection.TOP;
-        // throttle(() => setDirection(hoverDirection), 2000);
+        // 避免重复触发state更新
+        if (direction === hoverDirection) return;
         setDirection(hoverDirection);
       },
       collect: (monitor) => ({
@@ -78,14 +77,7 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
     };
   }, [props]);
 
-  // useEffect(() => {
-  //   if (isOver && canDrop) {
-  //     setDirection(undefined);
-  //   }
-  // }, [isOver, canDrop]);
-
   drag(drop(sectionCardRef));
-  console.log('isOver', isOver);
 
   return (
     <>
@@ -108,7 +100,7 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
           id={props.id}
         >
           <Warnings content={warning} />
-          <SingleForm fields={fields} />
+          <SingleForm fields={fields} parentId={props.id} />
         </Card>
         <DragTips
           isShow={isOver && canDrop && direction === DropDirection.BOTTOM}
@@ -121,12 +113,12 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
 const SectionForm: FC<LightSectionFormProps> = (props) => {
   const { sections = [] } = props;
 
-  return sections.map((section: LightSectionFormCardProps) => {
-    const { key, ...others } = section;
+  return sections.map((section: Record<string, any>) => {
+    const { name } = section;
 
-    const mykey = (key || others?.title) as number | string;
+    const sectionCardKey = name as number | string;
 
-    return <SectionCardForm key={mykey} {...others} />;
+    return <SectionCardForm key={sectionCardKey} {...section} />;
   });
 };
 

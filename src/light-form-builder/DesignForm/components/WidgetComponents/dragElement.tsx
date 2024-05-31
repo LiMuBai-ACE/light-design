@@ -1,4 +1,4 @@
-import { Component } from '@/light-form-builder/config';
+import { FieldComponent } from '@/light-form-builder/config';
 import { cloneDeep } from 'lodash-es';
 import { nanoid } from 'nanoid';
 import { FC, ReactElement, cloneElement, useContext } from 'react';
@@ -10,21 +10,21 @@ import { DropDirection } from '../Preview/components/Form/SectionForm';
 
 interface DragElementProps {
   children: ReactElement;
-  config: Component;
+  config: FieldComponent;
 }
 
 const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
   const { state, dispatch } = useContext(DesignContext);
-  const { sections, fields, formType, formConfig } = state;
+  const { sections, formType } = state;
 
-  const id = nanoid(5);
+  const id = nanoid();
+
+  // 根据组件类型合id 生成name
   const name = `${config.type}~${id}`;
   const item = {
     ...config,
     id,
     name,
-    key: name,
-    title: name,
   };
 
   const isSingleForm = formType === WidgetFormEnum.SingleForm;
@@ -36,7 +36,7 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
     (isWidgetSingleForm || (isSingleForm && isWidgetSectionForm))
   );
 
-  const setFormType = (type: WidgetFormEnum, component: Component) => {
+  const setFormType = (type: WidgetFormEnum, component: FieldComponent) => {
     if (type === WidgetFormEnum.SectionForm) {
       dispatch({
         type: ActionType.SET_FORM_TYPE,
@@ -51,10 +51,14 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
     }
   };
 
-  const handleDrop = (draggedItem: Component, monitor: DragSourceMonitor) => {
+  // 拖拽结束
+  const handleDrop = (
+    draggedItem: FieldComponent,
+    monitor: DragSourceMonitor,
+  ) => {
     const { type: dragType, ...attr } = draggedItem;
 
-    const result = monitor.getDropResult() as Component;
+    const result = monitor.getDropResult() as FieldComponent;
 
     if (monitor.didDrop() && result) {
       const { type } = draggedItem;
