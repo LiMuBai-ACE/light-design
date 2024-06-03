@@ -19,28 +19,23 @@ const Preview: FC<PreviewProps> = (props) => {
 
   const { state } = useContext(DesignContext);
 
-  const widgetFormListRef = useRef<HTMLDivElement>(null);
-
   const { sections, fields, formType, formConfig } = state;
+
+  const widgetFormListRef = useRef<HTMLDivElement>(null);
 
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: ItemTypes.WIDGET,
       canDrop(draggedItem: FieldComponent) {
         const { type } = draggedItem;
-
-        return (
-          formType !== WidgetFormEnum.SingleForm &&
-          (type === WidgetFormEnum.SectionForm ||
-            type === WidgetFormEnum.SingleForm)
-        );
+        return !formType && (type === WidgetFormEnum.SectionForm || type === WidgetFormEnum.SingleForm);
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver({ shallow: true }),
         canDrop: !!monitor.canDrop(),
       }),
     }),
-    [],
+    [formType],
   );
 
   drop(widgetFormListRef);
@@ -58,16 +53,16 @@ const Preview: FC<PreviewProps> = (props) => {
         <Form {...formConfig} form={formInstance} className="widget-form">
           <div className="widget-form-list" ref={widgetFormListRef}>
             {/* 分组表单 */}
-            {formType === WidgetFormEnum.SectionForm ? (
-              <SectionForm sections={sections} />
-            ) : null}
+            {formType === WidgetFormEnum.SectionForm ? <SectionForm sections={sections} /> : null}
 
             {/* 简洁表单 */}
-            {formType === WidgetFormEnum.SingleForm ? (
-              <SingleForm fields={fields} />
-            ) : null}
+            {formType === WidgetFormEnum.SingleForm ? <SingleForm fields={fields} /> : null}
 
-            {/* 提示 */}
+            {/*
+              拖拽提示
+              组件初始化显示的，当form表单已选择完毕后，此提示消失，改用为form表单内置的提示
+              减少一些非必要的处理，会使代码看起来比较冗余
+            */}
             {canDrop ? <DragTips isShow={isOver} /> : null}
           </div>
         </Form>

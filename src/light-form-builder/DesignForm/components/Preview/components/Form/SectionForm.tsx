@@ -24,6 +24,7 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
     // 设置填充数据
     item: {
       ...props,
+      type: WidgetFormEnum.SectionForm,
     },
     type: ItemTypes.WIDGET,
     collect: (monitor) => ({
@@ -42,7 +43,7 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
       },
       canDrop(draggedItem: FieldComponent) {
         const { type } = draggedItem;
-        return type === WidgetFormEnum.SectionForm;
+        return type === WidgetFormEnum.SectionForm && props.id !== draggedItem.id;
       },
       hover: (draggedItem, monitor) => {
         // 获取鼠标位置

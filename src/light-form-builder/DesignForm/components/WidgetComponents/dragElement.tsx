@@ -69,22 +69,31 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
           }
         }
       } else {
-        switch (formType) {
-          case WidgetFormEnum.SectionForm:
-            if (dragType === WidgetFormEnum.SectionForm) {
-              const index = cloneSections.findIndex((item) => item.id === id);
-              console.log('direction', direction);
-              const insertIndex = direction === DropDirection.TOP ? index + 1 : index;
-              cloneSections.splice(insertIndex, 0, { ...attr, title: `${attr.label}-${cloneSections.length + 1}` });
-              dispatch({
-                type: ActionType.SET_FORM_SECTIONS,
-                payload: cloneSections,
-              });
-            }
+        switch (dragType) {
+          case WidgetFormEnum.SectionForm: {
+            // 删除dropEffect 保持result的结构是我需要的
+            // delete result.dropEffect;
+            const len = cloneSections.length + 1;
+
+            // if(isEmpty(result)){
+            //   cloneSections.push({ ...attr, title: `${attr.label}-${len}` });
+            // }else{
+            const index = cloneSections.findIndex((item) => item.id === id);
+            const insertIndex = direction === DropDirection.BOTTOM ? index + 1 : index;
+            cloneSections.splice(insertIndex, 0, { ...attr, title: `${attr.label}-${len}` });
+            // }
+
+            dispatch({
+              type: ActionType.SET_FORM_SECTIONS,
+              payload: cloneSections,
+            });
             break;
+          }
           default: {
+            console.log('111', 111);
             const dropItem = findItem(cloneSections, parentId as string);
             const { currentIndex = 0 } = dropItem;
+            console.log('dropItem', dropItem);
             if (isEmpty(dropItem.fields)) {
               dropItem.fields = [draggedItem];
               dispatch({
@@ -92,7 +101,7 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
                 payload: cloneSections,
               });
             } else {
-              const insertIndex = direction === DropDirection.TOP ? currentIndex + 1 : currentIndex;
+              const insertIndex = direction === DropDirection.BOTTOM ? currentIndex + 1 : currentIndex;
 
               dropItem.fields.splice(insertIndex, 0, draggedItem);
 
