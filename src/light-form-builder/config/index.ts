@@ -72,12 +72,13 @@ export const widgetComponents: WidgetComponents[] = [
 
 export type FieldComponent = {
   key?: string;
+  currentIndex?: number;
   label: string;
   icon: string;
   type: string;
   form_config?: Record<string, any>;
   layout_config?: Record<string, any>;
-  [key: string]: unknown;
+  [key: string]: any;
 };
 
 export type WidgetComponents = {

@@ -1,9 +1,10 @@
 import { FieldComponent } from '@/light-form-builder/config';
+import { isEmpty } from '@/utils';
 import { cloneDeep } from 'lodash-es';
 import { nanoid } from 'nanoid';
 import { FC, ReactElement, cloneElement, useContext } from 'react';
 import { DragSourceMonitor, useDrag } from 'react-dnd';
-import { ItemTypes, WidgetFormEnum } from '../../constants';
+import { ItemTypes, WidgetFormEnum, findItem } from '../../constants';
 import { DesignContext } from '../../store';
 import { ActionType } from '../../store/action';
 import { DropDirection } from '../Preview/components/Form/SectionForm';
@@ -17,7 +18,7 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
   const { state, dispatch } = useContext(DesignContext);
   const { sections, formType } = state;
 
-  const id = nanoid();
+  const id = nanoid().replace('_', '').replace('-', '');
 
   // 根据组件类型合id 生成name
   const name = `${config.type}~${id}`;
@@ -31,10 +32,7 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
   const isWidgetSingleForm = config.type === WidgetFormEnum.SingleForm;
   const isWidgetSectionForm = config.type === WidgetFormEnum.SectionForm;
 
-  const isDisabled = !(
-    formType &&
-    (isWidgetSingleForm || (isSingleForm && isWidgetSectionForm))
-  );
+  const isDisabled = !(formType && (isWidgetSingleForm || (isSingleForm && isWidgetSectionForm)));
 
   const setFormType = (type: WidgetFormEnum, component: FieldComponent) => {
     if (type === WidgetFormEnum.SectionForm) {
@@ -52,40 +50,59 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
   };
 
   // 拖拽结束
-  const handleDrop = (
-    draggedItem: FieldComponent,
-    monitor: DragSourceMonitor,
-  ) => {
+  const handleDrop = (draggedItem: FieldComponent, monitor: DragSourceMonitor) => {
     const { type: dragType, ...attr } = draggedItem;
 
     const result = monitor.getDropResult() as FieldComponent;
-
     if (monitor.didDrop() && result) {
-      const { type } = draggedItem;
+      const cloneSections = cloneDeep(sections);
+      const { parentId, direction = DropDirection.BOTTOM, id } = result;
+
       if (!formType) {
-        if (
-          type === WidgetFormEnum.SectionForm ||
-          type === WidgetFormEnum.SingleForm
-        ) {
-          setFormType(type, draggedItem);
+        const isWidgetForm = [WidgetFormEnum.SectionForm, WidgetFormEnum.SingleForm].includes(dragType as WidgetFormEnum);
+
+        if (isWidgetForm) {
+          if (dragType === WidgetFormEnum.SectionForm) {
+            setFormType(dragType as WidgetFormEnum, { ...draggedItem, title: `${attr.label}-1` });
+          } else {
+            setFormType(dragType as WidgetFormEnum, draggedItem);
+          }
         }
       } else {
-        if (
-          formType === WidgetFormEnum.SectionForm &&
-          type === WidgetFormEnum.SectionForm
-        ) {
-          const { direction, id } = result;
-          const cloneSections = cloneDeep(sections);
-          const index = sections.findIndex((item) => item.id === id);
-          cloneSections.splice(
-            direction === DropDirection.TOP ? index + 1 : index,
-            0,
-            attr,
-          );
-          dispatch({
-            type: ActionType.SET_FORM_SECTIONS,
-            payload: cloneSections,
-          });
+        switch (formType) {
+          case WidgetFormEnum.SectionForm:
+            if (dragType === WidgetFormEnum.SectionForm) {
+              const index = cloneSections.findIndex((item) => item.id === id);
+              console.log('direction', direction);
+              const insertIndex = direction === DropDirection.TOP ? index + 1 : index;
+              cloneSections.splice(insertIndex, 0, { ...attr, title: `${attr.label}-${cloneSections.length + 1}` });
+              dispatch({
+                type: ActionType.SET_FORM_SECTIONS,
+                payload: cloneSections,
+              });
+            }
+            break;
+          default: {
+            const dropItem = findItem(cloneSections, parentId as string);
+            const { currentIndex = 0 } = dropItem;
+            if (isEmpty(dropItem.fields)) {
+              dropItem.fields = [draggedItem];
+              dispatch({
+                type: ActionType.SET_FORM_SECTIONS,
+                payload: cloneSections,
+              });
+            } else {
+              const insertIndex = direction === DropDirection.TOP ? currentIndex + 1 : currentIndex;
+
+              dropItem.fields.splice(insertIndex, 0, draggedItem);
+
+              dispatch({
+                type: ActionType.SET_FORM_SECTIONS,
+                payload: cloneSections,
+              });
+            }
+            break;
+          }
         }
       }
     }
@@ -105,9 +122,7 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
     ...child.props,
     ref: drag,
     style: { opacity: isDragging ? 0.5 : 1 },
-    className: !isDisabled
-      ? `${child.props.className} disabled`
-      : child.props.className,
+    className: !isDisabled ? `${child.props.className} disabled` : child.props.className,
   };
 
   return cloneElement(child, childProps);

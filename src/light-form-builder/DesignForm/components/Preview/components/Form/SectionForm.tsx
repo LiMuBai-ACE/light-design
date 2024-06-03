@@ -1,13 +1,7 @@
-import {
-  LightSectionFormCardProps,
-  LightSectionFormProps,
-} from '@/LightForm/SectionForm';
+import { LightSectionFormCardProps, LightSectionFormProps } from '@/LightForm/SectionForm';
 import Card from '@/components/card';
 import { Warnings } from '@/components/warnings';
-import {
-  ItemTypes,
-  WidgetFormEnum,
-} from '@/light-form-builder/DesignForm/constants';
+import { ItemTypes, WidgetFormEnum } from '@/light-form-builder/DesignForm/constants';
 import { FieldComponent } from '@/light-form-builder/config';
 import React, { FC, useRef, useState } from 'react';
 import { XYCoord, useDrag, useDrop } from 'react-dnd';
@@ -52,8 +46,7 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
       },
       hover: (draggedItem, monitor) => {
         // 获取鼠标位置
-        const hoverBoundingRect =
-          sectionCardRef.current?.getBoundingClientRect() as DOMRect;
+        const hoverBoundingRect = sectionCardRef.current?.getBoundingClientRect() as DOMRect;
 
         const pointerOffset = monitor.getClientOffset() as XYCoord;
         const { top, height } = hoverBoundingRect;
@@ -62,10 +55,7 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
 
         const dividerHeight = height / 2;
 
-        const hoverDirection =
-          hoverOffsetTop > dividerHeight
-            ? DropDirection.BOTTOM
-            : DropDirection.TOP;
+        const hoverDirection = hoverOffsetTop > dividerHeight ? DropDirection.BOTTOM : DropDirection.TOP;
         // 避免重复触发state更新
         if (direction === hoverDirection) return;
         setDirection(hoverDirection);
@@ -81,14 +71,8 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
 
   return (
     <>
-      <div
-        className="sectionCard"
-        ref={sectionCardRef}
-        style={{ marginBottom: 20 }}
-      >
-        <DragTips
-          isShow={isOver && canDrop && direction === DropDirection.TOP}
-        />
+      <div className="sectionCard" ref={sectionCardRef} style={{ marginBottom: 20 }}>
+        <DragTips isShow={isOver && canDrop && direction === DropDirection.TOP} />
         <Card
           title={title}
           extra={extra}
@@ -102,9 +86,7 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
           <Warnings content={warning} />
           <SingleForm fields={fields} parentId={props.id} />
         </Card>
-        <DragTips
-          isShow={isOver && canDrop && direction === DropDirection.BOTTOM}
-        />
+        <DragTips isShow={isOver && canDrop && direction === DropDirection.BOTTOM} />
       </div>
     </>
   );
