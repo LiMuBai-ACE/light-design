@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  FC,
-  createContext,
-  createElement,
-  useReducer,
-} from 'react';
+import React, { Dispatch, FC, createContext, createElement, useReducer } from 'react';
 import { Action, ActionType } from './action';
 import { State, initState } from './state';
 

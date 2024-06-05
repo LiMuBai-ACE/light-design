@@ -1,11 +1,6 @@
 import { Form, Layout, message } from 'antd';
 import 'normalize.css';
-import React, {
-  forwardRef,
-  useContext,
-  useImperativeHandle,
-  useState,
-} from 'react';
+import React, { forwardRef, useContext, useImperativeHandle, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import GlobalConfig from './components/GlobalConfig';
@@ -14,8 +9,7 @@ import Preview from './components/Preview';
 import WidgetComponents from './components/WidgetComponents';
 import WidgetConfig from './components/WidgetConfig';
 import './index.less';
-import { DesignContext, DesignProvider } from './store';
-import { ActionType } from './store/action';
+import DesignProvider, { DesignContext } from './store';
 const { Content, Sider } = Layout;
 
 export interface DesignFormProps {
@@ -34,7 +28,7 @@ export interface DesignFormRef {
 }
 
 const DesignForm = forwardRef<DesignFormRef, DesignFormProps>((props, ref) => {
-  const { state, dispatch } = useContext(DesignContext);
+  const { state } = useContext(DesignContext);
   const [formInstance] = Form.useForm();
 
   const [currentTab, setCurrentTab] = useState<'Global' | 'Local'>('Global');
@@ -43,10 +37,10 @@ const DesignForm = forwardRef<DesignFormRef, DesignFormProps>((props, ref) => {
     getJson: () => JSON.stringify(state),
     setJson: (value) => {
       try {
-        dispatch({
-          type: ActionType.SET_GLOBAL,
-          payload: JSON.parse(value),
-        });
+        // dispatch({
+        //   type: ActionType.SET_GLOBAL,
+        //   payload: JSON.parse(value),
+        // });
       } catch (error) {
         message.error('设置 JSON 出错');
       }
@@ -83,24 +77,14 @@ const DesignForm = forwardRef<DesignFormRef, DesignFormProps>((props, ref) => {
             <Layout>
               {/* 字段配置部分 */}
               <Layout.Header>
-                <div
-                  className={`config-tab ${currentTab === 'Local' && 'active'}`}
-                  onClick={() => setCurrentTab('Local')}
-                >
+                <div className={`config-tab ${currentTab === 'Local' && 'active'}`} onClick={() => setCurrentTab('Local')}>
                   字段设置
                 </div>
-                <div
-                  className={`config-tab ${
-                    currentTab === 'Global' && 'active'
-                  }`}
-                  onClick={() => setCurrentTab('Global')}
-                >
+                <div className={`config-tab ${currentTab === 'Global' && 'active'}`} onClick={() => setCurrentTab('Global')}>
                   全局设置
                 </div>
               </Layout.Header>
-              <Content className="config-content">
-                {currentTab === 'Local' ? <WidgetConfig /> : <GlobalConfig />}
-              </Content>
+              <Content className="config-content">{currentTab === 'Local' ? <WidgetConfig /> : <GlobalConfig />}</Content>
             </Layout>
           </Sider>
         </Layout>

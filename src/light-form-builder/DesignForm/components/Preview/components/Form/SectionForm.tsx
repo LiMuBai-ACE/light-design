@@ -1,20 +1,17 @@
-import { LightSectionFormCardProps, LightSectionFormProps } from '@/LightForm/SectionForm';
 import Card from '@/components/card';
 import { Warnings } from '@/components/warnings';
-import { ItemTypes, WidgetFormEnum } from '@/light-form-builder/DesignForm/constants';
-import { FieldComponent } from '@/light-form-builder/config';
-import React, { FC, useRef, useState } from 'react';
+import { DropDirection, ItemTypes, WidgetFormEnum } from '@/light-form-builder/DesignForm/constants';
+import { DesignContext } from '@/light-form-builder/DesignForm/store';
+import { FieldSection } from '@/light-form-builder/DesignForm/store/state';
+import { LightFieldComponent } from '@/light-form-builder/config';
+import React, { FC, useContext, useRef, useState } from 'react';
 import { XYCoord, useDrag, useDrop } from 'react-dnd';
 import DragTips from '../DragTips';
 import SingleForm from './SingleForm';
 
-export enum DropDirection {
-  TOP = 'top',
-  BOTTOM = 'bottom',
-}
-
-const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
+const SectionCardForm: FC<FieldSection> = (props) => {
   const { title, warning, fields = [], extra, ...others } = props;
+  const { handleMove } = useContext(DesignContext);
 
   const sectionCardRef = useRef<HTMLDivElement>(null);
 
@@ -24,9 +21,10 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
     // 设置填充数据
     item: {
       ...props,
-      type: WidgetFormEnum.SectionForm,
+      widget_type: WidgetFormEnum.SectionForm,
     },
     type: ItemTypes.WIDGET,
+    end: handleMove,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -41,9 +39,9 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
           direction,
         };
       },
-      canDrop(draggedItem: FieldComponent) {
-        const { type } = draggedItem;
-        return type === WidgetFormEnum.SectionForm && props.id !== draggedItem.id;
+      canDrop(draggedItem: LightFieldComponent) {
+        const { widget_type } = draggedItem;
+        return widget_type === WidgetFormEnum.SectionForm && props.id !== draggedItem.id;
       },
       hover: (draggedItem, monitor) => {
         // 获取鼠标位置
@@ -66,7 +64,7 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
         canDrop: !!monitor.canDrop(),
       }),
     };
-  }, [props]);
+  }, [props, direction]);
 
   drag(drop(sectionCardRef));
 
@@ -93,15 +91,15 @@ const SectionCardForm: FC<LightSectionFormCardProps> = (props) => {
   );
 };
 
-const SectionForm: FC<LightSectionFormProps> = (props) => {
+const SectionForm: FC<{ sections: FieldSection[] }> = (props) => {
   const { sections = [] } = props;
 
-  return sections.map((section: Record<string, any>) => {
+  return sections.map((section: LightFieldComponent) => {
     const { name } = section;
 
-    const sectionCardKey = name as number | string;
+    const sectionCardKey = name as string;
 
-    return <SectionCardForm key={sectionCardKey} {...section} />;
+    return <SectionCardForm {...section} key={sectionCardKey} />;
   });
 };
 

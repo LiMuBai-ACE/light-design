@@ -1,5 +1,5 @@
 import { LightSectionFormCardProps } from '@/LightForm/SectionForm';
-import { FieldProps } from '@/LightForm/field/type';
+import { LightFieldComponent } from '@/light-form-builder/config';
 import type { FormProps } from 'antd/es/form';
 import { WidgetFormEnum } from '../constants';
 
@@ -15,11 +15,17 @@ export const initState: State = {
   },
 };
 
+export type FieldSection = LightSectionFormCardProps & LightFieldComponent;
+
 export interface State {
-  selectWidgetItem?: any;
-  sections: LightSectionFormCardProps[];
-  fields: FieldProps[];
+  selectWidgetItem?: FieldSection;
+  sections: FieldSection[];
+  fields: LightFieldComponent[];
   form_config: FormProps;
   formType?: WidgetFormEnum;
   [key: string]: any;
+}
+
+export interface CommonProviderProps {
+  children: React.ReactNode;
 }

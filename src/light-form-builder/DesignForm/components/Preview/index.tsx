@@ -1,4 +1,4 @@
-import { FieldComponent } from '@/light-form-builder/config';
+import { LightFieldComponent } from '@/light-form-builder/config';
 import { isEmpty } from '@/utils';
 import { ConfigProvider, Form, FormInstance } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
@@ -26,9 +26,9 @@ const Preview: FC<PreviewProps> = (props) => {
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: ItemTypes.WIDGET,
-      canDrop(draggedItem: FieldComponent) {
-        const { type } = draggedItem;
-        return !formType && (type === WidgetFormEnum.SectionForm || type === WidgetFormEnum.SingleForm);
+      canDrop(draggedItem: LightFieldComponent) {
+        const { widget_type } = draggedItem;
+        return !formType && (widget_type === WidgetFormEnum.SectionForm || widget_type === WidgetFormEnum.SingleForm);
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver({ shallow: true }),

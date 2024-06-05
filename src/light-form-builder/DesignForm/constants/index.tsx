@@ -1,4 +1,4 @@
-import { FieldComponent } from '@/light-form-builder/config';
+import { LightFieldComponent } from '@/light-form-builder/config';
 
 export const ItemTypes = { WIDGET: 'widget' };
 
@@ -9,9 +9,15 @@ export enum WidgetFormEnum {
   'SectionForm' = 'SectionForm',
 }
 
+/** 放置方向 */
+export enum DropDirection {
+  TOP = 'top',
+  BOTTOM = 'bottom',
+}
+
 // 递归查找当前 id 的数据
 export function findItem(dataList: any, id: string) {
-  let result = {} as FieldComponent;
+  let result = {} as LightFieldComponent;
   dataList.forEach((item: any, index: number) => {
     const loop = (data: any, currentIndex: number) => {
       if (data.id === id) {

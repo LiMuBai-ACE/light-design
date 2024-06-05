@@ -1,27 +1,27 @@
 import Icons from '@/assets/icons';
 
 // 通用组件
-const commonComponents: FieldComponent[] = [
+const commonComponents: LightFieldComponent[] = [
   // {
   //   label: '按钮',
-  //   type: 'Button',
+  //   widget_type: 'Button',
   //   icon: Icons.Button,
   //   form_config: {},
   //   layout_config: {},
   // },
 ];
 
-const layoutComponents: FieldComponent[] = [
+const layoutComponents: LightFieldComponent[] = [
   {
     label: '分区表单',
-    type: 'SectionForm',
+    widget_type: 'SectionForm',
     icon: Icons.SectionForm,
     form_config: {},
     layout_config: {},
   },
   {
     label: '简洁表单',
-    type: 'SingleForm',
+    widget_type: 'SingleForm',
     icon: Icons.SingleForm,
     form_config: {},
     layout_config: {},
@@ -29,10 +29,10 @@ const layoutComponents: FieldComponent[] = [
 ];
 
 // 数据录入
-const dataEntryComponents: FieldComponent[] = [
+const dataEntryComponents: LightFieldComponent[] = [
   {
     label: '输入框',
-    type: 'Input',
+    widget_type: 'Input',
     icon: Icons.Input,
     form_config: {
       defaultValue: '66666666',
@@ -42,10 +42,10 @@ const dataEntryComponents: FieldComponent[] = [
 ];
 
 // 数据展示
-const dataDisplayComponents: FieldComponent[] = [];
+const dataDisplayComponents: LightFieldComponent[] = [];
 
 // 反馈
-const feedbackComponents: FieldComponent[] = [];
+const feedbackComponents: LightFieldComponent[] = [];
 
 export const widgetComponents: WidgetComponents[] = [
   {
@@ -70,12 +70,12 @@ export const widgetComponents: WidgetComponents[] = [
   },
 ];
 
-export type FieldComponent = {
+export type LightFieldComponent = {
   key?: string;
   currentIndex?: number;
   label: string;
   icon: string;
-  type: string;
+  widget_type?: string;
   form_config?: Record<string, any>;
   layout_config?: Record<string, any>;
   [key: string]: any;
@@ -83,5 +83,5 @@ export type FieldComponent = {
 
 export type WidgetComponents = {
   title: string;
-  components: FieldComponent[];
+  components: LightFieldComponent[];
 };

@@ -1,10 +1,7 @@
 import { LightField } from '@/LightForm';
 import { LightSingleFormProps } from '@/LightForm/SingleForm';
-import {
-  ItemTypes,
-  WidgetFormEnum,
-} from '@/light-form-builder/DesignForm/constants';
-import { FieldComponent } from '@/light-form-builder/config';
+import { ItemTypes, WidgetFormEnum } from '@/light-form-builder/DesignForm/constants';
+import { LightFieldComponent } from '@/light-form-builder/config';
 import { isEmpty } from '@/utils';
 import React, { FC, useRef } from 'react';
 import { useDrop } from 'react-dnd';
@@ -23,14 +20,11 @@ const SingleForm: FC<SingleFormProps> = (props) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.WIDGET,
     drop: () => {
-      return { parentId, type: WidgetFormEnum.SingleForm };
+      return { parentId, widget_type: WidgetFormEnum.SingleForm };
     },
-    canDrop(draggedItem: FieldComponent) {
-      const { type } = draggedItem;
-      if (
-        type === WidgetFormEnum.SectionForm ||
-        type === WidgetFormEnum.SingleForm
-      ) {
+    canDrop(draggedItem: LightFieldComponent) {
+      const { widget_type } = draggedItem;
+      if (widget_type === WidgetFormEnum.SectionForm || widget_type === WidgetFormEnum.SingleForm) {
         return false;
       }
       return true;
@@ -64,9 +58,7 @@ const SingleForm: FC<SingleFormProps> = (props) => {
       {fields.map((field) => (
         <LightField field={field} key={field.name} />
       ))}
-      {!(isOver && canDrop) && isEmpty(fields) ? (
-        <div className="widget-fields-empty">从左侧拖拽来添加字段</div>
-      ) : null}
+      {!(isOver && canDrop) && isEmpty(fields) ? <div className="widget-fields-empty">从左侧拖拽来添加字段</div> : null}
       {canDrop ? <DragTips isShow={isOver} /> : null}
     </div>
   );

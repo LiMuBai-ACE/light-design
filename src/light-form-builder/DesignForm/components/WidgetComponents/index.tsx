@@ -13,7 +13,7 @@ const WidgetComponents: FC = () => {
           <div className="widget-title">{item.title}</div>
           <div className="widget-group">
             {item.components.map((component) => (
-              <DragElement key={component.type} config={component}>
+              <DragElement key={component.widget_type} config={component}>
                 <div className="widget-group-item">
                   <SvgIcon name={component.icon} />
                   <span>{component.label}</span>
