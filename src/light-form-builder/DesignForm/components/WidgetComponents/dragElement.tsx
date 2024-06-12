@@ -14,7 +14,7 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
   const { state, handleAdd } = useContext(DesignContext);
   const { formType } = state;
 
-  const id = nanoid().replace('_', '').replace('-', '');
+  const id = nanoid().replaceAll('_', '').replaceAll('-', '');
 
   // 根据组件类型合id 生成name
   const name = `${config.widget_type}~${id}`;

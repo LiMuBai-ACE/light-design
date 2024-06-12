@@ -5,7 +5,7 @@ import React, { Dispatch, FC, createContext, useReducer } from 'react';
 import { DragSourceMonitor } from 'react-dnd';
 import { DropDirection, WidgetFormEnum, findItem } from '../constants';
 import { Action, ActionType } from './action';
-import { CommonProviderProps, State, initState } from './state';
+import { CommonProviderProps, FieldSection, State, initState } from './state';
 
 type Reducer = (prevState: State, action: Action) => any;
 
@@ -102,61 +102,86 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
     const result = monitor.getDropResult() as LightFieldComponent;
 
     if (monitor.didDrop() && result) {
-      const cloneSections = cloneDeep(sections);
-      const len = cloneSections.length + 1;
       const { parentId, direction = DropDirection.BOTTOM, id } = result;
-
-      // hover上去的index
-      const index = cloneSections.findIndex((item) => item.id === id);
-
-      // 插入的位置
-      const insertIndex = direction === DropDirection.BOTTOM ? index + 1 : index;
 
       if (!formType && [WidgetFormEnum.SectionForm, WidgetFormEnum.SingleForm].includes(widget_type as WidgetFormEnum)) {
         const sectionItem = widget_type === WidgetFormEnum.SectionForm ? { ...attr, title: `${attr.label}-1` } : attr;
         setFormType(widget_type as WidgetFormEnum, sectionItem);
-      } else if (widget_type === WidgetFormEnum.SectionForm) {
-        cloneSections.splice(insertIndex, 0, createSectionFormComponent(attr, len) as LightFieldComponent);
-
-        dispatch({
-          type: ActionType.SET_FORM_SECTIONS,
-          payload: cloneSections,
-        });
       } else {
-        switch (widget_type) {
-          case WidgetFormEnum.SectionForm: {
-            // 删除dropEffect 保持result的结构是我需要的
-            // delete result.dropEffect;
-            // if(isEmpty(result)){
-            //   cloneSections.push({ ...attr, title: `${attr.label}-${len}` });
-            // }else{
-            cloneSections.splice(insertIndex, 0, { ...attr, title: `${attr.label}-${len}` });
-            // }
+        // SectionForm表单 处理
+        if (formType === WidgetFormEnum.SectionForm) {
+          const cloneSections = cloneDeep(sections);
+          const len = cloneSections.length + 1;
+          // hover上去的index
+          const index = cloneSections.findIndex((item) => item.id === id);
 
-            dispatch({
-              type: ActionType.SET_FORM_SECTIONS,
-              payload: cloneSections,
-            });
-            break;
-          }
-          default: {
-            const dropItem = findItem(cloneSections, parentId as string);
-            const { currentIndex = 0 } = dropItem;
-
-            if (isEmpty(dropItem.fields)) {
-              dropItem.fields = [draggedItem];
-            } else {
-              const insertIndex = direction === DropDirection.BOTTOM ? currentIndex + 1 : currentIndex;
-              dropItem.fields.splice(insertIndex, 0, draggedItem);
+          // 插入的位置
+          const insertIndex = direction === DropDirection.BOTTOM ? index + 1 : index;
+          switch (widget_type) {
+            case WidgetFormEnum.SectionForm: {
+              cloneSections.splice(insertIndex, 0, { ...attr, title: `${attr.label}-${len}` });
+              dispatch({
+                type: ActionType.SET_FORM_SECTIONS,
+                payload: cloneSections,
+              });
+              break;
             }
-            dispatch({
-              type: ActionType.SET_FORM_SECTIONS,
-              payload: cloneSections,
-            });
-            break;
+            default: {
+              const dropItem = findItem(cloneSections, parentId as string);
+              const { currentIndex = 0 } = dropItem;
+
+              if (isEmpty(dropItem.fields)) {
+                dropItem.fields = [draggedItem];
+              } else {
+                const insertIndex = direction === DropDirection.BOTTOM ? currentIndex + 1 : currentIndex;
+                dropItem.fields.splice(insertIndex, 0, draggedItem);
+              }
+              dispatch({
+                type: ActionType.SET_FORM_SECTIONS,
+                payload: cloneSections,
+              });
+              break;
+            }
           }
+        } else {
+          // SingleForm 待处理
         }
       }
+    }
+  };
+
+  /**
+   * 删除组件
+   * @param {LightFieldComponent} draggedItem 点击删除的组件信息
+   */
+  const handleRemove = (draggedItem: LightFieldComponent): FieldSection[] | LightFieldComponent => {
+    const { parentId, widget_type, id } = draggedItem;
+    // SectionForm 处理
+    if (formType === WidgetFormEnum.SectionForm) {
+      const cloneSections = cloneDeep(sections);
+      if (widget_type === WidgetFormEnum.SectionForm) {
+        if (cloneSections.length === 1) {
+          dispatch({
+            type: ActionType.SET_FORM_TYPE,
+            payload: { widget_type: undefined, sections: [] },
+          });
+        } else {
+          const index = cloneSections.findIndex((item) => item.id === id);
+          cloneSections.splice(index, 1);
+        }
+      } else {
+        const dropItem = findItem(cloneSections, parentId as string);
+        const { currentIndex = 0 } = dropItem;
+        dropItem.fields.splice(currentIndex, 1);
+      }
+      dispatch({
+        type: ActionType.SET_FORM_SECTIONS,
+        payload: cloneSections,
+      });
+      return cloneSections;
+    } else {
+      // SingleForm 待处理
+      return [];
     }
   };
 
@@ -166,11 +191,29 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
    * @param {DragSourceMonitor} monitor hover上去的组件信息
    */
   const handleMove = (draggedItem: LightFieldComponent, monitor: DragSourceMonitor) => {
-    const { widget_type, ...attr } = draggedItem;
-
     const result = monitor.getDropResult() as LightFieldComponent;
-    console.log('result', result);
-    console.log('draggedItem', draggedItem);
+    if (isEmpty(result)) return;
+    const { widget_type, id: draggedId, direction, ...attr } = draggedItem;
+
+    const { id } = result;
+
+    if (formType === WidgetFormEnum.SectionForm) {
+      const cloneSections = cloneDeep(sections);
+      if (widget_type === WidgetFormEnum.SectionForm) {
+        // hover上去的index
+        const currentIndex = cloneSections.findIndex((item) => item.id === id);
+        const insertIndex = direction === DropDirection.BOTTOM ? currentIndex + 1 : currentIndex;
+        // 插入前先删除
+        const callBackData = handleRemove(draggedItem);
+        callBackData.splice(insertIndex, 0, draggedItem);
+        dispatch({
+          type: ActionType.SET_FORM_SECTIONS,
+          payload: callBackData,
+        });
+      }
+    } else {
+      // SingleForm 待处理
+    }
   };
 
   return <DesignContext.Provider value={{ state, handleAdd, handleMove }}> {children} </DesignContext.Provider>;

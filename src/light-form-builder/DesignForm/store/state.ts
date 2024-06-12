@@ -22,7 +22,7 @@ export interface State {
   sections: FieldSection[];
   fields: LightFieldComponent[];
   form_config: FormProps;
-  formType?: WidgetFormEnum;
+  formType: WidgetFormEnum | undefined;
   [key: string]: any;
 }
 
