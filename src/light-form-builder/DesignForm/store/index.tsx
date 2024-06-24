@@ -26,7 +26,7 @@ const designReducer: Reducer = (prevState: State, action: Action) => {
     case ActionType.SET_FORM_FIELDS:
       return {
         ...prevState,
-        widgetFormList: action.payload,
+        fields: action.payload,
       };
     // 分区表单设置
     case ActionType.SET_FORM_SECTIONS:
@@ -66,7 +66,7 @@ export const DesignContext = createContext<DesignContextType>({} as DesignContex
 const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   const [state, dispatch]: [State, Dispatch<Action>] = useReducer(designReducer, initState);
 
-  const { sections, formType } = state;
+  const { sections, formType, fields } = state;
 
   // 辅助函数：创建一个带有新标题的SectionForm组件
   const createSectionFormComponent = (component: LightFieldComponent, len: number) => ({
@@ -104,6 +104,7 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
     if (monitor.didDrop() && result) {
       const { parentId, direction = DropDirection.BOTTOM, id } = result;
 
+      // 未设置表单类型
       if (!formType && [WidgetFormEnum.SectionForm, WidgetFormEnum.SingleForm].includes(widget_type as WidgetFormEnum)) {
         const sectionItem = widget_type === WidgetFormEnum.SectionForm ? { ...attr, title: `${attr.label}-1` } : attr;
         setFormType(widget_type as WidgetFormEnum, sectionItem);
@@ -144,7 +145,34 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
             }
           }
         } else {
+          const cloneFields = cloneDeep(fields);
           // SingleForm 待处理
+
+          if (isEmpty(parentId)) {
+            if (isEmpty(cloneFields)) {
+              cloneFields.push(draggedItem);
+            } else {
+              // hover上去的index
+              const index = cloneFields.findIndex((item) => item.id === id);
+              // 插入的位置
+              const insertIndex = direction === DropDirection.BOTTOM ? index + 1 : index;
+              cloneFields.splice(insertIndex, 0, draggedItem);
+            }
+          } else {
+            const dropItem = findItem(cloneFields, parentId as string);
+            const { currentIndex = 0 } = dropItem;
+            if (isEmpty(dropItem.fields)) {
+              dropItem.fields = [draggedItem];
+            } else {
+              const insertIndex = direction === DropDirection.BOTTOM ? currentIndex + 1 : currentIndex;
+              dropItem.fields.splice(insertIndex, 0, draggedItem);
+            }
+          }
+
+          dispatch({
+            type: ActionType.SET_FORM_FIELDS,
+            payload: cloneFields,
+          });
         }
       }
     }
