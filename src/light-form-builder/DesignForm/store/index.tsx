@@ -34,6 +34,12 @@ const designReducer: Reducer = (prevState: State, action: Action) => {
         ...prevState,
         sections: action.payload,
       };
+    // 设置选中的组件
+    case ActionType.SET_SELECT_WIDGET_ITEM:
+      return {
+        ...prevState,
+        selectWidgetItem: action.payload,
+      };
     case ActionType.SET_FORM_CONFIG:
       return {
         ...prevState,
@@ -59,6 +65,8 @@ interface DesignContextType {
   // dispatch: Dispatch<Action>;
   handleAdd: handleDrag;
   handleMove: handleDrag;
+  handleRemove: (draggedItem: LightFieldComponent) => FieldSection[] | LightFieldComponent;
+  handleClick: (draggedItem: LightFieldComponent) => void;
 }
 
 export const DesignContext = createContext<DesignContextType>({} as DesignContextType);
@@ -97,7 +105,7 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
    * @param {DragSourceMonitor} monitor hover上去的组件信息
    */
   const handleAdd = (draggedItem: LightFieldComponent, monitor: DragSourceMonitor) => {
-    const { widget_type, ...attr } = draggedItem;
+    const { widget_type } = draggedItem;
 
     const result = monitor.getDropResult() as LightFieldComponent;
 
@@ -106,7 +114,7 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
 
       // 未设置表单类型
       if (!formType && [WidgetFormEnum.SectionForm, WidgetFormEnum.SingleForm].includes(widget_type as WidgetFormEnum)) {
-        const sectionItem = widget_type === WidgetFormEnum.SectionForm ? { ...attr, title: `${attr.label}-1` } : attr;
+        const sectionItem = widget_type === WidgetFormEnum.SectionForm ? { ...draggedItem, title: `${draggedItem.label}-1` } : draggedItem;
         setFormType(widget_type as WidgetFormEnum, sectionItem);
       } else {
         // SectionForm表单 处理
@@ -120,7 +128,7 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
           const insertIndex = direction === DropDirection.BOTTOM ? index + 1 : index;
           switch (widget_type) {
             case WidgetFormEnum.SectionForm: {
-              cloneSections.splice(insertIndex, 0, { ...attr, title: `${attr.label}-${len}` });
+              cloneSections.splice(insertIndex, 0, { ...draggedItem, title: `${draggedItem.label}-${len}` });
               dispatch({
                 type: ActionType.SET_FORM_SECTIONS,
                 payload: cloneSections,
@@ -179,6 +187,44 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   };
 
   /**
+   * 移动组件
+   * @param {LightFieldComponent} draggedItem 被拖动的组件信息
+   * @param {DragSourceMonitor} monitor hover上去的组件信息
+   */
+  const handleMove = (draggedItem: LightFieldComponent, monitor: DragSourceMonitor) => {
+    const result = monitor.getDropResult() as LightFieldComponent;
+    if (isEmpty(result)) return;
+    const { widget_type, id: draggedId, direction, ...attr } = draggedItem;
+
+    const { id } = result;
+
+    if (formType === WidgetFormEnum.SectionForm) {
+      const cloneSections = cloneDeep(sections);
+      if (widget_type === WidgetFormEnum.SectionForm) {
+        // hover上去的index
+        const currentIndex = cloneSections.findIndex((item) => item.id === id);
+        const insertIndex = direction === DropDirection.BOTTOM ? currentIndex + 1 : currentIndex;
+        // 插入前先删除
+        const callBackData = handleRemove(draggedItem);
+        callBackData.splice(insertIndex, 0, draggedItem);
+        dispatch({
+          type: ActionType.SET_FORM_SECTIONS,
+          payload: callBackData,
+        });
+      }
+    } else {
+      // SingleForm 待处理
+    }
+  };
+
+  if (state.formType === WidgetFormEnum.SectionForm) {
+    console.log('SectionForm', state.sections);
+  }
+  if (state.formType === WidgetFormEnum.SingleForm) {
+    console.log('SingleForm', state.fields);
+  }
+
+  /**
    * 删除组件
    * @param {LightFieldComponent} draggedItem 点击删除的组件信息
    */
@@ -213,37 +259,13 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
     }
   };
 
-  /**
-   * 移动组件
-   * @param {LightFieldComponent} draggedItem 被拖动的组件信息
-   * @param {DragSourceMonitor} monitor hover上去的组件信息
-   */
-  const handleMove = (draggedItem: LightFieldComponent, monitor: DragSourceMonitor) => {
-    const result = monitor.getDropResult() as LightFieldComponent;
-    if (isEmpty(result)) return;
-    const { widget_type, id: draggedId, direction, ...attr } = draggedItem;
-
-    const { id } = result;
-
-    if (formType === WidgetFormEnum.SectionForm) {
-      const cloneSections = cloneDeep(sections);
-      if (widget_type === WidgetFormEnum.SectionForm) {
-        // hover上去的index
-        const currentIndex = cloneSections.findIndex((item) => item.id === id);
-        const insertIndex = direction === DropDirection.BOTTOM ? currentIndex + 1 : currentIndex;
-        // 插入前先删除
-        const callBackData = handleRemove(draggedItem);
-        callBackData.splice(insertIndex, 0, draggedItem);
-        dispatch({
-          type: ActionType.SET_FORM_SECTIONS,
-          payload: callBackData,
-        });
-      }
-    } else {
-      // SingleForm 待处理
-    }
+  const handleClick = (draggedItem: LightFieldComponent) => {
+    dispatch({
+      type: ActionType.SET_SELECT_WIDGET_ITEM,
+      payload: draggedItem,
+    });
   };
 
-  return <DesignContext.Provider value={{ state, handleAdd, handleMove }}> {children} </DesignContext.Provider>;
+  return <DesignContext.Provider value={{ state, handleAdd, handleMove, handleRemove, handleClick }}>{children}</DesignContext.Provider>;
 };
 export default DesignProvider;
