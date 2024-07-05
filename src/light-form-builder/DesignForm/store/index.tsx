@@ -201,20 +201,22 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
     if (formType === WidgetFormEnum.SectionForm) {
       const cloneSections = cloneDeep(sections);
       if (widget_type === WidgetFormEnum.SectionForm) {
-        // hover上去的index
-        const hoverIndex = cloneSections.findIndex((item) => item.id === id);
-        // 插入位置的index
-        const insertIndex = direction === DropDirection.BOTTOM ? hoverIndex + 1 : hoverIndex - 1;
         // 元素当前的位置
         const currentIndex = cloneSections.findIndex((item) => item.id === draggedId);
+        // 排除拖动元素后的数据
+        const filterSections = cloneSections.filter((item) => item.id !== draggedId);
+        // hover上去的index
+        const hoverIndex = filterSections.findIndex((item) => item.id === id);
+        // 插入位置的index
+        const insertIndex = direction === DropDirection.BOTTOM ? hoverIndex + 1 : hoverIndex;
         // 插入位置与当前位置相同，不做处理
         if (insertIndex === currentIndex) return;
         // 插入前先删除
-        const callBackData = handleRemove(draggedItem);
-        callBackData.splice(insertIndex, 0, draggedItem);
+        // const callBackData = handleRemove(draggedItem);
+        filterSections.splice(insertIndex, 0, draggedItem);
         dispatch({
           type: ActionType.SET_FORM_SECTIONS,
-          payload: callBackData,
+          payload: filterSections,
         });
       }
     } else {
