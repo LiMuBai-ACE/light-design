@@ -11,7 +11,7 @@ interface DragElementProps {
 }
 
 const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
-  const { state, handleAdd } = useContext(DesignContext);
+  const { state, handleAdd, handleClick } = useContext(DesignContext);
   const { formType } = state;
 
   const id = nanoid().replaceAll('_', '').replaceAll('-', '');
@@ -37,7 +37,13 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
       isDragging: !!monitor.isDragging(),
     }),
     canDrag: () => isDisabled,
-    end: handleAdd,
+    end: (item, monitor) => {
+      // 添加组件
+      handleAdd(item, monitor);
+
+      // 选中组件
+      handleClick(item);
+    },
   });
 
   const childProps = {

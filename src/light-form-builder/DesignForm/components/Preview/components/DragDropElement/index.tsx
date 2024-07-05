@@ -27,59 +27,68 @@ const DragDropElement: FC<DragDropElementProps> = (props) => {
 
   const { handleMove, handleClick, state } = useContext(DesignContext);
   const { selectWidgetItem } = state;
-
   const elementRef = useRef<HTMLDivElement>(null);
 
   const [direction, setDirection] = useState<DropDirection | undefined>();
+
+  const isActive = useMemo(() => {
+    return selectWidgetItem?.id === item.id;
+  }, [selectWidgetItem]);
 
   const [{ isDragging }, drag] = useDrag({
     // 设置填充数据
     item,
     type: ItemTypes.WIDGET,
-    end: handleMove,
+    end: (item, monitor) => {
+      // 先移动到目标位置
+      handleMove(item, monitor);
+
+      // 非选中状态选中目标元素
+      if (!isActive) {
+        handleClick(item);
+      }
+    },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   });
 
-  const [{ isOver, isCanDrop }, drop] = useDrop({
-    accept: ItemTypes.WIDGET,
-    drop: () => {
-      return {
-        ...item,
-        direction,
-      };
-    },
-    canDrop,
-    hover: (draggedItem, monitor) => {
-      // 获取鼠标位置
-      const hoverBoundingRect = elementRef.current?.getBoundingClientRect() as DOMRect;
+  const [{ isOver, isCanDrop }, drop] = useDrop(
+    () => ({
+      accept: ItemTypes.WIDGET,
+      drop: () => {
+        return {
+          ...item,
+          direction,
+        };
+      },
+      canDrop,
+      hover: (draggedItem, monitor) => {
+        // 获取鼠标位置
+        const hoverBoundingRect = elementRef.current?.getBoundingClientRect() as DOMRect;
 
-      const pointerOffset = monitor.getClientOffset() as XYCoord;
-      const { top, height } = hoverBoundingRect;
+        const pointerOffset = monitor.getClientOffset() as XYCoord;
+        const { top, height } = hoverBoundingRect;
 
-      const hoverOffsetTop = pointerOffset?.y - top;
+        const hoverOffsetTop = pointerOffset?.y - top;
 
-      const dividerHeight = height / 2;
-
-      const hoverDirection = hoverOffsetTop > dividerHeight ? DropDirection.BOTTOM : DropDirection.TOP;
-      // 避免重复触发state更新
-      if (direction === hoverDirection) return;
-      setDirection(hoverDirection);
-    },
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-      isCanDrop: !!monitor.canDrop(),
+        const dividerHeight = height / 2;
+        const hoverDirection = hoverOffsetTop > dividerHeight ? DropDirection.BOTTOM : DropDirection.TOP;
+        // 避免重复触发state更新
+        if (direction === hoverDirection) return;
+        setDirection(hoverDirection);
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+        isCanDrop: !!monitor.canDrop(),
+      }),
     }),
-  });
+    [direction],
+  );
 
   drag(drop(elementRef));
 
   const child = cloneElement(children, { ...children.props, style: { opacity: isDragging ? 0.5 : 1 } });
-
-  const isActive = useMemo(() => {
-    return selectWidgetItem?.id !== item.id;
-  }, [selectWidgetItem]);
 
   const onClick = (e: MouseEvent) => {
     e.stopPropagation();
@@ -87,7 +96,7 @@ const DragDropElement: FC<DragDropElementProps> = (props) => {
     if (isActive) return;
     handleClick(item);
   };
-  console.log('isActive', isActive);
+
   return (
     <div
       ref={elementRef}

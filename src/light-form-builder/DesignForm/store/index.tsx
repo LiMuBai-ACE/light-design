@@ -194,16 +194,21 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   const handleMove = (draggedItem: LightFieldComponent, monitor: DragSourceMonitor) => {
     const result = monitor.getDropResult() as LightFieldComponent;
     if (isEmpty(result)) return;
-    const { widget_type, id: draggedId, direction, ...attr } = draggedItem;
+    const { widget_type, id: draggedId, ...attr } = draggedItem;
 
-    const { id } = result;
+    const { direction, id } = result;
 
     if (formType === WidgetFormEnum.SectionForm) {
       const cloneSections = cloneDeep(sections);
       if (widget_type === WidgetFormEnum.SectionForm) {
         // hover上去的index
-        const currentIndex = cloneSections.findIndex((item) => item.id === id);
-        const insertIndex = direction === DropDirection.BOTTOM ? currentIndex + 1 : currentIndex;
+        const hoverIndex = cloneSections.findIndex((item) => item.id === id);
+        // 插入位置的index
+        const insertIndex = direction === DropDirection.BOTTOM ? hoverIndex + 1 : hoverIndex - 1;
+        // 元素当前的位置
+        const currentIndex = cloneSections.findIndex((item) => item.id === draggedId);
+        // 插入位置与当前位置相同，不做处理
+        if (insertIndex === currentIndex) return;
         // 插入前先删除
         const callBackData = handleRemove(draggedItem);
         callBackData.splice(insertIndex, 0, draggedItem);
