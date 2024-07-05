@@ -211,8 +211,6 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
         const insertIndex = direction === DropDirection.BOTTOM ? hoverIndex + 1 : hoverIndex;
         // 插入位置与当前位置相同，不做处理
         if (insertIndex === currentIndex) return;
-        // 插入前先删除
-        // const callBackData = handleRemove(draggedItem);
         filterSections.splice(insertIndex, 0, draggedItem);
         dispatch({
           type: ActionType.SET_FORM_SECTIONS,
