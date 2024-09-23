@@ -1,7 +1,6 @@
 import { LightSectionFormCardProps } from '@/LightForm/SectionForm';
-import { LightFieldComponent } from '@/light-form-builder/config';
+import { LightFieldComponent, WidgetTypeEnum } from '@/light-form-builder/config';
 import type { FormProps } from 'antd/es/form';
-import { WidgetFormEnum } from '../constants';
 
 export const initState: State = {
   selectWidgetItem: undefined,
@@ -22,7 +21,7 @@ export interface State {
   sections: FieldSection[];
   fields: LightFieldComponent[];
   form_config: FormProps;
-  formType: WidgetFormEnum | undefined;
+  formType: WidgetTypeEnum.SectionForm | WidgetTypeEnum.SingleForm | undefined;
   [key: string]: any;
 }
 

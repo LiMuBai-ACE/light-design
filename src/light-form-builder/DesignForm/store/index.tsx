@@ -1,9 +1,10 @@
-import { LightFieldComponent } from '@/light-form-builder/config';
+import { LightFieldComponent, WidgetTypeEnum } from '@/light-form-builder/config';
 import { isEmpty } from '@/utils';
 import { cloneDeep } from 'lodash-es';
 import React, { Dispatch, FC, createContext, useReducer } from 'react';
 import { DragSourceMonitor } from 'react-dnd';
-import { DropDirection, WidgetFormEnum, findItem } from '../constants';
+import { getId } from '../components/WidgetComponents/constants';
+import { DropDirection, findItem } from '../constants';
 import { Action, ActionType } from './action';
 import { CommonProviderProps, FieldSection, State, initState } from './state';
 
@@ -63,10 +64,29 @@ type handleDrag = (draggedItem: LightFieldComponent, monitor: DragSourceMonitor)
 interface DesignContextType {
   state: State;
   // dispatch: Dispatch<Action>;
+  /** 添加组件 */
   handleAdd: handleDrag;
+  /** 移动组件 */
   handleMove: handleDrag;
+  /**
+   * 删除组件
+   * @param draggedItem 删除组件的属性
+   * @returns 返回新的组件列表
+   */
   handleRemove: (draggedItem: LightFieldComponent) => FieldSection[] | LightFieldComponent;
+  /**
+   * 选中组件
+   * @param draggedItem 选中组件的属性
+   * @returns
+   */
   handleClick: (draggedItem: LightFieldComponent) => void;
+  /**
+   * 复制组件
+   * @description向下复制一个
+   * @param draggedItem 复制组件的属性
+   * @returns
+   */
+  handleCopy: (draggedItem: LightFieldComponent) => void;
 }
 
 export const DesignContext = createContext<DesignContextType>({} as DesignContextType);
@@ -76,6 +96,13 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
 
   const { sections, formType, fields } = state;
 
+  /** 常量 频繁使用 start-------------- */
+
+  const isSectionForm = (widget_type: WidgetTypeEnum) => widget_type === WidgetTypeEnum.SectionForm;
+  const isSingleForm = (widget_type: WidgetTypeEnum) => widget_type === WidgetTypeEnum.SingleForm;
+
+  /** 常量 频繁使用 end-------------- */
+
   // 辅助函数：创建一个带有新标题的SectionForm组件
   const createSectionFormComponent = (component: LightFieldComponent, len: number) => ({
     ...component,
@@ -83,13 +110,13 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   });
 
   // 设置表单类型
-  const setFormType = (widget_type: WidgetFormEnum, component: LightFieldComponent) => {
-    if (widget_type === WidgetFormEnum.SectionForm) {
+  const setFormType = (widget_type: WidgetTypeEnum, component: LightFieldComponent) => {
+    if (isSectionForm(widget_type)) {
       dispatch({
         type: ActionType.SET_FORM_TYPE,
         payload: { widget_type, sections: [createSectionFormComponent(component, 1)] },
       });
-    } else if (widget_type === WidgetFormEnum.SingleForm) {
+    } else if (widget_type === WidgetTypeEnum.SingleForm) {
       dispatch({
         type: ActionType.SET_FORM_TYPE,
         payload: { widget_type },
@@ -113,12 +140,12 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
       const { parentId, direction = DropDirection.BOTTOM, id } = result;
 
       // 未设置表单类型
-      if (!formType && [WidgetFormEnum.SectionForm, WidgetFormEnum.SingleForm].includes(widget_type as WidgetFormEnum)) {
-        const sectionItem = widget_type === WidgetFormEnum.SectionForm ? { ...draggedItem, title: `${draggedItem.label}-1` } : draggedItem;
-        setFormType(widget_type as WidgetFormEnum, sectionItem);
+      if (!formType && [WidgetTypeEnum.SectionForm, WidgetTypeEnum.SingleForm].includes(widget_type)) {
+        const sectionItem = isSectionForm(widget_type) ? { ...draggedItem, title: `${draggedItem.label}-1` } : draggedItem;
+        setFormType(widget_type, sectionItem);
       } else {
         // SectionForm表单 处理
-        if (formType === WidgetFormEnum.SectionForm) {
+        if (formType === WidgetTypeEnum.SectionForm) {
           const cloneSections = cloneDeep(sections);
           const len = cloneSections.length + 1;
           // hover上去的index
@@ -127,7 +154,7 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
           // 插入的位置
           const insertIndex = direction === DropDirection.BOTTOM ? index + 1 : index;
           switch (widget_type) {
-            case WidgetFormEnum.SectionForm: {
+            case WidgetTypeEnum.SectionForm: {
               cloneSections.splice(insertIndex, 0, { ...draggedItem, title: `${draggedItem.label}-${len}` });
               dispatch({
                 type: ActionType.SET_FORM_SECTIONS,
@@ -198,9 +225,9 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
 
     const { direction, id } = result;
 
-    if (formType === WidgetFormEnum.SectionForm) {
+    if (formType === WidgetTypeEnum.SectionForm) {
       const cloneSections = cloneDeep(sections);
-      if (widget_type === WidgetFormEnum.SectionForm) {
+      if (isSectionForm(widget_type)) {
         // 元素当前的位置
         const currentIndex = cloneSections.findIndex((item) => item.id === draggedId);
         // 排除拖动元素后的数据
@@ -222,10 +249,10 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
     }
   };
 
-  if (state.formType === WidgetFormEnum.SectionForm) {
+  if (state.formType === WidgetTypeEnum.SectionForm) {
     console.log('SectionForm', state.sections);
   }
-  if (state.formType === WidgetFormEnum.SingleForm) {
+  if (state.formType === WidgetTypeEnum.SingleForm) {
     console.log('SingleForm', state.fields);
   }
 
@@ -236,10 +263,11 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   const handleRemove = (draggedItem: LightFieldComponent): FieldSection[] | LightFieldComponent => {
     const { parentId, widget_type, id } = draggedItem;
     // SectionForm 处理
-    if (formType === WidgetFormEnum.SectionForm) {
+    if (formType === WidgetTypeEnum.SectionForm) {
       const cloneSections = cloneDeep(sections);
-      if (widget_type === WidgetFormEnum.SectionForm) {
+      if (isSectionForm(widget_type)) {
         if (cloneSections.length === 1) {
+          // 删除表单，重置表单类型
           dispatch({
             type: ActionType.SET_FORM_TYPE,
             payload: { widget_type: undefined, sections: [] },
@@ -271,6 +299,35 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
     });
   };
 
-  return <DesignContext.Provider value={{ state, handleAdd, handleMove, handleRemove, handleClick }}>{children}</DesignContext.Provider>;
+  const handleCopy = (draggedItem: LightFieldComponent) => {
+    const { parentId, widget_type, id } = draggedItem;
+    const newId = getId();
+    const newName = `${widget_type}~${newId}`;
+    const newDraggedItem = { ...draggedItem, id: newId, name: newName };
+    // SectionForm 处理
+    if (formType === WidgetTypeEnum.SectionForm) {
+      const cloneSections = cloneDeep(sections);
+      if (isSectionForm(widget_type)) {
+        const index = cloneSections.findIndex((item) => item.id === id);
+        // 新的组件
+        cloneSections.splice(index + 1, 0, newDraggedItem);
+      } else {
+        const dropItem = findItem(cloneSections, parentId as string);
+        const { currentIndex = 0 } = dropItem;
+        dropItem.fields.splice(currentIndex + 1, 0, newDraggedItem);
+      }
+      dispatch({
+        type: ActionType.SET_FORM_SECTIONS,
+        payload: cloneSections,
+      });
+      handleClick(newDraggedItem);
+      return cloneSections;
+    } else {
+      // SingleForm 待处理
+      return [];
+    }
+  };
+
+  return <DesignContext.Provider value={{ state, handleAdd, handleMove, handleRemove, handleClick, handleCopy }}>{children}</DesignContext.Provider>;
 };
 export default DesignProvider;

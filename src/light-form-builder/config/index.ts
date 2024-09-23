@@ -1,4 +1,5 @@
 import Icons from '@/assets/icons';
+import { WidgetFormEnum } from '../DesignForm/constants';
 
 // 通用组件
 const commonComponents: LightFieldComponent[] = [
@@ -11,17 +12,26 @@ const commonComponents: LightFieldComponent[] = [
   // },
 ];
 
+export enum WidgetTypeEnum {
+  // 分区表单
+  SectionForm = WidgetFormEnum.SectionForm,
+  // 简单表单
+  SingleForm = WidgetFormEnum.SingleForm,
+  // 输入框
+  Input = 'Input',
+}
+
 const layoutComponents: LightFieldComponent[] = [
   {
     label: '分区表单',
-    widget_type: 'SectionForm',
+    widget_type: WidgetTypeEnum.SectionForm,
     icon: Icons.SectionForm,
     form_config: {},
     layout_config: {},
   },
   {
     label: '简洁表单',
-    widget_type: 'SingleForm',
+    widget_type: WidgetTypeEnum.SingleForm,
     icon: Icons.SingleForm,
     form_config: {},
     layout_config: {},
@@ -32,7 +42,7 @@ const layoutComponents: LightFieldComponent[] = [
 const dataEntryComponents: LightFieldComponent[] = [
   {
     label: '输入框',
-    widget_type: 'Input',
+    widget_type: WidgetTypeEnum.Input,
     icon: Icons.Input,
     form_config: {
       defaultValue: '66666666',
@@ -75,7 +85,7 @@ export type LightFieldComponent = {
   currentIndex?: number;
   label: string;
   icon: string;
-  widget_type?: string;
+  widget_type: WidgetTypeEnum;
   form_config?: Record<string, any>;
   layout_config?: Record<string, any>;
   [key: string]: any;

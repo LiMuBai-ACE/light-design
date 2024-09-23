@@ -2,7 +2,32 @@
   position: relative;
   border: 1px solid transparent;
 
+  &:hover {
+    border: 1px dashed #197aff;
+  }
+
   &.drag-drop-active {
-    border-color: #197aff;
+    border: 1px solid #197aff;
+  }
+
+  .operation {
+    position: absolute;
+    right: 0;
+    top: -2px;
+    transform: translateY(-100%);
+    z-index: 99;
+    background-color: #197aff;
+    border-radius: 3px;
+
+    .copy,
+    .delete {
+      cursor: pointer;
+      padding: 4px;
+      color: #fff;
+
+      &:hover {
+        color: rgba(255, 255, 255, 60%);
+      }
+    }
   }
 }

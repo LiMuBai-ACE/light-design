@@ -2,7 +2,9 @@ import { DropDirection, ItemTypes } from '@/light-form-builder/DesignForm/consta
 import { DesignContext } from '@/light-form-builder/DesignForm/store';
 import { LightFieldComponent } from '@/light-form-builder/config';
 import { ClassName } from '@/utils';
-import React, { CSSProperties, FC, MouseEvent, ReactElement, cloneElement, useContext, useMemo, useRef, useState } from 'react';
+import { CopyOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Space, Tooltip } from 'antd';
+import React, { FC, MouseEvent, ReactElement, cloneElement, useContext, useMemo, useRef, useState } from 'react';
 import { DropTargetMonitor, XYCoord, useDrag, useDrop } from 'react-dnd';
 import DragTips from '../DragTips';
 import './index.less';
@@ -14,8 +16,6 @@ interface DragDropElementProps {
   item: LightFieldComponent;
   /** 确定小部件是否可以放置的函数 */
   canDrop?: (draggedItem: LightFieldComponent, monitor: DropTargetMonitor) => boolean;
-  /** 应用到组件的 CSS 样式 */
-  style?: CSSProperties;
 }
 
 /**
@@ -23,9 +23,9 @@ interface DragDropElementProps {
  * @return {ReactElement} 拖放元素组件。
  */
 const DragDropElement: FC<DragDropElementProps> = (props) => {
-  const { children, item, canDrop = () => true, style } = props;
+  const { children, item, canDrop = () => true } = props;
 
-  const { handleMove, handleClick, state } = useContext(DesignContext);
+  const { handleMove, handleClick, state, handleRemove, handleCopy } = useContext(DesignContext);
   const { selectWidgetItem } = state;
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -97,18 +97,36 @@ const DragDropElement: FC<DragDropElementProps> = (props) => {
     handleClick(item);
   };
 
+  const onDelete = () => {
+    handleRemove(item);
+  };
+
+  const onCopy = () => {
+    handleCopy(item);
+  };
+
   return (
-    <div
-      ref={elementRef}
-      style={style}
-      className={ClassName.setup({
-        'drag-drop-container': true,
-        'drag-drop-active': isActive,
-      })}
-      onClick={onClick}
-    >
+    <div ref={elementRef}>
       <DragTips isShow={isOver && isCanDrop && direction === DropDirection.TOP} />
-      {child}
+      <div
+        className={ClassName.setup({
+          'drag-drop-container': true,
+          'drag-drop-active': isActive,
+        })}
+        onClick={onClick}
+      >
+        {isActive && (
+          <Space size={8} className="operation">
+            <Tooltip title="复制">
+              <CopyOutlined className="copy" onClick={onCopy} />
+            </Tooltip>
+            <Tooltip title="删除">
+              <DeleteOutlined className="delete" onClick={onDelete} />
+            </Tooltip>
+          </Space>
+        )}
+        {child}
+      </div>
       <DragTips isShow={isOver && isCanDrop && direction === DropDirection.BOTTOM} />
     </div>
   );

@@ -1,8 +1,7 @@
 import Card from '@/components/card';
 import { Warnings } from '@/components/warnings';
-import { WidgetFormEnum } from '@/light-form-builder/DesignForm/constants';
 import { FieldSection } from '@/light-form-builder/DesignForm/store/state';
-import { LightFieldComponent } from '@/light-form-builder/config';
+import { LightFieldComponent, WidgetTypeEnum } from '@/light-form-builder/config';
 import React, { FC } from 'react';
 import DragDropElement from '../DragDropElement';
 import SingleForm from './SingleForm';
@@ -12,13 +11,12 @@ const SectionCardForm: FC<FieldSection> = (props) => {
 
   const canDrop = (draggedItem: LightFieldComponent) => {
     const { widget_type } = draggedItem;
-    return widget_type === WidgetFormEnum.SectionForm && props.id !== draggedItem.id;
+    return widget_type === WidgetTypeEnum.SectionForm && props.id !== draggedItem.id;
   };
 
   const attrs = {
     item: { ...props },
     canDrop,
-    style: { marginBottom: 20 },
   };
 
   const cardAttrs = {

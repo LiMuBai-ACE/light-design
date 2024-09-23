@@ -1,9 +1,9 @@
-import { LightFieldComponent } from '@/light-form-builder/config';
-import { nanoid } from 'nanoid';
+import { LightFieldComponent, WidgetTypeEnum } from '@/light-form-builder/config';
 import { FC, ReactElement, cloneElement, useContext } from 'react';
 import { useDrag } from 'react-dnd';
-import { ItemTypes, WidgetFormEnum } from '../../constants';
+import { ItemTypes } from '../../constants';
 import { DesignContext } from '../../store';
+import { getId } from './constants';
 
 interface DragElementProps {
   children: ReactElement;
@@ -14,7 +14,7 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
   const { state, handleAdd, handleClick } = useContext(DesignContext);
   const { formType } = state;
 
-  const id = nanoid().replaceAll('_', '').replaceAll('-', '');
+  const id = getId();
 
   // 根据组件类型合id 生成name
   const name = `${config.widget_type}~${id}`;
@@ -24,9 +24,9 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
     name,
   };
 
-  const isSingleForm = formType === WidgetFormEnum.SingleForm;
-  const isWidgetSingleForm = config.widget_type === WidgetFormEnum.SingleForm;
-  const isWidgetSectionForm = config.widget_type === WidgetFormEnum.SectionForm;
+  const isSingleForm = formType === WidgetTypeEnum.SingleForm;
+  const isWidgetSingleForm = config.widget_type === WidgetTypeEnum.SingleForm;
+  const isWidgetSectionForm = config.widget_type === WidgetTypeEnum.SectionForm;
 
   const isDisabled = !(formType && (isWidgetSingleForm || (isSingleForm && isWidgetSectionForm)));
 
