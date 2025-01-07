@@ -1,10 +1,10 @@
-import { LightFieldComponent } from '@/light-form-builder/config';
+import { LightFieldComponent, WidgetTypeEnum } from '@/light-form-builder/config';
 import { isEmpty } from '@/utils';
 import { ConfigProvider, Form, FormInstance } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import React, { FC, useContext, useRef } from 'react';
 import { useDrop } from 'react-dnd';
-import { ItemTypes, WidgetFormEnum } from '../../constants';
+import { ItemTypes } from '../../constants';
 import { DesignContext } from '../../store';
 import DragTips from './components/DragTips';
 import SectionForm from './components/Form/SectionForm';
@@ -27,8 +27,8 @@ const Preview: FC<PreviewProps> = (props) => {
     () => ({
       accept: ItemTypes.WIDGET,
       canDrop(draggedItem: LightFieldComponent) {
-        const { widget_type } = draggedItem;
-        return !formType && (widget_type === WidgetFormEnum.SectionForm || widget_type === WidgetFormEnum.SingleForm);
+        const { widget } = draggedItem;
+        return !formType && (widget === WidgetTypeEnum.SectionForm || widget === WidgetTypeEnum.SingleForm);
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver({ shallow: true }),
@@ -53,10 +53,10 @@ const Preview: FC<PreviewProps> = (props) => {
         <Form {...formConfig} form={formInstance} className="widget-form">
           <div className="widget-form-list" ref={widgetFormListRef}>
             {/* 分组表单 */}
-            {formType === WidgetFormEnum.SectionForm ? <SectionForm sections={sections} /> : null}
+            {formType === WidgetTypeEnum.SectionForm ? <SectionForm sections={sections} /> : null}
 
             {/* 简洁表单 */}
-            {formType === WidgetFormEnum.SingleForm ? <SingleForm fields={fields} /> : null}
+            {formType === WidgetTypeEnum.SingleForm ? <SingleForm fields={fields} /> : null}
 
             {/*
               拖拽提示

@@ -6,37 +6,19 @@ import { WidgetType } from './constants';
 import LightCascaderPicker from '@/Widgets/LightCascaderPicker'; // 级联控件
 import LightCheckboxGroup from '@/Widgets/LightCheckboxGroup'; // 控件集合-多选项
 import LightColorPicker from '@/Widgets/LightColorPicker'; // 颜色控件
-import LightDatePicker, {
-  LightDateRangePicker,
-  LightMonthDatePicker,
-} from '@/Widgets/LightDatePicker'; // 控件集合-日期
+import LightDatePicker, { LightDateRangePicker, LightMonthDatePicker } from '@/Widgets/LightDatePicker'; // 控件集合-日期
 
 import LightRadioGroup from '@/Widgets/LightRadioGroup'; // 控件集合-单选项
-import {
-  LightTimePicker,
-  LightTimeRangePicker,
-} from '@/Widgets/LightTimePicker'; // 控件集合-时间
+import { LightTimePicker, LightTimeRangePicker } from '@/Widgets/LightTimePicker'; // 控件集合-时间
 
-import LightSelectPicker, {
-  LightSelectPickerProps,
-} from '@/Widgets/LightSelectPicker'; // 控件集合-下拉列表
+import LightSelectPicker, { LightSelectPickerProps } from '@/Widgets/LightSelectPicker'; // 控件集合-下拉列表
 
-import NumberWidget, {
-  LightInputCounter,
-  LightInputCurrency,
-  LightInputDiscount,
-} from '@/Widgets/LightInputNumber';
+import NumberWidget, { LightInputCounter, LightInputCurrency, LightInputDiscount } from '@/Widgets/LightInputNumber';
 
 import { Text } from '@/components/paragraph/text';
 import { FieldWidgetType } from '../field/type';
 
-const WidgetNode = ({
-  widget,
-  ...others
-}: {
-  widget: FieldWidgetType;
-  [key: string]: any;
-}) => {
+const WidgetNode = ({ widget, ...others }: { widget: FieldWidgetType; [key: string]: any }) => {
   switch (widget) {
     // 隐藏字段
     case WidgetType.hidden:
@@ -62,9 +44,7 @@ const WidgetNode = ({
 
     // 开关
     case WidgetType.switch: {
-      return (
-        <Switch checkedChildren="开启" unCheckedChildren="关闭" {...others} />
-      );
+      return <Switch checkedChildren="开启" unCheckedChildren="关闭" {...others} />;
     }
 
     // 日期控件

@@ -7,7 +7,7 @@ export const initState: State = {
   formType: undefined,
   sections: [],
   fields: [],
-  form_config: {
+  config: {
     colon: true,
     labelCol: {},
     wrapperCol: {},
@@ -20,7 +20,7 @@ export interface State {
   selectWidgetItem?: FieldSection;
   sections: FieldSection[];
   fields: LightFieldComponent[];
-  form_config: FormProps;
+  config: FormProps;
   formType: WidgetTypeEnum.SectionForm | WidgetTypeEnum.SingleForm | undefined;
   [key: string]: any;
 }

@@ -10,8 +10,8 @@ const SectionCardForm: FC<FieldSection> = (props) => {
   const { title, warning, fields = [], extra, style, ...others } = props;
 
   const canDrop = (draggedItem: LightFieldComponent) => {
-    const { widget_type } = draggedItem;
-    return widget_type === WidgetTypeEnum.SectionForm && props.id !== draggedItem.id;
+    const { widget } = draggedItem;
+    return widget === WidgetTypeEnum.SectionForm && props.id !== draggedItem.id;
   };
 
   const attrs = {

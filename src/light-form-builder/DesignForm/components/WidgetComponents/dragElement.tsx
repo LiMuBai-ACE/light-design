@@ -17,7 +17,7 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
   const id = getId();
 
   // 根据组件类型合id 生成name
-  const name = `${config.widget_type}~${id}`;
+  const name = `${config.widget}~${id}`;
   const item = {
     ...config,
     id,
@@ -25,8 +25,8 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
   };
 
   const isSingleForm = formType === WidgetTypeEnum.SingleForm;
-  const isWidgetSingleForm = config.widget_type === WidgetTypeEnum.SingleForm;
-  const isWidgetSectionForm = config.widget_type === WidgetTypeEnum.SectionForm;
+  const isWidgetSingleForm = config.widget === WidgetTypeEnum.SingleForm;
+  const isWidgetSectionForm = config.widget === WidgetTypeEnum.SectionForm;
 
   const isDisabled = !(formType && (isWidgetSingleForm || (isSingleForm && isWidgetSectionForm)));
 

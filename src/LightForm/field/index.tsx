@@ -5,13 +5,7 @@ import { isEmpty } from '@/utils';
 
 import FieldConditions from './components/conditions';
 import FieldWatch from './components/watch';
-import {
-  ConditionModel,
-  FieldParentProps,
-  FieldProps,
-  SectionFieldProps,
-  SectionFieldsProps,
-} from './type';
+import { ConditionModel, FieldParentProps, FieldProps, SectionFieldProps, SectionFieldsProps } from './type';
 
 import FieldItem from './components/field';
 

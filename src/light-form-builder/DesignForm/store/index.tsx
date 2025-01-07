@@ -13,7 +13,7 @@ type Reducer = (prevState: State, action: Action) => any;
 const designReducer: Reducer = (prevState: State, action: Action) => {
   const { payload = {} } = action;
 
-  const { widget_type, ...other } = payload;
+  const { widget, ...other } = payload;
 
   switch (action.type) {
     // 设置表单类型
@@ -21,7 +21,7 @@ const designReducer: Reducer = (prevState: State, action: Action) => {
       return {
         ...prevState,
         ...other,
-        formType: widget_type,
+        formType: widget,
       };
     // 简单的组件设置
     case ActionType.SET_FORM_FIELDS:
@@ -98,8 +98,8 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
 
   /** 常量 频繁使用 start-------------- */
 
-  const isSectionForm = (widget_type: WidgetTypeEnum) => widget_type === WidgetTypeEnum.SectionForm;
-  const isSingleForm = (widget_type: WidgetTypeEnum) => widget_type === WidgetTypeEnum.SingleForm;
+  const isSectionForm = (widget: WidgetTypeEnum) => widget === WidgetTypeEnum.SectionForm;
+  const isSingleForm = (widget: WidgetTypeEnum) => widget === WidgetTypeEnum.SingleForm;
 
   /** 常量 频繁使用 end-------------- */
 
@@ -110,19 +110,19 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   });
 
   // 设置表单类型
-  const setFormType = (widget_type: WidgetTypeEnum, component: LightFieldComponent) => {
-    if (isSectionForm(widget_type)) {
+  const setFormType = (widget: WidgetTypeEnum, component: LightFieldComponent) => {
+    if (isSectionForm(widget)) {
       dispatch({
         type: ActionType.SET_FORM_TYPE,
-        payload: { widget_type, sections: [createSectionFormComponent(component, 1)] },
+        payload: { widget, sections: [createSectionFormComponent(component, 1)] },
       });
-    } else if (widget_type === WidgetTypeEnum.SingleForm) {
+    } else if (widget === WidgetTypeEnum.SingleForm) {
       dispatch({
         type: ActionType.SET_FORM_TYPE,
-        payload: { widget_type },
+        payload: { widget },
       });
     } else {
-      console.error('设置表单类型出错，不支持的表单类型：', widget_type);
+      console.error('设置表单类型出错，不支持的表单类型：', widget);
     }
   };
 
@@ -132,7 +132,7 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
    * @param {DragSourceMonitor} monitor hover上去的组件信息
    */
   const handleAdd = (draggedItem: LightFieldComponent, monitor: DragSourceMonitor) => {
-    const { widget_type } = draggedItem;
+    const { widget } = draggedItem;
 
     const result = monitor.getDropResult() as LightFieldComponent;
 
@@ -140,9 +140,9 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
       const { parentId, direction = DropDirection.BOTTOM, id } = result;
 
       // 未设置表单类型
-      if (!formType && [WidgetTypeEnum.SectionForm, WidgetTypeEnum.SingleForm].includes(widget_type)) {
-        const sectionItem = isSectionForm(widget_type) ? { ...draggedItem, title: `${draggedItem.label}-1` } : draggedItem;
-        setFormType(widget_type, sectionItem);
+      if (!formType && [WidgetTypeEnum.SectionForm, WidgetTypeEnum.SingleForm].includes(widget)) {
+        const sectionItem = isSectionForm(widget) ? { ...draggedItem, title: `${draggedItem.label}-1` } : draggedItem;
+        setFormType(widget, sectionItem);
       } else {
         // SectionForm表单 处理
         if (formType === WidgetTypeEnum.SectionForm) {
@@ -153,7 +153,7 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
 
           // 插入的位置
           const insertIndex = direction === DropDirection.BOTTOM ? index + 1 : index;
-          switch (widget_type) {
+          switch (widget) {
             case WidgetTypeEnum.SectionForm: {
               cloneSections.splice(insertIndex, 0, { ...draggedItem, title: `${draggedItem.label}-${len}` });
               dispatch({
@@ -221,13 +221,13 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   const handleMove = (draggedItem: LightFieldComponent, monitor: DragSourceMonitor) => {
     const result = monitor.getDropResult() as LightFieldComponent;
     if (isEmpty(result)) return;
-    const { widget_type, id: draggedId, ...attr } = draggedItem;
+    const { widget, id: draggedId, ...attr } = draggedItem;
 
     const { direction, id } = result;
 
     if (formType === WidgetTypeEnum.SectionForm) {
       const cloneSections = cloneDeep(sections);
-      if (isSectionForm(widget_type)) {
+      if (isSectionForm(widget)) {
         // 元素当前的位置
         const currentIndex = cloneSections.findIndex((item) => item.id === draggedId);
         // 排除拖动元素后的数据
@@ -261,16 +261,16 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
    * @param {LightFieldComponent} draggedItem 点击删除的组件信息
    */
   const handleRemove = (draggedItem: LightFieldComponent): FieldSection[] | LightFieldComponent => {
-    const { parentId, widget_type, id } = draggedItem;
+    const { parentId, widget, id } = draggedItem;
     // SectionForm 处理
     if (formType === WidgetTypeEnum.SectionForm) {
       const cloneSections = cloneDeep(sections);
-      if (isSectionForm(widget_type)) {
+      if (isSectionForm(widget)) {
         if (cloneSections.length === 1) {
           // 删除表单，重置表单类型
           dispatch({
             type: ActionType.SET_FORM_TYPE,
-            payload: { widget_type: undefined, sections: [] },
+            payload: { widget: undefined, sections: [] },
           });
         } else {
           const index = cloneSections.findIndex((item) => item.id === id);
@@ -300,14 +300,14 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   };
 
   const handleCopy = (draggedItem: LightFieldComponent) => {
-    const { parentId, widget_type, id } = draggedItem;
+    const { parentId, widget, id } = draggedItem;
     const newId = getId();
-    const newName = `${widget_type}~${newId}`;
+    const newName = `${widget}~${newId}`;
     const newDraggedItem = { ...draggedItem, id: newId, name: newName };
     // SectionForm 处理
     if (formType === WidgetTypeEnum.SectionForm) {
       const cloneSections = cloneDeep(sections);
-      if (isSectionForm(widget_type)) {
+      if (isSectionForm(widget)) {
         const index = cloneSections.findIndex((item) => item.id === id);
         // 新的组件
         cloneSections.splice(index + 1, 0, newDraggedItem);

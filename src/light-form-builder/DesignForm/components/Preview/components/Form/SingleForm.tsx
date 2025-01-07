@@ -1,7 +1,7 @@
 import { LightField } from '@/LightForm';
 import { LightSingleFormProps } from '@/LightForm/SingleForm';
-import { ItemTypes, WidgetFormEnum } from '@/light-form-builder/DesignForm/constants';
-import { LightFieldComponent } from '@/light-form-builder/config';
+import { ItemTypes } from '@/light-form-builder/DesignForm/constants';
+import { LightFieldComponent, WidgetTypeEnum } from '@/light-form-builder/config';
 import { isEmpty } from '@/utils';
 import React, { FC, useRef } from 'react';
 import { useDrop } from 'react-dnd';
@@ -20,11 +20,11 @@ const SingleForm: FC<SingleFormProps> = (props) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.WIDGET,
     drop: () => {
-      return { parentId, widget_type: WidgetFormEnum.SingleForm };
+      return { parentId, widget: WidgetTypeEnum.SingleForm };
     },
     canDrop(draggedItem: LightFieldComponent) {
-      const { widget_type } = draggedItem;
-      if (widget_type === WidgetFormEnum.SectionForm || widget_type === WidgetFormEnum.SingleForm) {
+      const { widget } = draggedItem;
+      if (widget === WidgetTypeEnum.SectionForm || widget === WidgetTypeEnum.SingleForm) {
         return false;
       }
       return true;

@@ -5,7 +5,7 @@ import { WidgetFormEnum } from '../DesignForm/constants';
 const commonComponents: LightFieldComponent[] = [
   // {
   //   label: '按钮',
-  //   widget_type: 'Button',
+  //   widget: 'Button',
   //   icon: Icons.Button,
   //   form_config: {},
   //   layout_config: {},
@@ -19,22 +19,34 @@ export enum WidgetTypeEnum {
   SingleForm = WidgetFormEnum.SingleForm,
   // 输入框
   Input = 'Input',
+  // 数字输入框
+  InputNumber = 'InputNumber',
 }
 
 const layoutComponents: LightFieldComponent[] = [
   {
     label: '分区表单',
-    widget_type: WidgetTypeEnum.SectionForm,
+    widget: WidgetTypeEnum.SectionForm,
     icon: Icons.SectionForm,
-    form_config: {},
-    layout_config: {},
+    config: {
+      field: [
+        {
+          label: 'Key',
+          name: 'key',
+          tips: '分区表单唯一标识',
+        },
+        {
+          label: '标题',
+          name: 'title',
+          tips: '分区表单标题',
+        },
+      ],
+    },
   },
   {
     label: '简洁表单',
-    widget_type: WidgetTypeEnum.SingleForm,
+    widget: WidgetTypeEnum.SingleForm,
     icon: Icons.SingleForm,
-    form_config: {},
-    layout_config: {},
   },
 ];
 
@@ -42,11 +54,16 @@ const layoutComponents: LightFieldComponent[] = [
 const dataEntryComponents: LightFieldComponent[] = [
   {
     label: '输入框',
-    widget_type: WidgetTypeEnum.Input,
+    widget: WidgetTypeEnum.Input,
     icon: Icons.Input,
-    form_config: {
-      defaultValue: '66666666',
-    },
+    form_config: {},
+    layout_config: {},
+  },
+  {
+    label: '数字输入框',
+    widget: WidgetTypeEnum.InputNumber,
+    icon: Icons.InputNumber,
+    form_config: {},
     layout_config: {},
   },
 ];
@@ -85,9 +102,8 @@ export type LightFieldComponent = {
   currentIndex?: number;
   label: string;
   icon: string;
-  widget_type: WidgetTypeEnum;
-  form_config?: Record<string, any>;
-  layout_config?: Record<string, any>;
+  widget: WidgetTypeEnum;
+  config?: Record<string, any>;
   [key: string]: any;
 };
 
