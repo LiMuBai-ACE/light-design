@@ -1,4 +1,3 @@
-import { LightField } from '@/LightForm';
 import { LightSingleFormProps } from '@/LightForm/SingleForm';
 import { ItemTypes } from '@/light-form-builder/DesignForm/constants';
 import { LightFieldComponent, WidgetTypeEnum } from '@/light-form-builder/config';
@@ -6,6 +5,7 @@ import { isEmpty } from '@/utils';
 import React, { FC, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import DragTips from '../DragTips';
+import LightField from '../Field';
 import './index.less';
 interface SingleFormProps extends LightSingleFormProps {
   parentId?: string;
