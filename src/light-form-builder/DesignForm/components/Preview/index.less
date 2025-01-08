@@ -27,6 +27,10 @@
       flex-direction: column;
       gap: 25px;
       // box-shadow: 0 4px 12px #ebedf0;
+      .ant-form-item {
+        // 禁止点击表单项中的控件，防止表单项被点击时，表单项的控件也被触发事件
+        pointer-events: none;
+      }
     }
   }
 }

@@ -21,6 +21,12 @@ export enum WidgetTypeEnum {
   Input = 'Input',
   // 数字输入框
   InputNumber = 'InputNumber',
+  // 选择器
+  Select = 'Select',
+  // 单选框
+  Radio = 'Radio',
+  // 多选框
+  Checkbox = 'Checkbox',
 }
 
 const layoutComponents: LightFieldComponent[] = [
@@ -63,6 +69,27 @@ const dataEntryComponents: LightFieldComponent[] = [
     label: '数字输入框',
     widget: WidgetTypeEnum.InputNumber,
     icon: Icons.InputNumber,
+    form_config: {},
+    layout_config: {},
+  },
+  {
+    label: '选择器',
+    widget: WidgetTypeEnum.Select,
+    icon: Icons.Select,
+    form_config: {},
+    layout_config: {},
+  },
+  {
+    label: '单选框',
+    widget: WidgetTypeEnum.Radio,
+    icon: Icons.Radio,
+    form_config: {},
+    layout_config: {},
+  },
+  {
+    label: '多选框',
+    widget: WidgetTypeEnum.Checkbox,
+    icon: Icons.Checkbox,
     form_config: {},
     layout_config: {},
   },
