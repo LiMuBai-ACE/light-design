@@ -112,7 +112,7 @@ export default function FieldItem({ field, observed }: MyProps) {
 
   // 自定义属性的组件
   if (isObject(widget)) {
-    const { widget: widgetName, content, fields, ...wprops } = widget as FieldWidgetProps;
+    const { widget: widgetType, content, fields, ...wprops } = widget as FieldWidgetProps;
 
     const params = {
       disabled: wprops?.disabled || attrs?.disabled,
@@ -120,7 +120,7 @@ export default function FieldItem({ field, observed }: MyProps) {
     };
 
     // Array 格式的数据
-    if (widgetName === WidgetType.groups) {
+    if (widgetType === WidgetType.groups) {
       // 自定义组件
       let LightGroup = LightGroupContent;
 
@@ -137,7 +137,7 @@ export default function FieldItem({ field, observed }: MyProps) {
     }
 
     // JSON 格式数据
-    if (widgetName === WidgetType.json) {
+    if (widgetType === WidgetType.json) {
       // 自定义组件
       let LightJson = LightJsonWidget;
 
@@ -156,7 +156,7 @@ export default function FieldItem({ field, observed }: MyProps) {
     // 常用格式的数据 或 自定义子组件
     return (
       <Form.Item {...attrs}>
-        <FieldWidget widget={widgetName} {...wprops} {...params} />
+        <FieldWidget widget={widgetType} {...wprops} {...params} />
       </Form.Item>
     );
   }

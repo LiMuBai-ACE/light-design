@@ -16,11 +16,7 @@ const SvgIcon: FC<Props> = (props) => {
 
   return (
     <span className="svg-container">
-      <i
-        className={ClassName.poly(['icon-font', `icon-${name}`, className])}
-        style={{ color, ...style }}
-        onClick={onClick}
-      />
+      <i className={ClassName.poly(['icon-font', `icon-${name}`, className])} style={{ color, ...style }} onClick={onClick} />
     </span>
   );
 };

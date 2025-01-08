@@ -141,14 +141,7 @@ const LightForm: FC<LightFormProps> = (props) => {
         <LightSingleForm fields={fields} />
         {children}
         {!empty && footer !== null && (
-          <LightFormFooter
-            btns={footer}
-            footerRender={footerRender}
-            isFixed={isFixed}
-            readonly={readonly}
-            onValid={onValid}
-            onSubmit={onSubmit}
-          />
+          <LightFormFooter btns={footer} footerRender={footerRender} isFixed={isFixed} readonly={readonly} onValid={onValid} onSubmit={onSubmit} />
         )}
       </Form>
     </FormWrapper>
