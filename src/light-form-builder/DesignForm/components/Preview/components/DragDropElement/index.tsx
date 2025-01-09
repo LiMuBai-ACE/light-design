@@ -30,7 +30,6 @@ const DragDropElement: FC<DragDropElementProps> = (props) => {
   const elementRef = useRef<HTMLDivElement>(null);
 
   const [direction, setDirection] = useState<DropDirection | undefined>();
-
   const isActive = useMemo(() => {
     return selectWidgetItem?.id === item.id;
   }, [selectWidgetItem]);

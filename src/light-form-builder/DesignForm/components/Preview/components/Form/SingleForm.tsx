@@ -27,7 +27,7 @@ const SingleForm: FC<SingleFormProps> = (props) => {
       if (widget === WidgetTypeEnum.SectionForm || widget === WidgetTypeEnum.SingleForm) {
         return false;
       }
-      return true;
+      return isEmpty(fields);
     },
     hover: (draggedItem, monitor) => {
       // 获取鼠标位置
@@ -56,7 +56,7 @@ const SingleForm: FC<SingleFormProps> = (props) => {
   return (
     <div className="widget-fields-container" ref={singleFormRef}>
       {fields.map((field) => (
-        <LightField field={field} key={field.name} />
+        <LightField field={{ ...field, parentId }} key={field.name} />
       ))}
       {!(isOver && canDrop) && isEmpty(fields) ? <div className="widget-fields-empty">从左侧拖拽来添加字段</div> : null}
       {canDrop ? <DragTips isShow={isOver} /> : null}

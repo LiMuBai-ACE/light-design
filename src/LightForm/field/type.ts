@@ -50,11 +50,9 @@ export interface ConditionFieldProps {
   conditions?: ConditionModel[];
 }
 
-export type FieldWidgetType = keyof typeof WidgetType;
-
 // 字段定义-Form控件的属性
 export interface FieldWidgetProps extends AnyJson {
-  widget?: FieldWidgetType | ReactNode;
+  widget?: WidgetType | ReactNode;
   placeholder?: string;
   options?: any[];
   hasAll?: boolean;

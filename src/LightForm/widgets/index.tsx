@@ -16,9 +16,14 @@ import LightSelectPicker, { LightSelectPickerProps } from '@/Widgets/LightSelect
 import NumberWidget, { LightInputCounter, LightInputCurrency, LightInputDiscount } from '@/Widgets/LightInputNumber';
 
 import { Text } from '@/components/paragraph/text';
-import { FieldWidgetType } from '../field/type';
 
-const WidgetNode = ({ widget, ...others }: { widget: FieldWidgetType; [key: string]: any }) => {
+interface WidgetNodeProps {
+  widget: WidgetType;
+  [key: string]: any;
+}
+
+const WidgetNode = (props: WidgetNodeProps) => {
+  const { widget, ...others } = props;
   switch (widget) {
     // 隐藏字段
     case WidgetType.hidden:
@@ -38,7 +43,7 @@ const WidgetNode = ({ widget, ...others }: { widget: FieldWidgetType; [key: stri
     }
 
     // 多选项: KeyMap模式
-    case WidgetType.checkbox.keymap: {
+    case WidgetType.checkbox: {
       return <LightCheckboxGroup {...others} />;
     }
 
@@ -48,27 +53,27 @@ const WidgetNode = ({ widget, ...others }: { widget: FieldWidgetType; [key: stri
     }
 
     // 日期控件
-    case WidgetType.date.YMD: {
+    case WidgetType.date_YMD: {
       return <LightDatePicker {...others} />;
     }
 
     // 日期区间
-    case WidgetType.date.range: {
+    case WidgetType.date_range: {
       return <LightDateRangePicker {...others} />;
     }
 
     // 时间区间
-    case WidgetType.time.HMS: {
+    case WidgetType.time_HMS: {
       return <LightTimePicker {...others} />;
     }
 
     // 时间区间
-    case WidgetType.time.range: {
+    case WidgetType.time_range: {
       return <LightTimeRangePicker {...others} />;
     }
 
     // 级联下拉列表: 月-日
-    case WidgetType.date.MD: {
+    case WidgetType.date_MD: {
       return <LightMonthDatePicker {...others} />;
     }
 

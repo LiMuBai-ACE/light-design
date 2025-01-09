@@ -1,42 +1,34 @@
 // 枚举-视图控件别名
-export const WidgetType = {
-  hidden: 'Hidden',
-  dialpad: 'Dialpad',
-  textarea: 'TextArea',
-  groups: 'FormList',
-  json: 'JsonField',
+export enum WidgetType {
+  hidden = 'Hidden',
+  dialpad = 'Dialpad',
+  textarea = 'TextArea',
+  groups = 'FormList',
+  json = 'JsonField',
 
-  number: 'InputNumber',
-  currency: 'InputCurrency',
-  discount: 'InputDiscount',
-  counter: 'InputCounter',
-  switch: 'Switch',
+  number = 'InputNumber',
+  currency = 'InputCurrency',
+  discount = 'InputDiscount',
+  counter = 'InputCounter',
+  switch = 'Switch',
 
-  cascader: 'Cascader',
+  cascader = 'Cascader',
 
-  color: 'Color',
+  color = 'Color',
+  date_MD = 'Date_MD',
+  date_YMD = 'Date_YMD',
+  date_range = 'DateRange',
 
-  date: {
-    MD: 'Date_MD',
-    YMD: 'Date_YMD',
-    range: 'DateRange',
-  },
+  time_HMS = 'TimePicker',
+  time_HM = 'HSPicker',
+  time_range = 'TimeRange',
 
-  time: {
-    HMS: 'TimePicker',
-    HM: 'HSPicker',
-    range: 'TimeRange',
-  },
+  select = 'Select',
 
-  select: 'Select',
+  radio = 'Radio',
 
-  radio: 'Radio',
-
-  checkbox: {
-    keymap: 'Checkbox',
-    simple: 'Checkbox_Sim',
-  },
-};
+  checkbox = 'Checkbox',
+}
 
 // 映射词库-视图控件别名
 export const WidgetName = {
@@ -48,15 +40,16 @@ export const WidgetName = {
   [WidgetType.number]: '数字',
   [WidgetType.currency]: '金额',
   [WidgetType.switch]: '开关',
-  [WidgetType.date.YMD]: '年-月-日',
-  [WidgetType.date.MD]: '月-日',
-  [WidgetType.date.range]: '日期范围',
-  [WidgetType.time.range]: '时间范围',
+  [WidgetType.date_YMD]: '年-月-日',
+  [WidgetType.date_MD]: '月-日',
+  [WidgetType.date_range]: '日期范围',
+  [WidgetType.time_HMS]: '时间选择器',
+  [WidgetType.time_HM]: '时分选择器',
+  [WidgetType.time_range]: '时间范围',
 
   [WidgetType.select]: '下拉列表',
 
   [WidgetType.radio]: '单选项',
 
-  [WidgetType.checkbox.keymap]: '多选项',
-  [WidgetType.checkbox.simple]: '多选项',
+  [WidgetType.checkbox]: '多选项',
 };

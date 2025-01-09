@@ -1,4 +1,5 @@
 import Icons from '@/assets/icons';
+import { ReactNode } from 'react';
 import { WidgetFormEnum } from '../DesignForm/constants';
 
 // 通用组件
@@ -17,6 +18,12 @@ export enum WidgetTypeEnum {
   SectionForm = WidgetFormEnum.SectionForm,
   // 简单表单
   SingleForm = WidgetFormEnum.SingleForm,
+
+  // 数组容器
+  Groups = 'FormList',
+  // 对象容器
+  Json = 'JsonField',
+
   // 输入框
   Input = 'Input',
   // 数字输入框
@@ -53,6 +60,44 @@ const layoutComponents: LightFieldComponent[] = [
     label: '简洁表单',
     widget: WidgetTypeEnum.SingleForm,
     icon: Icons.SingleForm,
+  },
+  {
+    label: '数组容器',
+    icon: 'groups',
+    widget: {
+      widget: WidgetTypeEnum.Groups,
+      fields: [
+        {
+          label: 'Key',
+          name: 'key',
+          tips: '数组容器唯一标识',
+        },
+        {
+          label: '标题',
+          name: 'title',
+          tips: '数组容器标题',
+        },
+      ],
+    },
+  },
+  {
+    label: '对象容器',
+    icon: 'json',
+    widget: {
+      widget: WidgetTypeEnum.Json,
+      fields: [
+        {
+          label: 'Key',
+          name: 'key',
+          tips: '数组容器唯一标识',
+        },
+        {
+          label: '标题',
+          name: 'title',
+          tips: '数组容器标题',
+        },
+      ],
+    },
   },
 ];
 
@@ -124,12 +169,18 @@ export const widgetComponents: WidgetComponents[] = [
   },
 ];
 
+export interface Widget {
+  widget: WidgetTypeEnum;
+  fields?: any[];
+  field?: any;
+}
+
 export type LightFieldComponent = {
   key?: string;
   currentIndex?: number;
-  label: string;
+  label: ReactNode | string;
   icon: string;
-  widget: WidgetTypeEnum;
+  widget: WidgetTypeEnum | Widget;
   config?: Record<string, any>;
   [key: string]: any;
 };

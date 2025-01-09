@@ -1,5 +1,5 @@
 import { LightFieldComponent, WidgetTypeEnum } from '@/light-form-builder/config';
-import { isEmpty } from '@/utils';
+import { isEmpty, isObject } from '@/utils';
 import { cloneDeep } from 'lodash-es';
 import React, { Dispatch, FC, createContext, useReducer } from 'react';
 import { DragSourceMonitor } from 'react-dnd';
@@ -93,7 +93,7 @@ export const DesignContext = createContext<DesignContextType>({} as DesignContex
 
 const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   const [state, dispatch]: [State, Dispatch<Action>] = useReducer(designReducer, initState);
-
+  console.log('[ state ] >', state);
   const { sections, formType, fields } = state;
 
   /** 常量 频繁使用 start-------------- */
@@ -138,11 +138,12 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
 
     if (monitor.didDrop() && result) {
       const { parentId, direction = DropDirection.BOTTOM, id } = result;
+      console.log('result', result);
 
       // 未设置表单类型
-      if (!formType && [WidgetTypeEnum.SectionForm, WidgetTypeEnum.SingleForm].includes(widget)) {
-        const sectionItem = isSectionForm(widget) ? { ...draggedItem, title: `${draggedItem.label}-1` } : draggedItem;
-        setFormType(widget, sectionItem);
+      if (!formType && [WidgetTypeEnum.SectionForm, WidgetTypeEnum.SingleForm].includes(widget as WidgetTypeEnum)) {
+        const sectionItem = isSectionForm(widget as WidgetTypeEnum) ? { ...draggedItem, title: `${draggedItem.label}-1` } : draggedItem;
+        setFormType(widget as WidgetTypeEnum, sectionItem);
       } else {
         // SectionForm表单 处理
         if (formType === WidgetTypeEnum.SectionForm) {
@@ -164,6 +165,7 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
             }
             default: {
               const dropItem = findItem(cloneSections, parentId as string);
+              console.log('dropItem', dropItem);
               const { currentIndex = 0 } = dropItem;
 
               if (isEmpty(dropItem.fields)) {
@@ -227,7 +229,7 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
 
     if (formType === WidgetTypeEnum.SectionForm) {
       const cloneSections = cloneDeep(sections);
-      if (isSectionForm(widget)) {
+      if (isSectionForm(widget as WidgetTypeEnum)) {
         // 元素当前的位置
         const currentIndex = cloneSections.findIndex((item) => item.id === draggedId);
         // 排除拖动元素后的数据
@@ -265,7 +267,7 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
     // SectionForm 处理
     if (formType === WidgetTypeEnum.SectionForm) {
       const cloneSections = cloneDeep(sections);
-      if (isSectionForm(widget)) {
+      if (isSectionForm(widget as WidgetTypeEnum)) {
         if (cloneSections.length === 1) {
           // 删除表单，重置表单类型
           dispatch({
@@ -302,12 +304,15 @@ const DesignProvider: FC<CommonProviderProps> = ({ children }) => {
   const handleCopy = (draggedItem: LightFieldComponent) => {
     const { parentId, widget, id } = draggedItem;
     const newId = getId();
-    const newName = `${widget}~${newId}`;
+    let newName = `${widget}~${newId}`;
+    if (isObject(widget)) {
+      newName = `${(widget as { widget: string }).widget}~${newId}`;
+    }
     const newDraggedItem = { ...draggedItem, id: newId, name: newName };
     // SectionForm 处理
     if (formType === WidgetTypeEnum.SectionForm) {
       const cloneSections = cloneDeep(sections);
-      if (isSectionForm(widget)) {
+      if (isSectionForm(widget as WidgetTypeEnum)) {
         const index = cloneSections.findIndex((item) => item.id === id);
         // 新的组件
         cloneSections.splice(index + 1, 0, newDraggedItem);

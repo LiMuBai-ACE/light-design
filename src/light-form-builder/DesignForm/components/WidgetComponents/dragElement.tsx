@@ -1,4 +1,5 @@
 import { LightFieldComponent, WidgetTypeEnum } from '@/light-form-builder/config';
+import { isObject } from '@/utils';
 import { FC, ReactElement, cloneElement, useContext } from 'react';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants';
@@ -17,7 +18,10 @@ const DragElement: FC<DragElementProps> = ({ children: child, config }) => {
   const id = getId();
 
   // 根据组件类型合id 生成name
-  const name = `${config.widget}~${id}`;
+  let name = `${config.widget}~${id}`;
+  if (isObject(config.widget)) {
+    name = `${(config.widget as { widget: string }).widget}~${id}`;
+  }
   const item = {
     ...config,
     id,

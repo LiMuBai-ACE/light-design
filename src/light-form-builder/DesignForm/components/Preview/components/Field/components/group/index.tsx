@@ -1,5 +1,5 @@
 import { Col, Form, FormListOperation, Row } from 'antd';
-import React, { FC, ReactNode, cloneElement, isValidElement } from 'react';
+import React, { FC, ReactNode, cloneElement, isValidElement, useEffect } from 'react';
 
 import Card from '@/components/card';
 import { AnyJson, isEmpty } from '@/utils';
@@ -79,38 +79,40 @@ export const LightGroupFields: FC<LightGroupProps> = (props) => {
     name: (id || '').split('_'),
   };
 
-  // useEffect(() => {
-  //   if (isEmpty(value)) {
-  //     onChange?.([{}]);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (isEmpty(value)) {
+      onChange && onChange([{}, {}]);
+    }
+  }, []);
 
   return (
-    <Form.List name={name}>
-      {(rowlist, operation: FormListOperation) => {
-        if (isEmpty(fields)) return null;
+    <Card>
+      <Form.List name={name}>
+        {(rowlist, operation: FormListOperation) => {
+          if (isEmpty(fields)) return null;
 
-        return (
-          <div className="light-group-fields">
-            {rowlist.map((row, index) => {
-              const parentName = { name: [...parent.name, index] };
-              const newFields = fields.map((field) => ({ ...field, disabled }));
-              return (
-                <Card key={row.key}>
-                  <Row gutter={24}>
-                    {newFields.map((field) => (
-                      <Col key={field.name} span={columns}>
-                        {LightField.insert({ field, row, parent: parentName })}
-                      </Col>
-                    ))}
-                  </Row>
-                </Card>
-              );
-            })}
-            {addRender ? cloneElement(addRender as any, { onClick: operation.add }) : null}
-          </div>
-        );
-      }}
-    </Form.List>
+          return (
+            <div className="light-group-fields">
+              {rowlist.map((row, index) => {
+                const parentName = { name: [...parent.name, index] };
+                const newFields = fields.map((field) => ({ ...field, disabled }));
+                return (
+                  <Card key={row.key} className="light-group-fields-card">
+                    <Row gutter={24}>
+                      {newFields.map((field) => (
+                        <Col key={field.name} span={columns}>
+                          {LightField.insert({ field, row, parent: parentName })}
+                        </Col>
+                      ))}
+                    </Row>
+                  </Card>
+                );
+              })}
+              {addRender ? cloneElement(addRender as any, { onClick: operation.add }) : null}
+            </div>
+          );
+        }}
+      </Form.List>
+    </Card>
   );
 };

@@ -1,4 +1,4 @@
-import type { CSSProperties, FC, Key, ReactNode } from 'react';
+import type { CSSProperties, FC, Key } from 'react';
 import React from 'react';
 
 import type { CardProps } from 'antd';
@@ -14,7 +14,7 @@ export interface LightSectionFormCardProps extends CardProps {
   /** key需尽量传 */
   key?: Key;
   warning?: string | string[];
-  widget?: ReactNode;
+  widget?: any;
   fields?: FieldProps[];
   conditions?: ConditionModel[];
   style?: CSSProperties;
@@ -24,12 +24,7 @@ const LightSectionFormCard: FC<LightSectionFormCardProps> = (props) => {
   const { title, warning, fields = [], widget, extra, ...others } = props;
 
   return (
-    <Card
-      title={title}
-      extra={extra}
-      style={{ marginBottom: 20, ...props.style }}
-      {...others}
-    >
+    <Card title={title} extra={extra} style={{ marginBottom: 20, ...props.style }} {...others}>
       <Warnings content={warning} />
       {widget || <LightSingleForm fields={fields} />}
     </Card>
@@ -53,10 +48,7 @@ const LightSectionForm: FC<LightSectionFormProps> = (props) => {
     // 无前置条件的直接渲染
     if (!isEmpty(conditions)) {
       return (
-        <FieldConditions
-          key={mykey}
-          conditions={conditions as ConditionModel[]}
-        >
+        <FieldConditions key={mykey} conditions={conditions as ConditionModel[]}>
           <LightSectionFormCard {...others} />
         </FieldConditions>
       );

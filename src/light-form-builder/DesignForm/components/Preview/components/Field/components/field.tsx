@@ -36,6 +36,7 @@ export default function FieldItem({ field, observed }: MyProps) {
     className,
     classNames = [],
     children,
+    key, // 防止报错
     ...others
   } = field;
 
@@ -118,7 +119,6 @@ export default function FieldItem({ field, observed }: MyProps) {
       disabled: wprops?.disabled || attrs?.disabled,
       placeholder: wprops.placeholder || placeholder,
     };
-
     // Array 格式的数据
     if (widgetType === WidgetType.groups) {
       // 自定义组件

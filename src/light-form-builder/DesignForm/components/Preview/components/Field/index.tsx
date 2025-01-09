@@ -2,7 +2,9 @@ import React from 'react';
 
 import { FieldProps } from './type';
 
+import { LightFieldComponent, WidgetTypeEnum } from '@/light-form-builder/config';
 import { AnyJson, isEmpty } from '@/utils';
+import DragDropElement from '../DragDropElement';
 import FieldItem from './components/field';
 
 interface LightFieldProps {
@@ -15,7 +17,28 @@ interface LightFieldProps {
  * @tips 关于 disabled 状态, 请在调用该方法前处理
  * */
 const LightField = (props: LightFieldProps) => {
-  return <FieldItem field={props.field} />;
+  const { field } = props;
+  const { parentId, ...others } = field;
+  const canDrop = (draggedItem: LightFieldComponent) => {
+    console.log('draggedItem', draggedItem);
+    const { widget } = draggedItem;
+    // return widget === WidgetTypeEnum.Groups || widget === WidgetTypeEnum.Json;
+    if (widget === WidgetTypeEnum.SectionForm || widget === WidgetTypeEnum.SingleForm) {
+      return false;
+    }
+    return true;
+  };
+
+  const attrs = {
+    item: { ...field },
+    canDrop,
+  };
+
+  return (
+    <DragDropElement {...(attrs as any)}>
+      <FieldItem field={others} />
+    </DragDropElement>
+  );
 };
 
 interface LightFieldInsertProps extends LightFieldProps {
